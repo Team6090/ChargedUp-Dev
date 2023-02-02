@@ -126,6 +126,7 @@ public class FeedForwardCharacterization extends CommandBase {
     return false;
   }
 
+  @SuppressWarnings("unused")
   public static class FeedForwardCharacterizationData {
     private final String name;
     private final List<Double> velocityData = new LinkedList<>();

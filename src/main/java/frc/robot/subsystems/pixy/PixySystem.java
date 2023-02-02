@@ -12,23 +12,23 @@ public class PixySystem {
   private static final int blockSignatureTwo = 2;
 
   private Pixy2 pixy;
-  private Pixy2Video pixy2Video;
+  // private Pixy2Video pixy2Video;
   private Pixy2CCC pixy2ccc;
-  private Pixy2Line pixy2Line;
+  // private Pixy2Line pixy2Line;
 
   public PixySystem() {
     this(new SPILink());
-    pixy2Video = pixy.getVideo();
+    // pixy2Video = pixy.getVideo();
     pixy2ccc = pixy.getCCC();
-    pixy2Line = pixy.getLine();
+    // pixy2Line = pixy.getLine();
   }
 
   public PixySystem(Link link) {
     pixy = Pixy2.createInstance(link);
     pixy.init();
-    pixy2Video = pixy.getVideo();
+    // pixy2Video = pixy.getVideo();
     pixy2ccc = pixy.getCCC();
-    pixy2Line = pixy.getLine();
+    // pixy2Line = pixy.getLine();
   }
 
   public void GetCones() {

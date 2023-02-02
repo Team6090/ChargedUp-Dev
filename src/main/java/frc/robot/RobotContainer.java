@@ -12,7 +12,7 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.FollowPathWithEvents;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.geometry.Translation2d;
+// import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -43,7 +43,7 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.subsystems.limelight.Limelight;
+// import frc.robot.subsystems.limelight.Limelight;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -243,15 +243,15 @@ public class RobotContainer {
     oi.AlignToAprilTagLimelightXY().onTrue(new AlignToAprilTagXY(drivetrain));
   }
 
-  private Translation2d GenerateCorrection(double idealX, double idealY) {
-    double x = Limelight.PositionOnFieldGrid().getX();
-    double y = Limelight.PositionOnFieldGrid().getY();
-    if (x == 0.0 || y == 0.0) {
-      return new Translation2d(idealX, idealY);
-    } else {
-      return new Translation2d(x, y);
-    }
-  }
+  // private Translation2d GenerateCorrection(double idealX, double idealY) {
+  //   double x = Limelight.PositionOnFieldGrid().getX();
+  //   double y = Limelight.PositionOnFieldGrid().getY();
+  //   if (x == 0.0 || y == 0.0) {
+  //     return new Translation2d(idealX, idealY);
+  //   } else {
+  //     return new Translation2d(x, y);
+  //   }
+  // }
 
   /** Use this method to define your commands for autonomous mode. */
   private void configureAutoCommands() {
