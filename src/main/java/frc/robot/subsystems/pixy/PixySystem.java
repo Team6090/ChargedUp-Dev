@@ -90,4 +90,14 @@ public class PixySystem {
       SmartDashboard.putNumber("Cube Y", largestBlock.getY());
     }
   }
+
+  public int ObjectCount(){
+    /* TODO Oject Conditions */
+    return pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG1, 25) + pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG2, 25);
+  }
+
+  public int GetObjectSig(){
+    return 0;
+  }
+
 }
