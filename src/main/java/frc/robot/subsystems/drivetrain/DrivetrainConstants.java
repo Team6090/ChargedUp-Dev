@@ -14,6 +14,8 @@ public final class DrivetrainConstants {
     throw new IllegalStateException(CONSTRUCTOR_EXCEPTION);
   }
 
+  public static final int PCMModule = 58;
+
   // FIXME: update all CAN IDs
   // FIXME: update all steer offsets
   public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 1;
