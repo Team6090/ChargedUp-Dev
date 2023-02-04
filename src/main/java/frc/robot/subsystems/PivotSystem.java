@@ -3,11 +3,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PivotSystem extends SubsystemBase {
     
     CANCoder pivotAngleCanCoder;
+
+    Solenoid pivotSolenoidLock;
 
     TalonFX pivotMotorRight;
     TalonFX pivotMotorLeft;
@@ -20,6 +23,10 @@ public class PivotSystem extends SubsystemBase {
     /* Create code that moves the arm based on the power being applied */
     public void PivotArm(double power){
 
+    }
+
+    public void EnablePivotLock(boolean enable) {
+        pivotSolenoidLock.set(enable);
     }
 
     /* Retrive the cancoder's position to find the pivot of the arm */
