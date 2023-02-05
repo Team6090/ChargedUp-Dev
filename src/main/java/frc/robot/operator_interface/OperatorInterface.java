@@ -43,7 +43,7 @@ public interface OperatorInterface {
   public default Trigger getXStanceButton() {
     return new Trigger(() -> swerveController.getAButton());
   }
-
+  
   public default Trigger alignToAprilTagLimelightX() {
     return new Trigger(() -> swerveController.getXButton());
   }
