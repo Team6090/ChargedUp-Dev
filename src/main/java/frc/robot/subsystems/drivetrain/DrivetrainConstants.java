@@ -18,9 +18,11 @@ public final class DrivetrainConstants {
 
   public static final int PivotAngleCanCoderID = 2439; /* TODO CHANGE NUMBERS */
 
-  public static final int PivotMotorRightID = 43589; /* TODO CHANGE NUMBERS */
+  public static final int PivotLockSolenoid = 98737; /*TODO CHANGE NUMBERS */
 
-  public static final int PivotMotorLeftID = 21893; /* TODO CHANGE NUMBERS */
+  public static final int PivotMotorRightID = 41; /* TODO CHANGE NUMBERS */
+
+  public static final int PivotMotorLeftID = 40; /* TODO CHANGE NUMBERS */
 
   // FIXME: update all CAN IDs
   // FIXME: update all steer offsets
