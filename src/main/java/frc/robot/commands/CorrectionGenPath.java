@@ -27,10 +27,7 @@ public class CorrectionGenPath extends CommandBase {
   private boolean done;
 
   public CorrectionGenPath(
-      Drivetrain drivetrain,
-      double idealX,
-      double idealY,
-      Rotation2d idealHeading) {
+      Drivetrain drivetrain, double idealX, double idealY, Rotation2d idealHeading) {
     this.drivetrain = drivetrain;
     this.idealX = idealX;
     this.idealY = idealY;

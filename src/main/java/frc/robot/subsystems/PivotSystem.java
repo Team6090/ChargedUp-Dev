@@ -1,42 +1,53 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.drivetrain.DrivetrainConstants;
 
 public class PivotSystem extends SubsystemBase {
-    
-    CANCoder pivotAngleCanCoder;
 
-    Solenoid pivotSolenoidLock;
+  CANCoder pivotAngleCanCoder;
 
-    TalonFX pivotMotorRight;
-    TalonFX pivotMotorLeft;
+  Solenoid pivotSolenoidLock;
 
-    /* Instantiate the Motors and CANCoder */
-    public PivotSystem() {
-        
+  TalonFX pivotMotorLeft;
+  TalonFX pivotMotorRight;
+
+  public PivotSystem() {
+    pivotMotorLeft = new TalonFX(DrivetrainConstants.PivotMotorLeftID);
+    pivotMotorRight = new TalonFX(DrivetrainConstants.PivotMotorRightID);
+    pivotAngleCanCoder = new CANCoder(DrivetrainConstants.PivotAngleCanCoderID);
+    pivotSolenoidLock = new Solenoid(DrivetrainConstants.PCMModule, PneumaticsModuleType.CTREPCM, DrivetrainConstants.PivotLockSolenoid);
+  }
+
+  public void PivotArm(double power) {
+    if (power > 0){
+        pivotMotorLeft.set(TalonFXControlMode.Velocity, power);
+        pivotMotorRight.set(TalonFXControlMode.Velocity, -power);
+    }else if (power < 0){
+        pivotMotorLeft.set(TalonFXControlMode.Velocity, -power);
+        pivotMotorRight.set(TalonFXControlMode.Velocity, power);
+    }else{
+        pivotMotorLeft.set(TalonFXControlMode.Velocity, 0);
+        pivotMotorRight.set(TalonFXControlMode.Velocity, 0);
     }
+  }
 
-    /* Create code that moves the arm based on the power being applied */
-    public void PivotArm(double power){
+  public void EnablePivotLock(boolean enable) {
+    pivotSolenoidLock.set(enable);
+  }
 
-    }
+  public double GetArmPivot() {
+    return pivotAngleCanCoder.getPosition();
+  }
 
-    public void EnablePivotLock(boolean enable) {
-        pivotSolenoidLock.set(enable);
-    }
-
-    /* Retrive the cancoder's position to find the pivot of the arm */
-    public double GetArmPivot(){
-        return 0.0;
-    }
-
-    @Override
-    public void periodic() {
-        /* If you have anything you want logged do it here */
-    }
-
+  @Override
+  public void periodic() {
+    /* If you have anything you want logged do it here */
+  }
 }
