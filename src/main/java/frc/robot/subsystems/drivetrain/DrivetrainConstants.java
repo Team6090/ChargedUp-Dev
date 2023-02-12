@@ -22,6 +22,10 @@ public final class DrivetrainConstants {
 
   public static final int PivotMotorLeftID = 21893; /* TODO CHANGE NUMBERS */
 
+  public static final int ArmRetractionMotorID = 21893; /* TODO Change out id */
+
+  public static final int ArmRetractionCANCoderID = 42823; /* TODO Change out id */
+
   // FIXME: update all CAN IDs
   // FIXME: update all steer offsets
   public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 1;
