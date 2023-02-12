@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public interface OperatorInterface {
 
   XboxController swerveController = new XboxController(0);
+  XboxController armController = new XboxController(1);
   // Joystick joystick = new Joystick(1);
 
   public default double getTranslateX() {
@@ -55,4 +56,17 @@ public interface OperatorInterface {
   public default Trigger AlignToAprilTagLimelightXY() {
     return new Trigger(() -> swerveController.getRightBumper());
   }
+
+  public default double GetArmPivot(){
+    return armController.getLeftY();
+  }
+
+  public default Trigger ArmExtend(){
+    return new Trigger(() -> armController.getAButton());
+  }
+
+  public default Trigger ArmRetract(){
+    return new Trigger(() -> armController.getBButton());
+  }
+
 }

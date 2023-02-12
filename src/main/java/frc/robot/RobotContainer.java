@@ -39,10 +39,13 @@ import frc.robot.commands.AlignToAprilTagY;
 import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.FeedForwardCharacterization.FeedForwardCharacterizationData;
 import frc.robot.commands.FollowPath;
+import frc.robot.commands.PivotMove;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
 import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.subsystems.ArmSystem;
+import frc.robot.subsystems.PivotSystem;
 // import frc.robot.subsystems.limelight.Limelight;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,6 +63,8 @@ public class RobotContainer {
   // private XboxController oi = new XboxController(0);
 
   public Drivetrain drivetrain;
+  public ArmSystem armSystem;
+  public PivotSystem pivotSystem;
 
   // use AdvantageKit's LoggedDashboardChooser instead of SendableChooser to ensure accurate logging
   private final LoggedDashboardChooser<Command> autoChooser =
@@ -209,6 +214,8 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(
         new TeleopSwerve(drivetrain, oi::getTranslateX, oi::getTranslateY, oi::getRotate));
     // new TeleopSwerve(drivetrain, oi::getLeftY, oi::getLeftX, oi::getRightX));
+
+    pivotSystem.setDefaultCommand(new PivotMove(pivotSystem, oi.GetArmPivot()));
 
     configureButtonBindings();
   }

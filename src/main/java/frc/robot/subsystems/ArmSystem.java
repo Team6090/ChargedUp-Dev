@@ -19,7 +19,7 @@ public class ArmSystem extends SubsystemBase {
 
   public void MoveArm(double setPoint) {
     /* Theory Not True, Change to correction with cancoder */
-    armRetractMotor.set(TalonFXControlMode.Velocity, setPoint);
+    armRetractMotor.set(TalonFXControlMode.PercentOutput, setPoint);
   }
 
   public double GetArmPosition() {

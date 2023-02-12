@@ -43,8 +43,9 @@ public class PivotSystem extends SubsystemBase {
 
   /* Create code that moves the arm based on the power being applied */
   public void PivotArm(double power) {
-    pivotMotorLeft.set(TalonFXControlMode.Velocity, power);
-    pivotMotorRight.set(TalonFXControlMode.Velocity, -power);
+    pivotMotorLeft.set(TalonFXControlMode.PercentOutput, power);
+    pivotMotorRight.set(TalonFXControlMode.PercentOutput, power);
+    
   }
 
   public void EnablePivotLock(boolean enable) {
