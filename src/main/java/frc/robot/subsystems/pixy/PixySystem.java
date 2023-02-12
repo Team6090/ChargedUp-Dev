@@ -91,13 +91,13 @@ public class PixySystem {
     }
   }
 
-  public int ObjectCount(){
+  public int ObjectCount() {
     /* TODO Oject Conditions */
-    return pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG1, 25) + pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG2, 25);
+    return pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG1, 25)
+        + pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG2, 25);
   }
 
-  public int GetObjectSig(){
+  public int GetObjectSig() {
     return 0;
   }
-
 }

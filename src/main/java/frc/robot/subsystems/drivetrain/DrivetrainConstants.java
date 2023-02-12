@@ -18,7 +18,6 @@ public final class DrivetrainConstants {
 
   public static final int PivotLockSolenoid = 541; /* TODO CHANGE NUMBERS */
   public static final int PivotAngleCanCoderID = 2439; /* TODO CHANGE NUMBERS */
-  
   public static final int PivotMotorRightID = 41; /* TODO CHANGE NUMBERS */
   public static final int PivotMotorLeftID = 40; /* TODO CHANGE NUMBERS */
 

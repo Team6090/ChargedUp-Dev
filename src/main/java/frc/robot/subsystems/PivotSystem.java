@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
-
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,17 +23,21 @@ public class PivotSystem extends SubsystemBase {
 
   /* Instantiate the Motors and CANCoder */
   public PivotSystem() {
-  pivotMotorLeft = new TalonFX(DrivetrainConstants.PivotMotorLeftID);
-  pivotMotorRight = new TalonFX(DrivetrainConstants.PivotMotorRightID);
-  pivotAngleCanCoder = new CANCoder(DrivetrainConstants.PivotAngleCanCoderID);
-  pivotSolenoidLock = new Solenoid(DrivetrainConstants.PCMModule, PneumaticsModuleType.CTREPCM, DrivetrainConstants.PivotLockSolenoid);
-    
-  if (DEBUGGING){
-    pivotMotorLeft.setNeutralMode(NeutralMode.Coast);
-    pivotMotorRight.setNeutralMode(NeutralMode.Coast); 
-  } else {
-    pivotMotorLeft.setNeutralMode(NeutralMode.Brake);
-    pivotMotorRight.setNeutralMode(NeutralMode.Brake);
+    pivotMotorLeft = new TalonFX(DrivetrainConstants.PivotMotorLeftID);
+    pivotMotorRight = new TalonFX(DrivetrainConstants.PivotMotorRightID);
+    pivotAngleCanCoder = new CANCoder(DrivetrainConstants.PivotAngleCanCoderID);
+    pivotSolenoidLock =
+        new Solenoid(
+            DrivetrainConstants.PCMModule,
+            PneumaticsModuleType.CTREPCM,
+            DrivetrainConstants.PivotLockSolenoid);
+
+    if (DEBUGGING) {
+      pivotMotorLeft.setNeutralMode(NeutralMode.Coast);
+      pivotMotorRight.setNeutralMode(NeutralMode.Coast);
+    } else {
+      pivotMotorLeft.setNeutralMode(NeutralMode.Brake);
+      pivotMotorRight.setNeutralMode(NeutralMode.Brake);
     }
   }
 

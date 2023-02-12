@@ -8,49 +8,52 @@ import frc.robot.subsystems.drivetrain.DrivetrainConstants;
 import frc.robot.subsystems.pixy.PixySystem;
 
 public class IntakeSystem extends SubsystemBase {
-    
-    VictorSP intakeMotor;
-    Solenoid intakeSolenoid;
 
-    PixySystem pixySystem;
+  VictorSP intakeMotor;
+  Solenoid intakeSolenoid;
 
-    boolean isIntakeSolenoidEnabled;
+  PixySystem pixySystem;
 
-    public IntakeSystem(){
-        intakeMotor = new VictorSP(DrivetrainConstants.IntakeMotor);
-        intakeSolenoid = new Solenoid(DrivetrainConstants.PCMModule, PneumaticsModuleType.CTREPCM, DrivetrainConstants.IntakeSolenoid);
-        pixySystem = new PixySystem();
+  boolean isIntakeSolenoidEnabled;
+
+  public IntakeSystem() {
+    intakeMotor = new VictorSP(DrivetrainConstants.IntakeMotor);
+    intakeSolenoid =
+        new Solenoid(
+            DrivetrainConstants.PCMModule,
+            PneumaticsModuleType.CTREPCM,
+            DrivetrainConstants.IntakeSolenoid);
+    pixySystem = new PixySystem();
+  }
+
+  public void EnableIntakeSolenoid(boolean enable) {
+    intakeSolenoid.set(enable);
+    isIntakeSolenoidEnabled = enable;
+  }
+
+  public void EnableIntakeMotor(boolean enable, boolean isReverse) {
+    if (enable) {
+      if (!isReverse) {
+        intakeMotor.set(0.2);
+      } else {
+        intakeMotor.set(-0.2);
+      }
+    } else {
+      intakeMotor.set(0);
     }
+  }
 
-    public void EnableIntakeSolenoid(boolean enable){
-        intakeSolenoid.set(enable);
-        isIntakeSolenoidEnabled = enable;
+  public boolean DetectedObject() {
+    if (pixySystem.ObjectCount() > 0) {
+      return true;
     }
+    return false;
+  }
 
-    public void EnableIntakeMotor(boolean enable, boolean isReverse){
-        if (enable){
-            if (!isReverse){
-                intakeMotor.set(0.2);
-            }else{
-                intakeMotor.set(-0.2);
-            }
-        }else{
-            intakeMotor.set(0);
-        }
-    }
+  public int GetCurrentObjectSig() {
+    return pixySystem.GetObjectSig();
+  }
 
-    public boolean DetectedObject(){
-        if (pixySystem.ObjectCount() > 0 ) { return true; }
-        return false;
-    }
-
-    public int GetCurrentObjectSig(){
-        return pixySystem.GetObjectSig();
-    }
-
-    @Override
-    public void periodic(){
-
-    }
-
+  @Override
+  public void periodic() {}
 }
