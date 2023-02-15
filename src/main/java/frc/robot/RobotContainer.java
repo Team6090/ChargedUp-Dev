@@ -36,6 +36,7 @@ import frc.robot.Constants.Mode;
 import frc.robot.commands.AlignToAprilTagX;
 import frc.robot.commands.AlignToAprilTagXY;
 import frc.robot.commands.AlignToAprilTagY;
+import frc.robot.commands.ArmExtension;
 import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.FeedForwardCharacterization.FeedForwardCharacterizationData;
 import frc.robot.commands.FollowPath;
@@ -248,6 +249,8 @@ public class RobotContainer {
     oi.alignToAprilTagLimelightX().onTrue(new AlignToAprilTagX(drivetrain));
     oi.alignToAprilTagLimelightY().onTrue(new AlignToAprilTagY(drivetrain));
     oi.AlignToAprilTagLimelightXY().onTrue(new AlignToAprilTagXY(drivetrain));
+    oi.ArmExtend().onTrue(new ArmExtension(armSystem, 0.2));
+    oi.ArmRetract().onTrue(new ArmExtension(armSystem, -0.2));
   }
 
   // private Translation2d GenerateCorrection(double idealX, double idealY) {
