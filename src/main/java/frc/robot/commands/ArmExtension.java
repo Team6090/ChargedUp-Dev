@@ -5,10 +5,10 @@ import frc.robot.subsystems.ArmSystem;
 
 public class ArmExtension extends CommandBase{
     ArmSystem armSystem;
-    boolean goIn, done;
+    boolean done;
     double power;
 
-    public ArmExtension (ArmSystem armSystem, double power, boolean done){
+    public ArmExtension (ArmSystem armSystem, double power){
         addRequirements(armSystem);
         this.armSystem = armSystem;
     }
