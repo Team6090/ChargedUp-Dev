@@ -58,8 +58,8 @@ public interface OperatorInterface {
   }
 
   public default double GetArmPivot(){
-    return armController.getLeftY();
-  }
+    return armController.getLeftY() * 0.2;
+  } //TODO make button, not joystick
 
   public default Trigger ArmExtend(){
     return new Trigger(() -> armController.getAButton());

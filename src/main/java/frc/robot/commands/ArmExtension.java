@@ -25,7 +25,7 @@ public class ArmExtension extends CommandBase{
 
     @Override
     public void end(boolean interrupted) {
-        this.armSystem.MoveArm(0);;
+        this.armSystem.MoveArm(0);
         super.end(interrupted);
     }
 

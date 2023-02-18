@@ -4,13 +4,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PivotSystem;
 
 public class PivotMove extends CommandBase {
-    PivotSystem pivotSystem;
-    double power;
+
+    PivotSystem pivotSystem;  
+    double power, frontLimit, backLimit, armPivot;
     boolean done;
 
     public PivotMove (PivotSystem pivotSystem, double power){
-        addRequirements(pivotSystem);
         this.pivotSystem = pivotSystem;
+
+        addRequirements(pivotSystem);
+
+        frontLimit = 134.56;
+        backLimit = -133.33;
+        armPivot = pivotSystem.GetArmPivot();
     }
 
     @Override
@@ -20,7 +26,16 @@ public class PivotMove extends CommandBase {
 
     @Override
     public void execute(){
-        pivotSystem.PivotArm(power);
+        armPivot = pivotSystem.GetArmPivot();
+
+        if (armPivot >= frontLimit && power > 0){
+          pivotSystem.PivotArm(0);
+        } else if (armPivot <= backLimit && power < 0){
+          pivotSystem.PivotArm(0);
+        }else{
+          pivotSystem.PivotArm(power);
+        }
+
     }
 
     @Override

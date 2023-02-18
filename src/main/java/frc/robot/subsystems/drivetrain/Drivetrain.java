@@ -29,8 +29,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.team3061.swerve.SwerveModule;
 import frc.lib.team3061.util.RobotOdometry;
 import frc.lib.team6328.util.TunableNumber;
-import frc.robot.subsystems.limelight.Limelight;
-import frc.robot.subsystems.pixy.PixySystem;
+//import frc.robot.subsystems.limelight.Limelight;
+//import frc.robot.subsystems.pixy.PixySystem;
 import org.littletonrobotics.junction.Logger;
 
 /**
@@ -42,7 +42,7 @@ public class Drivetrain extends SubsystemBase {
 
   private final AHRS gyroIO;
 
-  public PixySystem pixySystem = new PixySystem();
+  //public PixySystem pixySystem = new PixySystem();
 
   // private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
 
@@ -342,15 +342,15 @@ public class Drivetrain extends SubsystemBase {
     // gyroIO.updateInputs(gyroInputs);
     // Logger.getInstance().processInputs("Drive/Gyro", gyroInputs);
 
-    pixySystem.GetCones();
-    pixySystem.GetCubes();
+    //pixySystem.GetCones();
+    //pixySystem.GetCubes();
 
     // update and log the swerve moudles inputs
     for (SwerveModule swerveModule : swerveModules) {
       swerveModule.updateAndProcessInputs();
     }
-    SmartDashboard.putNumber("PosX (m) Tele", Limelight.PositionOnFieldGrid().getX());
-    SmartDashboard.putNumber("PosY (m) Tele", Limelight.PositionOnFieldGrid().getY());
+    //SmartDashboard.putNumber("PosX (m) Tele", Limelight.PositionOnFieldGrid().getX());
+    //SmartDashboard.putNumber("PosY (m) Tele", Limelight.PositionOnFieldGrid().getY());
     // update estimated poses
     SwerveModuleState[] states = new SwerveModuleState[4];
     for (int i = 0; i < 4; i++) {
@@ -399,7 +399,7 @@ public class Drivetrain extends SubsystemBase {
     Logger.getInstance().recordOutput("3DField", new Pose3d(poseEstimatorPose));
     Logger.getInstance().recordOutput("SwerveModuleStates", states);
     Logger.getInstance().recordOutput(SUBSYSTEM_NAME + "/gyroOffset", this.gyroOffset);
-    Limelight.GyroAngle = gyroIO.getYaw();
+    //Limelight.GyroAngle = gyroIO.getYaw();
   }
 
   /**

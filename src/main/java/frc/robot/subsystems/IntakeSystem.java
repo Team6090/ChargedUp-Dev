@@ -25,13 +25,13 @@ public class IntakeSystem extends SubsystemBase {
   boolean isIntakeSolenoidEnabled;
 
   public IntakeSystem() {
-    intakeMotor = new VictorSP(DrivetrainConstants.IntakeMotor);
-    intakeSolenoid =
-        new Solenoid(
-            DrivetrainConstants.PCMModule,
-            PneumaticsModuleType.CTREPCM,
-            DrivetrainConstants.IntakeSolenoid);
-    pixySystem = new PixySystem();
+    //intakeMotor = new VictorSP(DrivetrainConstants.IntakeMotor);
+    //intakeSolenoid =
+        //new Solenoid(
+            //DrivetrainConstants.PCMModule,
+            //PneumaticsModuleType.CTREPCM,
+            //DrivetrainConstants.IntakeSolenoid);
+    //pixySystem = new PixySystem();
   }
 
   public void EnableIntakeSolenoid(boolean enable) {

@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
@@ -14,7 +15,10 @@ public class ArmSystem extends SubsystemBase {
 
   public ArmSystem() {
     armRetractMotor = new TalonFX(DrivetrainConstants.ArmRetractionMotorID);
-    armRetractCANCoder = new CANCoder(DrivetrainConstants.ArmRetractionCANCoderID);
+    //armRetractCANCoder = new CANCoder(DrivetrainConstants.ArmRetractionCANCoderID);
+
+    armRetractMotor.setNeutralMode(NeutralMode.Brake);
+
   }
 
   public void MoveArm(double setPoint) {

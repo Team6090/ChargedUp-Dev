@@ -33,9 +33,9 @@ import frc.lib.team3061.vision.VisionIO;
 import frc.lib.team3061.vision.VisionIOPhotonVision;
 import frc.lib.team3061.vision.VisionIOSim;
 import frc.robot.Constants.Mode;
-import frc.robot.commands.AlignToAprilTagX;
-import frc.robot.commands.AlignToAprilTagXY;
-import frc.robot.commands.AlignToAprilTagY;
+//import frc.robot.commands.AlignToAprilTagX;
+//import frc.robot.commands.AlignToAprilTagXY;
+//import frc.robot.commands.AlignToAprilTagY;
 import frc.robot.commands.ArmExtension;
 import frc.robot.commands.FeedForwardCharacterization;
 import frc.robot.commands.FeedForwardCharacterization.FeedForwardCharacterizationData;
@@ -218,6 +218,8 @@ public class RobotContainer {
 
     pivotSystem.setDefaultCommand(new PivotMove(pivotSystem, oi.GetArmPivot()));
 
+    armSystem.setDefaultCommand(new ArmExtension(armSystem, 0));
+
     configureButtonBindings();
   }
 
@@ -246,9 +248,9 @@ public class RobotContainer {
     // x-stance
     oi.getXStanceButton().onTrue(Commands.runOnce(drivetrain::enableXstance, drivetrain));
     oi.getXStanceButton().onFalse(Commands.runOnce(drivetrain::disableXstance, drivetrain));
-    oi.alignToAprilTagLimelightX().onTrue(new AlignToAprilTagX(drivetrain));
-    oi.alignToAprilTagLimelightY().onTrue(new AlignToAprilTagY(drivetrain));
-    oi.AlignToAprilTagLimelightXY().onTrue(new AlignToAprilTagXY(drivetrain));
+    //oi.alignToAprilTagLimelightX().onTrue(new AlignToAprilTagX(drivetrain));
+    //oi.alignToAprilTagLimelightY().onTrue(new AlignToAprilTagY(drivetrain));
+    //oi.AlignToAprilTagLimelightXY().onTrue(new AlignToAprilTagXY(drivetrain));
     oi.ArmExtend().onTrue(new ArmExtension(armSystem, 0.2));
     oi.ArmRetract().onTrue(new ArmExtension(armSystem, -0.2));
   }

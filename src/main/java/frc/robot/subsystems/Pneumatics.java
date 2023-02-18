@@ -13,7 +13,7 @@ public class Pneumatics extends SubsystemBase {
   AnalogPotentiometer analogPressureSensor;
 
   public Pneumatics() {
-    compressor = new Compressor(DrivetrainConstants.PCMModule, PneumaticsModuleType.CTREPCM);
+    //compressor = new Compressor(DrivetrainConstants.PCMModule, PneumaticsModuleType.CTREPCM);
     pneumaticHub = new PneumaticHub(1);
     analogPressureSensor = new AnalogPotentiometer(0,120,0);
 
