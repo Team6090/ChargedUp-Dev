@@ -14,59 +14,95 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 /** Interface for all driver and operator controls. */
 public interface OperatorInterface {
 
-  XboxController swerveController = new XboxController(0);
-  XboxController armController = new XboxController(1);
-  // Joystick joystick = new Joystick(1);
+  XboxController primaryController = new XboxController(0);
+
+  XboxController auxController = new XboxController(1);
 
   public default double getTranslateX() {
-    return swerveController.getLeftY();
-    // return joystick.getY();
+    return primaryController.getLeftY();
   }
 
   public default double getTranslateY() {
-    return swerveController.getLeftX();
-    // return joystick.getX();
+    return primaryController.getLeftX();
   }
 
   public default double getRotate() {
-    return swerveController.getRightX();
-    // return joystick.getZ();
+    return primaryController.getRightX();
   }
 
   public default Trigger getFieldRelativeButton() {
-    return new Trigger(() -> swerveController.getBButton());
+    return new Trigger(() -> primaryController.getBButton());
   }
 
   public default Trigger getResetGyroButton() {
-    return new Trigger(() -> swerveController.getBackButton());
+    return new Trigger(() -> primaryController.getBackButton());
   }
 
   public default Trigger getXStanceButton() {
-    return new Trigger(() -> swerveController.getAButton());
+    return new Trigger(() -> primaryController.getAButton());
   }
 
-  public default Trigger alignToAprilTagLimelightX() {
-    return new Trigger(() -> swerveController.getXButton());
+  // public default Trigger alignToAprilTagLimelightX() {
+  //   return new Trigger(() -> primaryController.getXButton());
+  // }
+
+  // public default Trigger alignToAprilTagLimelightY() {
+  //   return new Trigger(() -> primaryController.getYButton());
+  // }
+
+  // public default Trigger AlignToAprilTagLimelightXY() {
+  //   return new Trigger(() -> primaryController.getRightBumper());
+  // }
+
+  public default Trigger Set0() {
+    return new Trigger(() -> primaryController.getLeftBumper());
   }
 
-  public default Trigger alignToAprilTagLimelightY() {
-    return new Trigger(() -> swerveController.getYButton());
+  public default Trigger Set1() {
+    return new Trigger(() -> primaryController.getRightBumper());
   }
 
-  public default Trigger AlignToAprilTagLimelightXY() {
-    return new Trigger(() -> swerveController.getRightBumper());
+  public default Trigger PivotPos() {
+    return new Trigger(() -> auxController.getYButton());
   }
 
-  public default double GetArmPivot(){
-    return armController.getLeftY() * 0.2;
-  } //TODO make button, not joystick
-
-  public default Trigger ArmExtend(){
-    return new Trigger(() -> armController.getAButton());
+  public default Trigger PivotNeg() {
+    return new Trigger(() -> auxController.getAButton());
   }
 
-  public default Trigger ArmRetract(){
-    return new Trigger(() -> armController.getBButton());
+  public default Trigger RunCommandGroup() {
+    return new Trigger(() -> auxController.getAButton());
   }
 
+  public default Trigger ArmOut() {
+    return new Trigger(() -> auxController.getBButton());
+  }
+
+  public default Trigger ArmIn() {
+    return new Trigger(() -> auxController.getXButton());
+  }
+
+  public default Trigger HoldArm() {
+    return new Trigger(() -> auxController.getStartButton());
+  }
+
+  public default Trigger ReleaseArm() {
+    return new Trigger(() -> auxController.getBackButton());
+  }
+
+  public default Trigger OpenIntake() {
+    return new Trigger(() -> auxController.getRightBumper());
+  }
+
+  public default Trigger CloseIntake() {
+    return new Trigger(() -> auxController.getLeftBumper());
+  }
+
+  public default Trigger IntakeIn() {
+    return new Trigger(() -> primaryController.getXButton());
+  }
+
+  public default Trigger IntakeOut() {
+    return new Trigger(() -> primaryController.getYButton());
+  }
 }

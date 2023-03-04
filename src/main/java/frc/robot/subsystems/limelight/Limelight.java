@@ -8,6 +8,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight {
 
+  /*
+   * Pipelines:
+   * 0: AprilTags
+   * 1: Retroreflective Top
+   * 2: Retro Refelective Bottom
+   */
+
   static NetworkTable limelightNetworkTable =
       NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -60,4 +67,10 @@ public class Limelight {
       return new Translation2d(0, 0);
     }
   }
+
+  public static void SetPipeline(int pipeline) {
+    limelightNetworkTable.getEntry("pipeline").setDouble(pipeline);
+  }
+
+  public static void GetConeScoreLocations() {}
 }

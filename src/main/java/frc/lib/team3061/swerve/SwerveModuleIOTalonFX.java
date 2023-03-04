@@ -66,7 +66,7 @@ public class SwerveModuleIOTalonFX implements SwerveModuleIO {
   }
 
   private void configAngleEncoder(int canCoderID) {
-    angleEncoder = new CANCoder(canCoderID, "Drivetrain");
+    angleEncoder = new CANCoder(canCoderID, CAN_BUS_NAME);
 
     angleEncoder.configFactoryDefault();
 
@@ -94,7 +94,7 @@ public class SwerveModuleIOTalonFX implements SwerveModuleIO {
     angleMotorConfig.SLOT0_KF = ANGLE_KF;
     angleMotorConfig.FEEDBACK_STATUS_FRAME_RATE_MS = 20;
 
-    mAngleMotor = TalonFXFactory.createTalon(angleMotorID, "Drivetrain", angleMotorConfig);
+    mAngleMotor = TalonFXFactory.createTalon(angleMotorID, CAN_BUS_NAME, angleMotorConfig);
 
     double absolutePosition =
         Conversions.degreesToFalcon(getCanCoder().getDegrees() - angleOffsetDeg, ANGLE_GEAR_RATIO);
@@ -119,7 +119,7 @@ public class SwerveModuleIOTalonFX implements SwerveModuleIO {
     driveMotorConfig.SLOT0_KF = DRIVE_KF;
     driveMotorConfig.FEEDBACK_STATUS_FRAME_RATE_MS = 20;
 
-    mDriveMotor = TalonFXFactory.createTalon(driveMotorID, "Drivetrain", driveMotorConfig);
+    mDriveMotor = TalonFXFactory.createTalon(driveMotorID, CAN_BUS_NAME, driveMotorConfig);
 
     mDriveMotor.setSelectedSensorPosition(0);
   }

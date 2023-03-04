@@ -28,7 +28,7 @@ public final class Constants {
 
   // FIXME: an empty string uses the default CAN bus; specify the name of the CANivore as
   // appropriate
-  public static final String CAN_BUS_NAME = "";
+  public static final String CAN_BUS_NAME = "Drivetrain";
 
   // FIXME: specify the name of the camera used for detecting AprilTags
   public static final String CAMERA_NAME = "ov9268";

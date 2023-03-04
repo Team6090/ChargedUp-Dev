@@ -29,8 +29,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.team3061.swerve.SwerveModule;
 import frc.lib.team3061.util.RobotOdometry;
 import frc.lib.team6328.util.TunableNumber;
-//import frc.robot.subsystems.limelight.Limelight;
-//import frc.robot.subsystems.pixy.PixySystem;
+import frc.robot.subsystems.auxiliary.PixySystem;
+import frc.robot.subsystems.limelight.Limelight;
 import org.littletonrobotics.junction.Logger;
 
 /**
@@ -40,9 +40,9 @@ import org.littletonrobotics.junction.Logger;
  */
 public class Drivetrain extends SubsystemBase {
 
-  private final AHRS gyroIO;
+  public static AHRS gyroIO;
 
-  //public PixySystem pixySystem = new PixySystem();
+  public PixySystem pixySystem = new PixySystem();
 
   // private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
 
@@ -72,7 +72,7 @@ public class Drivetrain extends SubsystemBase {
 
   private Translation2d centerGravity;
 
-  private final SwerveModulePosition[] swerveModulePositions =
+  public final SwerveModulePosition[] swerveModulePositions =
       new SwerveModulePosition[] {
         new SwerveModulePosition(),
         new SwerveModulePosition(),
@@ -86,7 +86,7 @@ public class Drivetrain extends SubsystemBase {
         new SwerveModulePosition(),
         new SwerveModulePosition()
       };
-  private Pose2d estimatedPoseWithoutGyro = new Pose2d();
+  public static Pose2d estimatedPoseWithoutGyro = new Pose2d();
 
   private boolean isFieldRelative;
 
@@ -112,7 +112,7 @@ public class Drivetrain extends SubsystemBase {
       SwerveModule frModule,
       SwerveModule blModule,
       SwerveModule brModule) {
-    this.gyroIO = gyroIO;
+    Drivetrain.gyroIO = gyroIO;
     this.swerveModules[0] = flModule;
     this.swerveModules[1] = frModule;
     this.swerveModules[2] = blModule;
@@ -171,6 +171,10 @@ public class Drivetrain extends SubsystemBase {
     gyroIO.zeroYaw();
   }
 
+  public double getPitch() {
+    return gyroIO.getPitch();
+  }
+
   /**
    * Returns the rotation of the robot. Zero degrees is facing away from the driver station; CCW is
    * positive. This method should always be invoked instead of obtaining the yaw directly from the
@@ -202,7 +206,7 @@ public class Drivetrain extends SubsystemBase {
       this.gyroOffset = expectedYaw - gyroIO.getAngle();
     } else {
       this.gyroOffset = 0;
-      this.estimatedPoseWithoutGyro =
+      Drivetrain.estimatedPoseWithoutGyro =
           new Pose2d(
               estimatedPoseWithoutGyro.getX(),
               estimatedPoseWithoutGyro.getY(),
@@ -342,15 +346,15 @@ public class Drivetrain extends SubsystemBase {
     // gyroIO.updateInputs(gyroInputs);
     // Logger.getInstance().processInputs("Drive/Gyro", gyroInputs);
 
-    //pixySystem.GetCones();
-    //pixySystem.GetCubes();
+    pixySystem.GetCones();
+    pixySystem.GetCubes();
 
     // update and log the swerve moudles inputs
     for (SwerveModule swerveModule : swerveModules) {
       swerveModule.updateAndProcessInputs();
     }
-    //SmartDashboard.putNumber("PosX (m) Tele", Limelight.PositionOnFieldGrid().getX());
-    //SmartDashboard.putNumber("PosY (m) Tele", Limelight.PositionOnFieldGrid().getY());
+    SmartDashboard.putNumber("PosX (m) Tele", Limelight.PositionOnFieldGrid().getX());
+    SmartDashboard.putNumber("PosY (m) Tele", Limelight.PositionOnFieldGrid().getY());
     // update estimated poses
     SwerveModuleState[] states = new SwerveModuleState[4];
     for (int i = 0; i < 4; i++) {
@@ -399,7 +403,7 @@ public class Drivetrain extends SubsystemBase {
     Logger.getInstance().recordOutput("3DField", new Pose3d(poseEstimatorPose));
     Logger.getInstance().recordOutput("SwerveModuleStates", states);
     Logger.getInstance().recordOutput(SUBSYSTEM_NAME + "/gyroOffset", this.gyroOffset);
-    //Limelight.GyroAngle = gyroIO.getYaw();
+    Limelight.GyroAngle = gyroIO.getYaw();
   }
 
   /**

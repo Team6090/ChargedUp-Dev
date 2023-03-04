@@ -63,7 +63,7 @@ public final class SwerveModuleConstants {
   // FIXME: tune PID values for the angle and drive motors
 
   /* Angle Motor PID Values */
-  public static final double ANGLE_KP = 0.62;
+  public static final double ANGLE_KP = 0.65;
   public static final double ANGLE_KI = 0.0;
   public static final double ANGLE_KD = 2.0;
   public static final double ANGLE_KF = 0.0;
@@ -78,8 +78,8 @@ public final class SwerveModuleConstants {
 
   /* Drive Motor Characterization Values */
   // divide by 12 to convert from volts to percent output for CTRE
-  public static final double DRIVE_KS = (0.62226 / 12); // 0.55493 1/14/23
-  public static final double DRIVE_KV = (2.42216 / 12); // 2.3014 1/14/23
+  public static final double DRIVE_KS = (0.50851 / 12); // 0.55493 1/14/23
+  public static final double DRIVE_KV = (2.41834 / 12); // 2.3014 1/14/23
   public static final double DRIVE_KA = (0.12872 / 12);
 
   /* Simulated Angle Motor PID Values */

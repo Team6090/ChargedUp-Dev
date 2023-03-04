@@ -8,49 +8,45 @@ import static frc.robot.Constants.*;
 import static frc.robot.subsystems.drivetrain.DrivetrainConstants.*;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.FollowPathWithEvents;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-// import edu.wpi.first.math.geometry.Translation2d;
+import com.pathplanner.lib.PathPoint;
+// import com.pathplanner.lib.commands.FollowPathWithEvents;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.lib.team3061.pneumatics.Pneumatics;
-import frc.lib.team3061.pneumatics.PneumaticsIO;
-// import frc.lib.team3061.pneumatics.PneumaticsIORev;
 import frc.lib.team3061.swerve.SwerveModule;
 import frc.lib.team3061.swerve.SwerveModuleIO;
 import frc.lib.team3061.swerve.SwerveModuleIOSim;
 import frc.lib.team3061.swerve.SwerveModuleIOTalonFX;
-import frc.lib.team3061.vision.Vision;
-import frc.lib.team3061.vision.VisionConstants;
-import frc.lib.team3061.vision.VisionIO;
-import frc.lib.team3061.vision.VisionIOPhotonVision;
-import frc.lib.team3061.vision.VisionIOSim;
 import frc.robot.Constants.Mode;
-//import frc.robot.commands.AlignToAprilTagX;
-//import frc.robot.commands.AlignToAprilTagXY;
-//import frc.robot.commands.AlignToAprilTagY;
-import frc.robot.commands.ArmExtension;
-import frc.robot.commands.FeedForwardCharacterization;
-import frc.robot.commands.FeedForwardCharacterization.FeedForwardCharacterizationData;
-import frc.robot.commands.FollowPath;
-import frc.robot.commands.PivotMove;
+// import frc.robot.commands.vision.AlignToAprilTagX;
 import frc.robot.commands.TeleopSwerve;
+import frc.robot.commands.autons.FeedForwardCharacterization;
+import frc.robot.commands.autons.FeedForwardCharacterization.FeedForwardCharacterizationData;
+import frc.robot.commands.pathplanner.FollowPath;
+// import frc.robot.commands.subautotele.CommandTest;
+import frc.robot.commands.subcommandsaux.ArmHold;
+// import frc.robot.commands.subcommandsaux.ExtendArmO;
+import frc.robot.commands.subcommandsaux.IntakeInOut;
+import frc.robot.commands.subcommandsaux.IntakeOpenClose;
+// import frc.robot.commands.subcommandsaux.PivotArmO;
 import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
+import frc.robot.subsystems.auxiliary.AirCompressor;
+import frc.robot.subsystems.auxiliary.IntakeSystem;
+import frc.robot.subsystems.auxiliary.PivotSystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.subsystems.ArmSystem;
-import frc.robot.subsystems.PivotSystem;
-// import frc.robot.subsystems.limelight.Limelight;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import frc.robot.subsystems.limelight.Limelight;
+import frc.robot.subsystems.limelight.LimelightPipeline;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -61,11 +57,8 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  */
 public class RobotContainer {
   private OperatorInterface oi = new OperatorInterface() {};
-  // private XboxController oi = new XboxController(0);
 
   public Drivetrain drivetrain;
-  public ArmSystem armSystem;
-  public PivotSystem pivotSystem;
 
   // use AdvantageKit's LoggedDashboardChooser instead of SendableChooser to ensure accurate logging
   private final LoggedDashboardChooser<Command> autoChooser =
@@ -73,6 +66,8 @@ public class RobotContainer {
 
   // RobotContainer singleton
   private static RobotContainer robotContainer = new RobotContainer();
+  private PivotSystem pivotSystem = new PivotSystem();
+  private IntakeSystem intakeSystem = new IntakeSystem();
 
   /** Create the container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -129,8 +124,6 @@ public class RobotContainer {
 
             drivetrain = new Drivetrain(gyro, flModule, frModule, blModule, brModule);
             drivetrain.enableFieldRelative();
-            // new Pneumatics(new PneumaticsIORev());
-            new Vision(new VisionIOPhotonVision(CAMERA_NAME));
             break;
           }
         case ROBOT_SIMBOT:
@@ -147,15 +140,7 @@ public class RobotContainer {
             SwerveModule brModule =
                 new SwerveModule(new SwerveModuleIOSim(), 3, MAX_VELOCITY_METERS_PER_SECOND);
             drivetrain = new Drivetrain(new AHRS(), flModule, frModule, blModule, brModule);
-            new Pneumatics(new PneumaticsIO() {});
-            AprilTagFieldLayout layout;
-            try {
-              layout = new AprilTagFieldLayout(VisionConstants.APRILTAG_FIELD_LAYOUT_PATH);
-            } catch (IOException e) {
-              layout = new AprilTagFieldLayout(new ArrayList<>(), 16.4592, 8.2296);
-            }
-            new Vision(
-                new VisionIOSim(layout, drivetrain::getPose, VisionConstants.ROBOT_TO_CAMERA));
+            new AirCompressor();
 
             break;
           }
@@ -178,8 +163,7 @@ public class RobotContainer {
       drivetrain =
           new Drivetrain(
               new AHRS(SPI.Port.kMXP, (byte) 200) {}, flModule, frModule, blModule, brModule);
-      new Pneumatics(new PneumaticsIO() {});
-      new Vision(new VisionIO() {});
+      new AirCompressor();
     }
 
     // disable all telemetry in the LiveWindow to reduce the processing during each iteration
@@ -214,11 +198,6 @@ public class RobotContainer {
      */
     drivetrain.setDefaultCommand(
         new TeleopSwerve(drivetrain, oi::getTranslateX, oi::getTranslateY, oi::getRotate));
-    // new TeleopSwerve(drivetrain, oi::getLeftY, oi::getLeftX, oi::getRightX));
-
-    pivotSystem.setDefaultCommand(new PivotMove(pivotSystem, oi.GetArmPivot()));
-
-    armSystem.setDefaultCommand(new ArmExtension(armSystem, 0));
 
     configureButtonBindings();
   }
@@ -248,170 +227,105 @@ public class RobotContainer {
     // x-stance
     oi.getXStanceButton().onTrue(Commands.runOnce(drivetrain::enableXstance, drivetrain));
     oi.getXStanceButton().onFalse(Commands.runOnce(drivetrain::disableXstance, drivetrain));
-    //oi.alignToAprilTagLimelightX().onTrue(new AlignToAprilTagX(drivetrain));
-    //oi.alignToAprilTagLimelightY().onTrue(new AlignToAprilTagY(drivetrain));
-    //oi.AlignToAprilTagLimelightXY().onTrue(new AlignToAprilTagXY(drivetrain));
-    oi.ArmExtend().onTrue(new ArmExtension(armSystem, 0.2));
-    oi.ArmRetract().onTrue(new ArmExtension(armSystem, -0.2));
+
+    // Limelight
+    // oi.alignToAprilTagLimelightX().onTrue(new AlignToAprilTagX(drivetrain));
+    // oi.alignToAprilTagLimelightY().onTrue(new AlignToAprilTagY(drivetrain));
+    // oi.AlignToAprilTagLimelightXY().onTrue(new AlignToAprilTagXY(drivetrain));
+    oi.Set0().onTrue(new LimelightPipeline(0));
+    oi.Set1().onTrue(new LimelightPipeline(1));
+
+    // SubAutoTeleCommands
+    // oi.RunCommandGroup().onTrue(new CommandTest(intakeSystem, pivotSystem));
+
+    // Pivot
+    // oi.PivotNeg().onTrue(new PivotMove(pivotSystem, 270, false));
+    // oi.PivotPos().onTrue(new PivotMove(pivotSystem, 48, false));
+
+    // oi.PivotNeg().whileTrue(new PivotArmO(pivotSystem, .1, true));
+    // oi.PivotPos().whileTrue(new PivotArmO(pivotSystem, .1, false));
+
+    // Hold Pivot
+    oi.HoldArm().onTrue(new ArmHold(pivotSystem, true));
+    oi.ReleaseArm().onTrue(new ArmHold(pivotSystem, false));
+
+    // Extension
+    // oi.ArmIn().onTrue(new ArmExtension(intakeSystem, 0, false));
+    // oi.ArmOut().onTrue(new ArmExtension(intakeSystem, 62, false));
+
+    // oi.ArmIn().whileTrue(new ExtendArmO(intakeSystem, -.2));
+    // oi.ArmOut().whileTrue(new ExtendArmO(intakeSystem, .2));
+
+    // Intake
+    oi.IntakeIn().whileTrue(new IntakeInOut(intakeSystem, 1, false, false));
+    oi.IntakeOut().whileTrue(new IntakeInOut(intakeSystem, 1, true, false));
+    oi.OpenIntake().onTrue(new IntakeOpenClose(intakeSystem, true));
+    oi.CloseIntake().onTrue(new IntakeOpenClose(intakeSystem, false));
   }
 
-  // private Translation2d GenerateCorrection(double idealX, double idealY) {
-  //   double x = Limelight.PositionOnFieldGrid().getX();
-  //   double y = Limelight.PositionOnFieldGrid().getY();
-  //   if (x == 0.0 || y == 0.0) {
-  //     return new Translation2d(idealX, idealY);
-  //   } else {
-  //     return new Translation2d(x, y);
-  //   }
-  // }
+  private PathPlannerTrajectory GenerateTrajectoryFromPath(
+      String name, double maxVelocity, double maxAcceleration) {
+    PathPlannerTrajectory traj = PathPlanner.loadPath(name, maxVelocity, maxAcceleration);
+    return traj;
+  }
+
+  private double[] GenerateCorrection(double idealX, double idealY) {
+    double x = Limelight.PositionOnFieldGrid().getX();
+    double y = Limelight.PositionOnFieldGrid().getY();
+    double[] array = {0, 0};
+    if (x == 0.0 || y == 0.0) {
+      array[0] = idealX;
+      array[1] = idealY;
+      return array;
+    } else {
+      array[0] = x;
+      array[1] = y;
+      return array;
+    }
+  }
+
+  private PathPlannerTrajectory GenerateCorrectionPath(
+      double idealX, double idealY, double lastX, double lastY) {
+    double[] correction = GenerateCorrection(idealX, idealY);
+    PathPlannerTrajectory path =
+        PathPlanner.generatePath(
+            new PathConstraints(
+                AUTO_MAX_SPEED_METERS_PER_SECOND, AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED),
+            new PathPoint(
+                new Translation2d(correction[0], correction[1]),
+                new Rotation2d(Drivetrain.gyroIO.getYaw())),
+            new PathPoint(
+                new Translation2d(lastX, lastY), new Rotation2d(Drivetrain.gyroIO.getYaw())));
+    return path;
+  }
 
   /** Use this method to define your commands for autonomous mode. */
   private void configureAutoCommands() {
     AUTO_EVENT_MAP.put("event1", Commands.print("passed event marker 1"));
-    // AUTO_EVENT_MAP.put("event2", Commands.print("passed marker 2"));
 
     AUTO_EVENT2_MAP.put("event1", Commands.print("passed marker 1"));
 
     AUTO_EVENT3_MAP.put("event1", Commands.print("passed marker 1"));
 
-    // PathPlannerTrajectory examplePath = PathPlanner.loadPath("TestForwardPath", new
-    // PathConstraints(AUTO_MAX_SPEED_METERS_PER_SECOND,
-    // AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED));
-
-    // build auto path commands
-    List<PathPlannerTrajectory> auto1Paths =
-        PathPlanner.loadPathGroup(
-            "testPaths1",
+    PathPlannerTrajectory testPath =
+        GenerateTrajectoryFromPath(
+            "testPath",
             AUTO_MAX_SPEED_METERS_PER_SECOND,
             AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
 
-    Command autoTest =
+    Command autoTestPath =
         Commands.sequence(
-            new FollowPathWithEvents(
-                new FollowPath(auto1Paths.get(0), drivetrain, true),
-                auto1Paths.get(0).getMarkers(),
-                AUTO_EVENT_MAP));
-
-    List<PathPlannerTrajectory> auto2Paths =
-        PathPlanner.loadPathGroup(
-            "testPaths2",
-            AUTO_MAX_SPEED_METERS_PER_SECOND,
-            AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-    Command autoTest2 =
-        Commands.sequence(
-            new FollowPathWithEvents(
-                new FollowPath(auto2Paths.get(0), drivetrain, true),
-                auto2Paths.get(0).getMarkers(),
-                AUTO_EVENT2_MAP));
-
-    List<PathPlannerTrajectory> auto3Paths =
-        PathPlanner.loadPathGroup(
-            "testPaths3",
-            AUTO_MAX_SPEED_METERS_PER_SECOND,
-            AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-    Command autoTest3 =
-        Commands.sequence(
-            new FollowPathWithEvents(
-                new FollowPath(auto3Paths.get(0), drivetrain, true),
-                auto3Paths.get(0).getMarkers(),
-                AUTO_EVENT3_MAP));
-
-    // Commands.runOnce(drivetrain::enableXstance, drivetrain),
-    // Commands.waitSeconds(10.0),
-    // Commands.runOnce(drivetrain::disableXstance, drivetrain),
-    // new FollowPathWithEvents(
-    //     new FollowPath(auto1Paths.get(1), drivetrain, false),
-    //     auto1Paths.get(1).getMarkers(),
-    //     AUTO_EVENT_MAP));
-
-    // List<PathPlannerTrajectory> TestForwardPath =
-    //     PathPlanner.loadPathGroup(
-    //         "TestForwardPath",
-    //         AUTO_MAX_SPEED_METERS_PER_SECOND,
-    //         AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-    // Command autoForward =
-    //     Commands.sequence(
-    //         new FollowPathWithEvents(
-    //             new FollowPath(TestForwardPath.get(0), drivetrain, true),
-    //             TestForwardPath.get(0).getMarkers(),
-    //             AUTO_EVENT_MAP),
-    //         Commands.runOnce(drivetrain::enableXstance, drivetrain),
-    //         Commands.waitSeconds(5.0),
-    //         Commands.runOnce(drivetrain::disableXstance, drivetrain),
-    //         new FollowPathWithEvents(
-    //             new FollowPath(TestForwardPath.get(1), drivetrain, false),
-    //             TestForwardPath.get(1).getMarkers(),
-    //             AUTO_EVENT_MAP));
-
-    // List<PathPlannerTrajectory> TestReversePath =
-    //     PathPlanner.loadPathGroup(
-    //         "TestReversePath",
-    //         AUTO_MAX_SPEED_METERS_PER_SECOND,
-    //         AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-    // Command autoReverse =
-    //     Commands.sequence(
-    //         new FollowPathWithEvents(
-    //             new FollowPath(auto1Paths.get(0), drivetrain, true),
-    //             auto1Paths.get(0).getMarkers(),
-    //             AUTO_EVENT_MAP),
-    //         Commands.runOnce(drivetrain::enableXstance, drivetrain),
-    //         Commands.waitSeconds(5.0),
-    //         Commands.runOnce(drivetrain::disableXstance, drivetrain),
-    //         new FollowPathWithEvents(
-    //             new FollowPath(auto1Paths.get(1), drivetrain, false),
-    //             TestReversePath.get(1).getMarkers(),
-    //             AUTO_EVENT_MAP));
-
-    // List<PathPlannerTrajectory> TestForwardReversePath =
-    //     PathPlanner.loadPathGroup(
-    //         "TestForwardReversePath",
-    //         AUTO_MAX_SPEED_METERS_PER_SECOND,
-    //         AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-    // Command autoForwardReverse =
-    //     Commands.sequence(
-    //         new FollowPathWithEvents(
-    //             new FollowPath(auto1Paths.get(0), drivetrain, true),
-    //             auto1Paths.get(0).getMarkers(),
-    //             AUTO_EVENT_MAP),
-    //         Commands.runOnce(drivetrain::enableXstance, drivetrain),
-    //         Commands.waitSeconds(5.0),
-    //         Commands.runOnce(drivetrain::disableXstance, drivetrain),
-    //         new FollowPathWithEvents(
-    //             new FollowPath(auto1Paths.get(1), drivetrain, false),
-    //             TestForwardReversePath.get(1).getMarkers(),
-    //             AUTO_EVENT_MAP));
-
-    // List<PathPlannerTrajectory> TestForwardReverseSpinPath =
-    //     PathPlanner.loadPathGroup(
-    //         "TestForwardReverseSpinPath",
-    //         AUTO_MAX_SPEED_METERS_PER_SECOND,
-    //         AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-    // Command autoForwardReverseSpin =
-    //     Commands.sequence(
-    //         new FollowPathWithEvents(
-    //             new FollowPath(auto1Paths.get(0), drivetrain, true),
-    //             auto1Paths.get(0).getMarkers(),
-    //             AUTO_EVENT_MAP),
-    //         Commands.runOnce(drivetrain::enableXstance, drivetrain),
-    //         Commands.waitSeconds(5.0),
-    //         Commands.runOnce(drivetrain::disableXstance, drivetrain),
-    //         new FollowPathWithEvents(
-    //             new FollowPath(auto1Paths.get(1), drivetrain, false),
-    //             TestForwardReverseSpinPath.get(1).getMarkers(),
-    //             AUTO_EVENT_MAP));
+            new FollowPath(testPath, drivetrain, true),
+            new FollowPath(
+                GenerateCorrectionPath(
+                    0, 0, drivetrain.getPose().getX(), drivetrain.getPose().getY()),
+                drivetrain,
+                TUNING_MODE));
 
     // add commands to the auto chooser
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
 
-    // autoChooser.addOption("TestForwardPath", test);
-    // demonstration of PathPlanner path group with event markers
-    autoChooser.addOption("1Meter", autoTest);
-    autoChooser.addOption("3Meter", autoTest2);
-    autoChooser.addOption("7Meter", autoTest3);
-    // autoChooser.addOption("TestForward", autoForward);
-    // autoChooser.addOption("TestReverse", autoReverse);
-    // autoChooser.addOption("TestForwardReverse", autoForwardReverse);
-    // autoChooser.addOption("TestForwardReverseSpin", autoForwardReverseSpin);
+    autoChooser.addOption("TestPath", autoTestPath);
 
     // "auto" command for tuning the drive velocity PID
     autoChooser.addOption(
@@ -441,6 +355,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    SmartDashboard.putData(drivetrain);
     return autoChooser.get();
   }
 }
