@@ -53,7 +53,7 @@ public class PivotSystem extends SubsystemBase {
     pivotMotorLeft.setNeutralMode(NeutralMode.Brake);
     pivotMotorRight.setNeutralMode(NeutralMode.Brake);
     pivotMotorLeft.follow(pivotMotorRight);
-    pivotAngleCanCoder.setPosition(pivotAngleCanCoder.getAbsolutePosition());
+    // pivotAngleCanCoder.setPosition(pivotAngleCanCoder.getAbsolutePosition());
   }
 
   public void PivotArm(double power, boolean reversed) {
@@ -137,7 +137,7 @@ public class PivotSystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (SubsystemConstants.Auxiliary.PIVOT_DEBUG == true) {
-      SmartDashboard.putNumber("PivotPositionDegrees", pivotAngleCanCoder.getPosition());
+      SmartDashboard.putNumber("PivotPositionDegrees", convertToDegrees(pivotMotorRight.getSelectedSensorPosition()));
       SmartDashboard.putNumber("PivotPositionEC", pivotMotorRight.getSelectedSensorPosition());
       SmartDashboard.putBoolean("LimitSwitch", GetLimitSwitchOutput());
     } else {

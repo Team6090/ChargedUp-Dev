@@ -4,10 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.team6328.util.Alert;
 import frc.lib.team6328.util.Alert.AlertType;
+import frc.robot.subsystems.auxiliary.AirCompressor;
 import frc.robot.subsystems.limelight.Limelight;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -37,6 +40,17 @@ public class Robot extends LoggedRobot {
    * This method is executed when the code first starts running on the robot and should be used for
    * any initialization code.
    */
+
+  // @Override
+  // public void disabledInit() {
+  //   AirCompressor.extendLock(true);
+  // }
+
+  @Override
+  public void teleopExit() {
+    AirCompressor.extendLock(true);
+  }
+
   @Override
   public void robotInit() {
     final String GIT_DIRTY = "GitDirty";
@@ -115,6 +129,8 @@ public class Robot extends LoggedRobot {
     robotContainer = RobotContainer.getInstance();
   }
 
+  
+
   /**
    * This method is called every robot packet, no matter the mode. Use this for items like
    * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
@@ -147,6 +163,7 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void autonomousInit() {
+    AirCompressor.extendLock(false);
     Limelight.TurnLimelightOn();
     autonomousCommand = robotContainer.getAutonomousCommand();
     // schedule the autonomous command
@@ -158,6 +175,7 @@ public class Robot extends LoggedRobot {
   /** This method is invoked at the start of the teleoperated period. */
   @Override
   public void teleopInit() {
+    AirCompressor.extendLock(false);
     Limelight.TurnLimelightOn();
     /*
      * This makes sure that the autonomous stops running when teleop starts running. If you want the

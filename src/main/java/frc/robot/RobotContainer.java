@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.team3061.swerve.SwerveModule;
 import frc.lib.team3061.swerve.SwerveModuleIO;
 import frc.lib.team3061.swerve.SwerveModuleIOSim;
@@ -240,12 +241,17 @@ public class RobotContainer {
     // oi.RunCommandGroup().onTrue(new CommandTest(intakeSystem, pivotSystem));
 
     // Pivot
-    oi.PivotNeg().onTrue(new PivotMove(pivotSystem, 270, false));
+    oi.PivotNeg().onTrue(new PivotMove(pivotSystem, 90, false));
     // oi.PivotPos().onTrue(new PivotMove(pivotSystem, 48, false));
 
     // oi.PivotNeg().whileTrue(new PivotArmO(pivotSystem, .1, true));
     // oi.PivotPos().whileTrue(new PivotArmO(pivotSystem, .1, false));
-
+    // oi.PivotNeg().onFalse(new ArmHold(pivotSystem, true));
+    // oi.PivotPos().onFalse(new ArmHold(pivotSystem, true));
+    // Trigger s = new Trigger(oi.PivotNeg().and(oi.PivotPos()));
+    // Trigger n = new Trigger(oi.PivotNeg().or(oi.PivotPos()));
+    // s.onFalse(new ArmHold(pivotSystem, true));
+    // n.onTrue(new ArmHold(pivotSystem, false));
     // Hold Pivot
     // oi.HoldArm().onTrue(new ArmHold(pivotSystem, true));
     // oi.ReleaseArm().onTrue(new ArmHold(pivotSystem, false));
@@ -258,8 +264,8 @@ public class RobotContainer {
     // oi.ArmOut().whileTrue(new ExtendArmO(intakeSystem, .2));
 
     // Intake
-    oi.IntakeIn().whileTrue(new IntakeInOut(intakeSystem, 1, false, false));
-    oi.IntakeOut().whileTrue(new IntakeInOut(intakeSystem, 1, true, false));
+    oi.IntakeIn().whileTrue(new IntakeInOut(intakeSystem, 0.75, false, false));
+    oi.IntakeOut().whileTrue(new IntakeInOut(intakeSystem, 0.75, true, false));
     oi.OpenIntake().onTrue(new IntakeOpenClose(intakeSystem, true));
     oi.CloseIntake().onTrue(new IntakeOpenClose(intakeSystem, false));
   }

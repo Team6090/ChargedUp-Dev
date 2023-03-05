@@ -15,3 +15,6 @@
 
 PivotCANCoderChangedPos
 CharacterRobot
+
+
+[NOTES] Power up robot before putting pivotcancoder on to test if absolute value is 0

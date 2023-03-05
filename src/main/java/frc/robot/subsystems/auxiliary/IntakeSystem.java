@@ -28,7 +28,7 @@ public class IntakeSystem extends SubsystemBase {
 
   static final I2C.Port i2cPort = I2C.Port.kOnboard;
 
-  static ColorSensorV3 IntakeSensor;
+  // static ColorSensorV3 IntakeSensor;
 
   PixySystem pixySystem;
 
@@ -58,8 +58,7 @@ public class IntakeSystem extends SubsystemBase {
     intakeSolenoidOn = new Solenoid(60, PneumaticsModuleType.REVPH, 0);
     intakeSolenoidOff = new Solenoid(60, PneumaticsModuleType.REVPH, 1);
 
-
-    IntakeSensor = new ColorSensorV3(i2cPort);
+    // IntakeSensor = new ColorSensorV3(i2cPort);
 
     pixySystem = new PixySystem();
 
@@ -110,26 +109,26 @@ public class IntakeSystem extends SubsystemBase {
     intakeMotor.set(0);
   }
 
-  public boolean ObjectInIntake() {
-    double prox = IntakeSensor.getProximity();
-    if (prox > 100) {
-      return true;
-    }
-    return false;
-  }
+  // public boolean ObjectInIntake() {
+  //   double prox = IntakeSensor.getProximity();
+  //   if (prox > 100) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
-  public String ObjectType() {
-    if (ObjectInIntake()) {
-      Color intakeSensorColor = IntakeSensor.getColor();
-      if (intakeSensorColor.blue > intakeSensorColor.green
-          || intakeSensorColor.blue > intakeSensorColor.red) {
-        return "Cube";
-      }
-      return "Cone";
-    } else {
-      return "No Object";
-    }
-  }
+  // public String ObjectType() {
+  //   if (ObjectInIntake()) {
+  //     Color intakeSensorColor = IntakeSensor.getColor();
+  //     if (intakeSensorColor.blue > intakeSensorColor.green
+  //         || intakeSensorColor.blue > intakeSensorColor.red) {
+  //       return "Cube";
+  //     }
+  //     return "Cone";
+  //   } else {
+  //     return "No Object";
+  //   }
+  // }
 
   private double convertToCM(double ec) {
     return (ec / CONVERT_VALUE) + 29;
@@ -142,9 +141,9 @@ public class IntakeSystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (SubsystemConstants.Auxiliary.INTAKE_DEBUG == true) {
-      SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
-      SmartDashboard.putString("Object Type CV3", ObjectType());
-      SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
+      // SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
+      // SmartDashboard.putString("Object Type CV3", ObjectType());
+      // SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
       
       SmartDashboard.putNumber(
         "ArmExtensionPositionCM", convertToCM(armRetractCANCoder.getPosition()));
