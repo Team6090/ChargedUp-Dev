@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.SubsystemConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainConstants;
 
 public class IntakeSystem extends SubsystemBase {
@@ -37,8 +38,10 @@ public class IntakeSystem extends SubsystemBase {
 
   public IntakeSystem() {
 
-    armRetractMotor = new TalonFX(DrivetrainConstants.ArmRetractionMotorID);
+    armRetractMotor = new TalonFX(DrivetrainConstants.ArmRetractionMotorID, "Aux");
     armRetractMotor.setNeutralMode(NeutralMode.Brake);
+    
+    armRetractCANCoder = new CANCoder(DrivetrainConstants.ArmRetractionCANCoderID, "Aux");
 
     armRetractMotor.configRemoteFeedbackFilter(armRetractCANCoder, 0);
     armRetractMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.RemoteSensor0, 0, 2000);
@@ -55,7 +58,6 @@ public class IntakeSystem extends SubsystemBase {
     intakeSolenoidOn = new Solenoid(60, PneumaticsModuleType.REVPH, 0);
     intakeSolenoidOff = new Solenoid(60, PneumaticsModuleType.REVPH, 1);
 
-    armRetractCANCoder = new CANCoder(DrivetrainConstants.ArmRetractionCANCoderID);
 
     IntakeSensor = new ColorSensorV3(i2cPort);
 
@@ -139,11 +141,15 @@ public class IntakeSystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
-    SmartDashboard.putString("Object Type CV3", ObjectType());
-    SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
-
-    SmartDashboard.putNumber(
+    if (SubsystemConstants.Auxiliary.INTAKE_DEBUG == true) {
+      SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
+      SmartDashboard.putString("Object Type CV3", ObjectType());
+      SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
+      
+      SmartDashboard.putNumber(
         "ArmExtensionPositionCM", convertToCM(armRetractCANCoder.getPosition()));
+    }else {
+
+    }
   }
 }

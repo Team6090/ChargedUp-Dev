@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.SubsystemConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainConstants;
 
 public class PivotSystem extends SubsystemBase {
@@ -33,9 +34,9 @@ public class PivotSystem extends SubsystemBase {
             0.24747, 0.65388, 0.28999,
             0.098095); // 0.14793, 0.15081, 0.032265, 0.0010962 2/25/2023 1:00PM
 
-    pivotMotorLeft = new TalonFX(DrivetrainConstants.PivotMotorLeftID);
-    pivotMotorRight = new TalonFX(DrivetrainConstants.PivotMotorRightID);
-    pivotAngleCanCoder = new CANCoder(DrivetrainConstants.PivotAngleCanCoderID);
+    pivotMotorLeft = new TalonFX(DrivetrainConstants.PivotMotorLeftID, "Aux");
+    pivotMotorRight = new TalonFX(DrivetrainConstants.PivotMotorRightID, "Aux");
+    pivotAngleCanCoder = new CANCoder(DrivetrainConstants.PivotAngleCanCoderID, "Aux");
 
     pivotMotorRight.configRemoteFeedbackFilter(pivotAngleCanCoder, 0);
     pivotMotorLeft.configRemoteFeedbackFilter(pivotAngleCanCoder, 0);
@@ -52,6 +53,7 @@ public class PivotSystem extends SubsystemBase {
     pivotMotorLeft.setNeutralMode(NeutralMode.Brake);
     pivotMotorRight.setNeutralMode(NeutralMode.Brake);
     pivotMotorLeft.follow(pivotMotorRight);
+    pivotAngleCanCoder.setPosition(pivotAngleCanCoder.getAbsolutePosition());
   }
 
   public void PivotArm(double power, boolean reversed) {
@@ -134,7 +136,12 @@ public class PivotSystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("PivotPositionDegrees", pivotAngleCanCoder.getPosition());
-    SmartDashboard.putBoolean("LimitSwitch", GetLimitSwitchOutput());
+    if (SubsystemConstants.Auxiliary.PIVOT_DEBUG == true) {
+      SmartDashboard.putNumber("PivotPositionDegrees", pivotAngleCanCoder.getPosition());
+      SmartDashboard.putNumber("PivotPositionEC", pivotMotorRight.getSelectedSensorPosition());
+      SmartDashboard.putBoolean("LimitSwitch", GetLimitSwitchOutput());
+    } else {
+
+    }
   }
 }

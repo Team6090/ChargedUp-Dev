@@ -38,7 +38,8 @@ import frc.robot.commands.subcommandsaux.ArmHold;
 // import frc.robot.commands.subcommandsaux.ExtendArmO;
 import frc.robot.commands.subcommandsaux.IntakeInOut;
 import frc.robot.commands.subcommandsaux.IntakeOpenClose;
-// import frc.robot.commands.subcommandsaux.PivotArmO;
+import frc.robot.commands.subcommandsaux.PivotArmO;
+import frc.robot.commands.subcommandsaux.PivotMove;
 import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
 import frc.robot.subsystems.auxiliary.AirCompressor;
@@ -239,15 +240,15 @@ public class RobotContainer {
     // oi.RunCommandGroup().onTrue(new CommandTest(intakeSystem, pivotSystem));
 
     // Pivot
-    // oi.PivotNeg().onTrue(new PivotMove(pivotSystem, 270, false));
+    oi.PivotNeg().onTrue(new PivotMove(pivotSystem, 270, false));
     // oi.PivotPos().onTrue(new PivotMove(pivotSystem, 48, false));
 
     // oi.PivotNeg().whileTrue(new PivotArmO(pivotSystem, .1, true));
     // oi.PivotPos().whileTrue(new PivotArmO(pivotSystem, .1, false));
 
     // Hold Pivot
-    oi.HoldArm().onTrue(new ArmHold(pivotSystem, true));
-    oi.ReleaseArm().onTrue(new ArmHold(pivotSystem, false));
+    // oi.HoldArm().onTrue(new ArmHold(pivotSystem, true));
+    // oi.ReleaseArm().onTrue(new ArmHold(pivotSystem, false));
 
     // Extension
     // oi.ArmIn().onTrue(new ArmExtension(intakeSystem, 0, false));

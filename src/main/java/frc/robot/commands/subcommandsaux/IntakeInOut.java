@@ -28,14 +28,14 @@ public class IntakeInOut extends CommandBase {
   public void execute() {
     intakeSystem.IntakeOn(power, reversed);
 
-    if (autonMode == true) {
+    // if (autonMode == true) {
 
-      if (intakeSystem.ObjectInIntake() == false) {
-        done = true;
-      }
-    } else {
-      // done = true;
-    }
+    //   if (intakeSystem.ObjectInIntake() == false) {
+    //     done = true;
+    //   }
+    // } else {
+    //   // done = true;
+    // }
   }
 
   @Override
