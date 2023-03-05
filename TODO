@@ -17,4 +17,6 @@ PivotCANCoderChangedPos
 CharacterRobot
 
 
-[NOTES] Power up robot before putting pivotcancoder on to test if absolute value is 0
+[NOTES] Power up robot before putting pivotcancoder on to test if absolute value is 0; do the same for the extensioncancoder
+
+Start Robot in any orientation and still have teleop run normally

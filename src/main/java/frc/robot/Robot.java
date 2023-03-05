@@ -48,7 +48,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void teleopExit() {
-    AirCompressor.extendLock(true);
+    // AirCompressor.extendLock(true);
   }
 
   @Override
@@ -163,7 +163,7 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void autonomousInit() {
-    AirCompressor.extendLock(false);
+    // AirCompressor.extendLock(false);
     Limelight.TurnLimelightOn();
     autonomousCommand = robotContainer.getAutonomousCommand();
     // schedule the autonomous command
@@ -175,7 +175,7 @@ public class Robot extends LoggedRobot {
   /** This method is invoked at the start of the teleoperated period. */
   @Override
   public void teleopInit() {
-    AirCompressor.extendLock(false);
+    // AirCompressor.extendLock(false);
     Limelight.TurnLimelightOn();
     /*
      * This makes sure that the autonomous stops running when teleop starts running. If you want the

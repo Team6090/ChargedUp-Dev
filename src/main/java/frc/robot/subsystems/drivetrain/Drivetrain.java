@@ -42,7 +42,7 @@ public class Drivetrain extends SubsystemBase {
 
   public static AHRS gyroIO;
 
-  public PixySystem pixySystem = new PixySystem();
+  // public PixySystem pixySystem = new PixySystem();
 
   // private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
 
@@ -346,8 +346,8 @@ public class Drivetrain extends SubsystemBase {
     // gyroIO.updateInputs(gyroInputs);
     // Logger.getInstance().processInputs("Drive/Gyro", gyroInputs);
 
-    pixySystem.GetCones();
-    pixySystem.GetCubes();
+    // pixySystem.GetCones();
+    // pixySystem.GetCubes();
 
     // update and log the swerve moudles inputs
     for (SwerveModule swerveModule : swerveModules) {

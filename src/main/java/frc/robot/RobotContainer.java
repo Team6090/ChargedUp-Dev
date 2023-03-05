@@ -264,8 +264,8 @@ public class RobotContainer {
     // oi.ArmOut().whileTrue(new ExtendArmO(intakeSystem, .2));
 
     // Intake
-    oi.IntakeIn().whileTrue(new IntakeInOut(intakeSystem, 0.75, false, false));
-    oi.IntakeOut().whileTrue(new IntakeInOut(intakeSystem, 0.75, true, false));
+    oi.IntakeIn().whileTrue(new IntakeInOut(intakeSystem, 1, false, false));
+    oi.IntakeOut().whileTrue(new IntakeInOut(intakeSystem, 1, true, false));
     oi.OpenIntake().onTrue(new IntakeOpenClose(intakeSystem, true));
     oi.CloseIntake().onTrue(new IntakeOpenClose(intakeSystem, false));
   }

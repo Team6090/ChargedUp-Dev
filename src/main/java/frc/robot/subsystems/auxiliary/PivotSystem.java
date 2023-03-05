@@ -50,8 +50,8 @@ public class PivotSystem extends SubsystemBase {
     pivotMotorRight.configMotionAcceleration(450, 10); // 360
     pivotMotorRight.configMotionSCurveStrength(1);
 
-    pivotMotorLeft.setNeutralMode(NeutralMode.Brake);
-    pivotMotorRight.setNeutralMode(NeutralMode.Brake);
+    pivotMotorLeft.setNeutralMode(NeutralMode.Coast);
+    pivotMotorRight.setNeutralMode(NeutralMode.Coast);
     pivotMotorLeft.follow(pivotMotorRight);
     // pivotAngleCanCoder.setPosition(pivotAngleCanCoder.getAbsolutePosition());
   }

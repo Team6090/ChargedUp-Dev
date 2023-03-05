@@ -30,7 +30,7 @@ public class IntakeSystem extends SubsystemBase {
 
   // static ColorSensorV3 IntakeSensor;
 
-  PixySystem pixySystem;
+  // PixySystem pixySystem;
 
   boolean isIntakeSolenoidEnabled;
 
@@ -39,7 +39,7 @@ public class IntakeSystem extends SubsystemBase {
   public IntakeSystem() {
 
     armRetractMotor = new TalonFX(DrivetrainConstants.ArmRetractionMotorID, "Aux");
-    armRetractMotor.setNeutralMode(NeutralMode.Brake);
+    armRetractMotor.setNeutralMode(NeutralMode.Coast);
     
     armRetractCANCoder = new CANCoder(DrivetrainConstants.ArmRetractionCANCoderID, "Aux");
 
@@ -60,7 +60,7 @@ public class IntakeSystem extends SubsystemBase {
 
     // IntakeSensor = new ColorSensorV3(i2cPort);
 
-    pixySystem = new PixySystem();
+    // pixySystem = new PixySystem();
 
     set = armRetractMotor.getSelectedSensorPosition();
   }
@@ -70,7 +70,7 @@ public class IntakeSystem extends SubsystemBase {
   }
 
   public void ExtendArmToPosition(double cm) {
-    double ec = convertToEncoderCounts(cm + 29);
+    double ec = convertToEncoderCounts(cm);
     armRetractMotor.set(TalonFXControlMode.MotionMagic, ec);
     set = cm;
   }
@@ -135,7 +135,7 @@ public class IntakeSystem extends SubsystemBase {
   }
 
   private double convertToEncoderCounts(double cm) {
-    return (cm + 29) * CONVERT_VALUE;
+    return (cm - 29) * CONVERT_VALUE;
   }
 
   @Override
@@ -145,10 +145,10 @@ public class IntakeSystem extends SubsystemBase {
       // SmartDashboard.putString("Object Type CV3", ObjectType());
       // SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
       
-      SmartDashboard.putNumber(
-        "ArmExtensionPositionCM", convertToCM(armRetractCANCoder.getPosition()));
     }else {
-
+      SmartDashboard.putNumber("ArmExtensionPositionCM", convertToCM(armRetractCANCoder.getPosition()));
+        SmartDashboard.putNumber("ArmExtendIntDC", armRetractMotor.getSelectedSensorPosition());
+        SmartDashboard.putNumber("ArmExtendIntCM", convertToCM(armRetractMotor.getSelectedSensorPosition()));
     }
   }
 }
