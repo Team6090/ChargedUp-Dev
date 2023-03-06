@@ -60,6 +60,8 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   private OperatorInterface oi = new OperatorInterface() {};
 
+  public AirCompressor airCompressor;
+
   public Drivetrain drivetrain;
 
   // use AdvantageKit's LoggedDashboardChooser instead of SendableChooser to ensure accurate logging
@@ -142,7 +144,7 @@ public class RobotContainer {
             SwerveModule brModule =
                 new SwerveModule(new SwerveModuleIOSim(), 3, MAX_VELOCITY_METERS_PER_SECOND);
             drivetrain = new Drivetrain(new AHRS(), flModule, frModule, blModule, brModule);
-            new AirCompressor();
+            airCompressor = new AirCompressor();
 
             break;
           }
@@ -165,7 +167,7 @@ public class RobotContainer {
       drivetrain =
           new Drivetrain(
               new AHRS(SPI.Port.kMXP, (byte) 200) {}, flModule, frModule, blModule, brModule);
-      new AirCompressor();
+      airCompressor = new AirCompressor();
     }
 
     // disable all telemetry in the LiveWindow to reduce the processing during each iteration
@@ -241,8 +243,13 @@ public class RobotContainer {
     // oi.RunCommandGroup().onTrue(new CommandTest(intakeSystem, pivotSystem));
 
     // Pivot
-    oi.PivotNeg().onTrue(new PivotMove(pivotSystem, 90, false));
-    // oi.PivotPos().onTrue(new PivotMove(pivotSystem, 48, false));
+    // oi.PivotNeg().onTrue(new PivotMove(pivotSystem, 105.5, false));
+    // oi.PivotPos().onTrue(new PivotMove(pivotSystem, 53, false));
+
+    oi.FrontPickup().onTrue(new PivotMove(pivotSystem, 53, false));
+    oi.BackPickup().onTrue(new PivotMove(pivotSystem, 328, false));
+    oi.SubStationPickup().onTrue(new PivotMove(pivotSystem, 105.5, false));
+    oi.HighScore().onTrue(new PivotMove(pivotSystem, 120, false));
 
     // oi.PivotNeg().whileTrue(new PivotArmO(pivotSystem, .1, true));
     // oi.PivotPos().whileTrue(new PivotArmO(pivotSystem, .1, false));
@@ -264,8 +271,8 @@ public class RobotContainer {
     // oi.ArmOut().whileTrue(new ExtendArmO(intakeSystem, .2));
 
     // Intake
-    oi.IntakeIn().whileTrue(new IntakeInOut(intakeSystem, 1, false, false));
-    oi.IntakeOut().whileTrue(new IntakeInOut(intakeSystem, 1, true, false));
+    oi.IntakeIn().whileTrue(new IntakeInOut(intakeSystem, .75, false, false));
+    oi.IntakeOut().whileTrue(new IntakeInOut(intakeSystem, .75, true, false));
     oi.OpenIntake().onTrue(new IntakeOpenClose(intakeSystem, true));
     oi.CloseIntake().onTrue(new IntakeOpenClose(intakeSystem, false));
   }

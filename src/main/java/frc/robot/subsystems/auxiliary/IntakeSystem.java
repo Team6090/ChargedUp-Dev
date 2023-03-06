@@ -26,6 +26,9 @@ public class IntakeSystem extends SubsystemBase {
 
   final double CONVERT_VALUE = 228.20996542875;
 
+  final double MIN_POSITION = 210;
+  final double MAX_POSITION = 10000;
+
   static final I2C.Port i2cPort = I2C.Port.kOnboard;
 
   // static ColorSensorV3 IntakeSensor;
@@ -39,7 +42,7 @@ public class IntakeSystem extends SubsystemBase {
   public IntakeSystem() {
 
     armRetractMotor = new TalonFX(DrivetrainConstants.ArmRetractionMotorID, "Aux");
-    armRetractMotor.setNeutralMode(NeutralMode.Coast);
+    armRetractMotor.setNeutralMode(NeutralMode.Brake);
     
     armRetractCANCoder = new CANCoder(DrivetrainConstants.ArmRetractionCANCoderID, "Aux");
 
@@ -63,20 +66,20 @@ public class IntakeSystem extends SubsystemBase {
     // pixySystem = new PixySystem();
 
     set = armRetractMotor.getSelectedSensorPosition();
+    armRetractCANCoder.setPosition(armRetractCANCoder.getAbsolutePosition());
   }
 
   public void ExtendArmPO(double power) {
     armRetractMotor.set(TalonFXControlMode.PercentOutput, power);
   }
 
-  public void ExtendArmToPosition(double cm) {
-    double ec = convertToEncoderCounts(cm);
+  public void ExtendArmToPosition(double ec) {
     armRetractMotor.set(TalonFXControlMode.MotionMagic, ec);
-    set = cm;
+    set = ec;
   }
 
   public double GetArmExtendedPosition() {
-    return convertToCM(armRetractMotor.getSelectedSensorPosition());
+    return armRetractMotor.getSelectedSensorPosition();
   }
 
   public void EnableIntakeSolenoid(boolean enable) {
@@ -130,13 +133,13 @@ public class IntakeSystem extends SubsystemBase {
   //   }
   // }
 
-  private double convertToCM(double ec) {
-    return (ec / CONVERT_VALUE) + 29;
-  }
+  // private double convertToCM(double ec) {
+  //   return 87.2 + .00334*ec -.00000000762*(ec*ec);
+  // }
 
-  private double convertToEncoderCounts(double cm) {
-    return (cm - 29) * CONVERT_VALUE;
-  }
+  // private double convertToEncoderCounts(double cm) {
+  //   return (cm - 29) * CONVERT_VALUE;
+  // }
 
   @Override
   public void periodic() {
@@ -146,9 +149,9 @@ public class IntakeSystem extends SubsystemBase {
       // SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
       
     }else {
-      SmartDashboard.putNumber("ArmExtensionPositionCM", convertToCM(armRetractCANCoder.getPosition()));
+      // SmartDashboard.putNumber("ArmExtensionPositionCM", convertToCM(armRetractCANCoder.getPosition()));
         SmartDashboard.putNumber("ArmExtendIntDC", armRetractMotor.getSelectedSensorPosition());
-        SmartDashboard.putNumber("ArmExtendIntCM", convertToCM(armRetractMotor.getSelectedSensorPosition()));
+        // SmartDashboard.putNumber("ArmExtendIntCM", convertToCM(armRetractMotor.getSelectedSensorPosition()));
     }
   }
 }

@@ -62,33 +62,33 @@ public interface OperatorInterface {
     return new Trigger(() -> primaryController.getRightBumper());
   }
 
-  public default Trigger PivotPos() {
-    return new Trigger(() -> auxController.getYButton());
-  }
+  // public default Trigger PivotPos() {
+  //   return new Trigger(() -> auxController.getYButton());
+  // }
 
-  public default Trigger PivotNeg() {
-    return new Trigger(() -> auxController.getAButton());
-  }
+  // public default Trigger PivotNeg() {
+  //   return new Trigger(() -> auxController.getAButton());
+  // }
 
-  public default Trigger RunCommandGroup() {
-    return new Trigger(() -> auxController.getAButton());
-  }
+  // public default Trigger RunCommandGroup() {
+  //   return new Trigger(() -> auxController.getAButton());
+  // }
 
-  public default Trigger ArmOut() {
-    return new Trigger(() -> auxController.getBButton());
-  }
+  // public default Trigger ArmOut() {
+  //   return new Trigger(() -> auxController.getBButton());
+  // }
 
-  public default Trigger ArmIn() {
-    return new Trigger(() -> auxController.getXButton());
-  }
+  // public default Trigger ArmIn() {
+  //   return new Trigger(() -> auxController.getXButton());
+  // }
 
-  public default Trigger HoldArm() {
-    return new Trigger(() -> auxController.getStartButton());
-  }
+  // public default Trigger HoldArm() {
+  //   return new Trigger(() -> auxController.getStartButton());
+  // }
 
-  public default Trigger ReleaseArm() {
-    return new Trigger(() -> auxController.getBackButton());
-  }
+  // public default Trigger ReleaseArm() {
+  //   return new Trigger(() -> auxController.getBackButton());
+  // }
 
   public default Trigger OpenIntake() {
     return new Trigger(() -> auxController.getRightBumper());
@@ -104,5 +104,18 @@ public interface OperatorInterface {
 
   public default Trigger IntakeOut() {
     return new Trigger(() -> primaryController.getYButton());
+  }
+
+  public default Trigger FrontPickup() {
+    return new Trigger(() -> auxController.getAButton());
+  }
+  public default Trigger SubStationPickup() {
+    return new Trigger(() -> auxController.getBButton());
+  }
+  public default Trigger BackPickup() {
+    return new Trigger(() -> auxController.getXButton());
+  }
+  public default Trigger HighScore() {
+    return new Trigger(() -> auxController.getYButton());
   }
 }

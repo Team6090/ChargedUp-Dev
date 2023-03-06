@@ -7,13 +7,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class AirCompressor extends SubsystemBase {
   Compressor m_compressor;
-  public static Solenoid open;
-  public static Solenoid close;
+  // public static Solenoid lockOpen;
+  // public static Solenoid lockClose;
   /** Creates a new Pneumatics. */
   public AirCompressor() {
     m_compressor = new Compressor(60, PneumaticsModuleType.REVPH);
-    close = new Solenoid(PneumaticsModuleType.REVPH, 2); // TODO: Make as External Subsystem as higher system
-    open = new Solenoid(PneumaticsModuleType.REVPH, 3);
+    // lockClose = new Solenoid(PneumaticsModuleType.REVPH, 2); // TODO: Make as External Subsystem as higher system
+    // lockOpen = new Solenoid(PneumaticsModuleType.REVPH, 3);
     m_compressor.enableDigital();
   }
 
@@ -34,10 +34,10 @@ public class AirCompressor extends SubsystemBase {
     m_compressor.disable();
   }
 
-  public static void extendLock(boolean enabled) {
-    open.set(!enabled);
-    close.set(enabled);
-  }
+  // public static void extendLock(boolean enabled) {
+  //   lockOpen.set(!enabled);
+  //   lockClose.set(enabled);
+  // }
 
   @Override
   public void periodic() {

@@ -6,32 +6,31 @@ import frc.robot.subsystems.auxiliary.IntakeSystem;
 
 public class ArmExtension extends CommandBase {
   IntakeSystem intakeSystem;
-  double cm;
+  double ec;
   boolean autonMode;
 
   double currentPos;
 
   boolean done = false;
 
-  public ArmExtension(IntakeSystem intakeSystem, double cm, boolean autonMode) {
+  public ArmExtension(IntakeSystem intakeSystem, double ec, boolean autonMode) {
     this.intakeSystem = intakeSystem;
-    this.cm = cm;
+    this.ec = ec;
     this.autonMode = autonMode;
-    cm = cm - 29;
 
     addRequirements(intakeSystem);
   }
 
   @Override
   public void initialize() {
-    intakeSystem.ExtendArmToPosition(cm);
+    intakeSystem.ExtendArmToPosition(ec);
   }
 
   @Override
   public void execute() {
     if (autonMode == true) {
       currentPos = intakeSystem.GetArmExtendedPosition();
-      if (currentPos > cm - 2 && currentPos < cm + 2) {
+      if (currentPos > ec - 100 && currentPos < ec + 100) {
         done = true;
         SmartDashboard.putBoolean("ExtendMoveDone", true);
       }
