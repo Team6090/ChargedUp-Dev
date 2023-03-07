@@ -2,6 +2,7 @@ package frc.robot.commands.subcommandsaux;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 
 public class ArmExtension extends CommandBase {
@@ -41,8 +42,9 @@ public class ArmExtension extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    done = false;
     if (autonMode == true) {
-      super.cancel();
+      
     } else {
       this.intakeSystem.ExtendArmPO(0);
     }

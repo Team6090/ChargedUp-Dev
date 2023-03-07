@@ -63,7 +63,7 @@ public final class SwerveModuleConstants {
   // FIXME: tune PID values for the angle and drive motors
 
   /* Angle Motor PID Values */
-  public static final double ANGLE_KP = 0.65;
+  public static final double ANGLE_KP = 0.6;
   public static final double ANGLE_KI = 0.0;
   public static final double ANGLE_KD = 2.0;
   public static final double ANGLE_KF = 0.0;

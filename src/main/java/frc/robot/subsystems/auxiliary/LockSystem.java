@@ -16,7 +16,7 @@ public class LockSystem extends SubsystemBase{
 
     public void extendLock(boolean enabled) {
         openLock.set(!enabled);
-        closeLock.set(enabled);
+        // closeLock.set(enabled);
     }
 
 }

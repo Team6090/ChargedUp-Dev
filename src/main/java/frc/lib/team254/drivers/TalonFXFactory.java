@@ -25,7 +25,7 @@ public class TalonFXFactory {
     public NeutralMode NEUTRAL_MODE = NeutralMode.Coast;
 
     // factory default
-    public double NEUTRAL_DEADBAND = 0.04;
+    public double NEUTRAL_DEADBAND = 0.01; //FIXME: Tune down to 0.01 to remove chatter
 
     public boolean ENABLE_SOFT_LIMIT = false;
     public boolean ENABLE_LIMIT_SWITCH = false;

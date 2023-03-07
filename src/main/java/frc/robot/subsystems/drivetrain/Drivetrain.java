@@ -342,6 +342,10 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
 
+    SmartDashboard.putNumber("Altitude", gyroIO.getAltitude());
+    SmartDashboard.putNumber("Pressure", gyroIO.getBarometricPressure());
+    SmartDashboard.putNumber("Temp", gyroIO.getTempC());
+
     // update and log gyro inputs
     // gyroIO.updateInputs(gyroInputs);
     // Logger.getInstance().processInputs("Drive/Gyro", gyroInputs);

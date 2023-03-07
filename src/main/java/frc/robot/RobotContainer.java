@@ -34,6 +34,13 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.autons.FeedForwardCharacterization;
 import frc.robot.commands.autons.FeedForwardCharacterization.FeedForwardCharacterizationData;
 import frc.robot.commands.pathplanner.FollowPath;
+import frc.robot.commands.robot.LockArmExtend;
+import frc.robot.commands.subautotele.HomePos;
+import frc.robot.commands.subautotele.pickup.PickupCNB;
+import frc.robot.commands.subautotele.pickup.PickupCNF;
+import frc.robot.commands.subautotele.score.cones.ScoreCN1;
+import frc.robot.commands.subautotele.score.cones.ScoreCN2;
+import frc.robot.commands.subautotele.score.cones.ScoreCN3;
 // import frc.robot.commands.subautotele.CommandTest;
 import frc.robot.commands.subcommandsaux.ArmHold;
 // import frc.robot.commands.subcommandsaux.ExtendArmO;
@@ -45,6 +52,7 @@ import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
 import frc.robot.subsystems.auxiliary.AirCompressor;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
+import frc.robot.subsystems.auxiliary.LockSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.limelight.Limelight;
@@ -72,6 +80,7 @@ public class RobotContainer {
   private static RobotContainer robotContainer = new RobotContainer();
   private PivotSystem pivotSystem = new PivotSystem();
   private IntakeSystem intakeSystem = new IntakeSystem();
+  // private LockSystem lockSystem = new LockSystem();
 
   /** Create the container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -145,7 +154,6 @@ public class RobotContainer {
                 new SwerveModule(new SwerveModuleIOSim(), 3, MAX_VELOCITY_METERS_PER_SECOND);
             drivetrain = new Drivetrain(new AHRS(), flModule, frModule, blModule, brModule);
             airCompressor = new AirCompressor();
-
             break;
           }
         default:
@@ -236,8 +244,8 @@ public class RobotContainer {
     // oi.alignToAprilTagLimelightX().onTrue(new AlignToAprilTagX(drivetrain));
     // oi.alignToAprilTagLimelightY().onTrue(new AlignToAprilTagY(drivetrain));
     // oi.AlignToAprilTagLimelightXY().onTrue(new AlignToAprilTagXY(drivetrain));
-    oi.Set0().onTrue(new LimelightPipeline(0));
-    oi.Set1().onTrue(new LimelightPipeline(1));
+    // oi.Set0().onTrue(new LimelightPipeline(0));
+    // oi.Set1().onTrue(new LimelightPipeline(1));
 
     // SubAutoTeleCommands
     // oi.RunCommandGroup().onTrue(new CommandTest(intakeSystem, pivotSystem));
@@ -246,10 +254,21 @@ public class RobotContainer {
     // oi.PivotNeg().onTrue(new PivotMove(pivotSystem, 105.5, false));
     // oi.PivotPos().onTrue(new PivotMove(pivotSystem, 53, false));
 
-    oi.FrontPickup().onTrue(new PivotMove(pivotSystem, 53, false));
-    oi.BackPickup().onTrue(new PivotMove(pivotSystem, 328, false));
-    oi.SubStationPickup().onTrue(new PivotMove(pivotSystem, 105.5, false));
-    oi.HighScore().onTrue(new PivotMove(pivotSystem, 120, false));
+    // oi.FrontPickup().onTrue(new PivotMove(pivotSystem, 53, false));
+    // oi.BackPickup().onTrue(new PivotMove(pivotSystem, 328, false));
+    // oi.SubStationPickup().onTrue(new PivotMove(pivotSystem, 105.5, false));
+    // oi.HighScore().onTrue(new PivotMove(pivotSystem, 120, false));
+
+    // oi.LockOff().onTrue(new LockArmExtend(lockSystem, false));
+    // oi.LockOn().onTrue(new LockArmExtend(lockSystem, true));
+
+    // oi.HighScore().onTrue(new ScoreCN3(intakeSystem, pivotSystem));
+    oi.MidScore().onTrue(new ScoreCN2(intakeSystem, pivotSystem));
+    // oi.LowScore().onTrue(new ScoreCN1(intakeSystem, pivotSystem)); 
+
+    oi.BackPickup().onTrue(new PickupCNB(intakeSystem, pivotSystem));
+    oi.FrontPickup().onTrue(new PickupCNF(intakeSystem, pivotSystem));
+    oi.HomePos().onTrue(new HomePos(intakeSystem, pivotSystem));
 
     // oi.PivotNeg().whileTrue(new PivotArmO(pivotSystem, .1, true));
     // oi.PivotPos().whileTrue(new PivotArmO(pivotSystem, .1, false));

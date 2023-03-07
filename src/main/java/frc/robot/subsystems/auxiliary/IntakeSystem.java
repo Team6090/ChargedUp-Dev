@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.SubsystemConstants;
+import frc.robot.subsystems.SubsystemConstants.Drivetrain;
 import frc.robot.subsystems.drivetrain.DrivetrainConstants;
 
 public class IntakeSystem extends SubsystemBase {
@@ -29,7 +30,7 @@ public class IntakeSystem extends SubsystemBase {
   final double MIN_POSITION = 210;
   final double MAX_POSITION = 10000;
 
-  static final I2C.Port i2cPort = I2C.Port.kOnboard;
+  // static final I2C.Port i2cPort = I2C.Port.kMXP;
 
   // static ColorSensorV3 IntakeSensor;
 
@@ -40,7 +41,6 @@ public class IntakeSystem extends SubsystemBase {
   CANCoder armRetractCANCoder;
 
   public IntakeSystem() {
-
     armRetractMotor = new TalonFX(DrivetrainConstants.ArmRetractionMotorID, "Aux");
     armRetractMotor.setNeutralMode(NeutralMode.Brake);
     
@@ -53,8 +53,8 @@ public class IntakeSystem extends SubsystemBase {
     armRetractMotor.config_kI(0, 0.00002, 2000);
     armRetractMotor.config_kD(0, 0.0, 2000);
     armRetractMotor.config_kF(0, 0.2, 2000);
-    armRetractMotor.configMotionCruiseVelocity(1500, 10);
-    armRetractMotor.configMotionAcceleration(1000, 10);
+    armRetractMotor.configMotionCruiseVelocity(1500, 10); // 1500, 10500
+    armRetractMotor.configMotionAcceleration(1000, 10); // 1000, 7000
 
     intakeMotor = new VictorSP(0);
 

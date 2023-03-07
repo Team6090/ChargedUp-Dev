@@ -54,13 +54,13 @@ public interface OperatorInterface {
   //   return new Trigger(() -> primaryController.getRightBumper());
   // }
 
-  public default Trigger Set0() {
-    return new Trigger(() -> primaryController.getLeftBumper());
-  }
+  // public default Trigger Set0() {
+  //   return new Trigger(() -> primaryController.getLeftBumper());
+  // }
 
-  public default Trigger Set1() {
-    return new Trigger(() -> primaryController.getRightBumper());
-  }
+  // public default Trigger Set1() {
+  //   return new Trigger(() -> primaryController.getRightBumper());
+  // }
 
   // public default Trigger PivotPos() {
   //   return new Trigger(() -> auxController.getYButton());
@@ -107,15 +107,31 @@ public interface OperatorInterface {
   }
 
   public default Trigger FrontPickup() {
-    return new Trigger(() -> auxController.getAButton());
-  }
-  public default Trigger SubStationPickup() {
     return new Trigger(() -> auxController.getBButton());
   }
   public default Trigger BackPickup() {
     return new Trigger(() -> auxController.getXButton());
   }
-  public default Trigger HighScore() {
-    return new Trigger(() -> auxController.getYButton());
+
+  public default Trigger HomePos() {
+    return new Trigger(() -> auxController.getBackButton());
+  }
+
+  // public default Trigger LowScore() {
+  //   return new Trigger(() -> auxController.getAButton());
+  // }
+  public default Trigger MidScore() {
+    return new Trigger(() -> auxController.getAButton());
+  }
+  // public default Trigger HighScore() {
+  //   return new Trigger(() -> primaryController.getYButton());
+  // }
+
+  public default Trigger LockOn() {
+    return new Trigger(() -> primaryController.getRightBumper());
+  }
+
+  public default Trigger LockOff() {
+    return new Trigger(() -> primaryController.getRightBumper());
   }
 }

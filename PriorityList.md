@@ -1,3 +1,3 @@
-# Extend Lock 
-# Place cone from home
+# Swerve PID Tuning
+# Limelight Offset and Differentiating between targets
 # 
