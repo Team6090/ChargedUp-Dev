@@ -45,9 +45,7 @@ public class AutoBalance extends CommandBase {
   }
 
   @Override
-  public void end(boolean interrupted) {
-    
-  }
+  public void end(boolean interrupted) {}
 
   private double deadband(double value, double deadband) {
     if (Math.abs(value) > deadband) {

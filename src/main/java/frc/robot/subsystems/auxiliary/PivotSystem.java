@@ -24,6 +24,8 @@ public class PivotSystem extends SubsystemBase {
 
   ArmFeedforward feedforward;
 
+  public int currentStage = 0;
+
   final double BOUND_LIMIT = 3000;
 
   public PivotSystem() {
@@ -137,7 +139,8 @@ public class PivotSystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (SubsystemConstants.Auxiliary.PIVOT_DEBUG == true) {
-      SmartDashboard.putNumber("PivotPositionDegrees", convertToDegrees(pivotMotorRight.getSelectedSensorPosition()));
+      SmartDashboard.putNumber(
+          "PivotPositionDegrees", convertToDegrees(pivotMotorRight.getSelectedSensorPosition()));
       SmartDashboard.putNumber("PivotPositionEC", pivotMotorRight.getSelectedSensorPosition());
       SmartDashboard.putBoolean("LimitSwitch", GetLimitSwitchOutput());
     } else {

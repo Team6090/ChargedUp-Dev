@@ -55,6 +55,16 @@ public class PixySystem {
     }
   }
 
+  public int GetCubeCount() {
+    int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG2, 25);
+    return blockCount;
+  }
+
+  public int GetConeCount() {
+    int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG1, 25);
+    return blockCount;
+  }
+
   public void GetCubes() {
     int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG2, 25);
     if (blockCount <= 0) {

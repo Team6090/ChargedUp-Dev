@@ -29,7 +29,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.team3061.swerve.SwerveModule;
 import frc.lib.team3061.util.RobotOdometry;
 import frc.lib.team6328.util.TunableNumber;
-import frc.robot.subsystems.auxiliary.PixySystem;
 import frc.robot.subsystems.limelight.Limelight;
 import org.littletonrobotics.junction.Logger;
 
@@ -41,8 +40,6 @@ import org.littletonrobotics.junction.Logger;
 public class Drivetrain extends SubsystemBase {
 
   public static AHRS gyroIO;
-
-  // public PixySystem pixySystem = new PixySystem();
 
   // private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
 
@@ -346,12 +343,12 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Pressure", gyroIO.getBarometricPressure());
     SmartDashboard.putNumber("Temp", gyroIO.getTempC());
 
+    SmartDashboard.putNumber("X", Limelight.GetX());
+    SmartDashboard.putNumber("Y", Limelight.GetY());
+
     // update and log gyro inputs
     // gyroIO.updateInputs(gyroInputs);
     // Logger.getInstance().processInputs("Drive/Gyro", gyroInputs);
-
-    // pixySystem.GetCones();
-    // pixySystem.GetCubes();
 
     // update and log the swerve moudles inputs
     for (SwerveModule swerveModule : swerveModules) {

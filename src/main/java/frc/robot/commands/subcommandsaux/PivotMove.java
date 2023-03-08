@@ -1,7 +1,6 @@
 package frc.robot.commands.subcommandsaux;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 
 public class PivotMove extends CommandBase {
@@ -43,7 +42,7 @@ public class PivotMove extends CommandBase {
   public void end(boolean interrupted) {
     done = false;
     if (autonMode == true) {
-      
+
     } else {
       this.pivotSystem.PivotArm(0, false);
     }
@@ -51,6 +50,6 @@ public class PivotMove extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return done; // NO TALK
+    return done;
   }
 }

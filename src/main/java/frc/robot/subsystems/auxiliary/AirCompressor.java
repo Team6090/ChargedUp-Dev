@@ -2,18 +2,13 @@ package frc.robot.subsystems.auxiliary;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class AirCompressor extends SubsystemBase {
   Compressor m_compressor;
-  // public static Solenoid lockOpen;
-  // public static Solenoid lockClose;
   /** Creates a new Pneumatics. */
   public AirCompressor() {
     m_compressor = new Compressor(60, PneumaticsModuleType.REVPH);
-    // lockClose = new Solenoid(PneumaticsModuleType.REVPH, 2); // TODO: Make as External Subsystem as higher system
-    // lockOpen = new Solenoid(PneumaticsModuleType.REVPH, 3);
     m_compressor.enableDigital();
   }
 
@@ -33,11 +28,6 @@ public class AirCompressor extends SubsystemBase {
   public void stopCompressor() {
     m_compressor.disable();
   }
-
-  // public static void extendLock(boolean enabled) {
-  //   lockOpen.set(!enabled);
-  //   lockClose.set(enabled);
-  // }
 
   @Override
   public void periodic() {

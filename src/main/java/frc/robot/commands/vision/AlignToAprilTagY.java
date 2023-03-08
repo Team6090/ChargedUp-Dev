@@ -7,7 +7,7 @@ import frc.robot.subsystems.limelight.Limelight;
 public class AlignToAprilTagY extends CommandBase {
 
   Drivetrain drivetrain;
-  double limelightX, limelightY, limelightV;
+  double limelightY, limelightV;
   boolean done = false;
 
   public AlignToAprilTagY(Drivetrain driveTrain) {
@@ -19,7 +19,6 @@ public class AlignToAprilTagY extends CommandBase {
   public void initialize() {
     drivetrain.drive(0, 0, 0);
 
-    limelightX = Limelight.GetX();
     limelightY = Limelight.GetY();
     limelightV = Limelight.GetV();
 
@@ -27,10 +26,10 @@ public class AlignToAprilTagY extends CommandBase {
       done = true;
     }
 
-    if (limelightY < 15) {
-      drivetrain.drive(0.5, 0, 0);
-    } else if (limelightY > 17) {
+    if (limelightY < -1.0) {
       drivetrain.drive(-0.5, 0, 0);
+    } else if (limelightY > 1.0) {
+      drivetrain.drive(0.5, 0, 0);
     }
   }
 
@@ -42,29 +41,18 @@ public class AlignToAprilTagY extends CommandBase {
       done = true;
     }
 
-    limelightX = Limelight.GetX();
     limelightY = Limelight.GetY();
     limelightV = Limelight.GetV();
 
-    while (limelightY > 17 || limelightY < 15) {
-
-      if (limelightV == 0) {
+      if (limelightY < 1.0 && limelightY > -1.0) {
         done = true;
       }
-
-      limelightX = Limelight.GetX();
-      limelightY = Limelight.GetY();
-      limelightV = Limelight.GetV();
-
-      if (limelightY < 17 && limelightY > 15) {
-        done = true;
-      }
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    done = false;
     this.drivetrain.stop();
     super.end(interrupted);
   }

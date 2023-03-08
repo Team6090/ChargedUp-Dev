@@ -106,25 +106,12 @@ public interface OperatorInterface {
     return new Trigger(() -> primaryController.getYButton());
   }
 
-  public default Trigger FrontPickup() {
-    return new Trigger(() -> auxController.getBButton());
-  }
-  public default Trigger BackPickup() {
-    return new Trigger(() -> auxController.getXButton());
-  }
-
-  public default Trigger HomePos() {
-    return new Trigger(() -> auxController.getBackButton());
-  }
-
-  // public default Trigger LowScore() {
-  //   return new Trigger(() -> auxController.getAButton());
+  // public default Trigger FrontPickup() {
+  //   return new Trigger(() -> auxController.getBButton());
   // }
-  public default Trigger MidScore() {
-    return new Trigger(() -> auxController.getAButton());
-  }
-  // public default Trigger HighScore() {
-  //   return new Trigger(() -> primaryController.getYButton());
+
+  // public default Trigger BackPickup() {
+  //   return new Trigger(() -> auxController.getXButton());
   // }
 
   public default Trigger LockOn() {
@@ -132,6 +119,26 @@ public interface OperatorInterface {
   }
 
   public default Trigger LockOff() {
+    return new Trigger(() -> primaryController.getRightBumper());
+  }
+
+  public default Trigger HomePos() {
+    return new Trigger(() -> auxController.getBButton());
+  }
+
+  public default Trigger LowScore() {
+    return new Trigger(() -> auxController.getAButton());
+  }
+
+  public default Trigger MidScore() {
+    return new Trigger(() -> auxController.getXButton());
+  }
+
+  public default Trigger HighScore() {
+    return new Trigger(() -> primaryController.getYButton());
+  }
+
+  public default Trigger Score() {
     return new Trigger(() -> primaryController.getRightBumper());
   }
 }

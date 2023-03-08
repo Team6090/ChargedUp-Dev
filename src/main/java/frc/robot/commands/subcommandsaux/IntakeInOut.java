@@ -28,14 +28,14 @@ public class IntakeInOut extends CommandBase {
   public void execute() {
     intakeSystem.IntakeOn(power, reversed);
 
-    // if (autonMode == true) {
+    if (autonMode == true) {
 
-    //   if (intakeSystem.ObjectInIntake() == false) {
-    //     done = true;
-    //   }
-    // } else {
-    //   // done = true;
-    // }
+      if (intakeSystem.ObjectInIntake() == false) { // AutoTele Object Removed
+        done = true;
+      }
+    } else {
+
+    }
   }
 
   @Override
@@ -46,6 +46,7 @@ public class IntakeInOut extends CommandBase {
 
   @Override
   public boolean isFinished() {
+    done = false;
     if (autonMode == true) {
       return done;
     } else {

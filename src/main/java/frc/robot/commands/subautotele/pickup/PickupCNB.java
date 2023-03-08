@@ -7,13 +7,11 @@ import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 
 public class PickupCNB extends SequentialCommandGroup {
-    
-    public PickupCNB(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
-        addCommands(
-            new ArmExtension(intakeSystem, 400, true),
-            new PivotMove(pivotSystem, 328.53, true),
-            new ArmExtension(intakeSystem, 6550, true)
-        );
-    }
 
+  public PickupCNB(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+    addCommands(
+        new ArmExtension(intakeSystem, 400, true),
+        new PivotMove(pivotSystem, 328.53, true),
+        new ArmExtension(intakeSystem, 6550, true));
+  }
 }

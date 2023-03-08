@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.SubsystemConstants;
-import frc.robot.subsystems.SubsystemConstants.Drivetrain;
 import frc.robot.subsystems.drivetrain.DrivetrainConstants;
 
 public class IntakeSystem extends SubsystemBase {
@@ -25,16 +24,18 @@ public class IntakeSystem extends SubsystemBase {
   Solenoid intakeSolenoidOff;
   double set;
 
+  public int currentObject = 0; // 0: No Object, 1: Cone, 2: Cube
+
   final double CONVERT_VALUE = 228.20996542875;
 
   final double MIN_POSITION = 210;
   final double MAX_POSITION = 10000;
 
-  // static final I2C.Port i2cPort = I2C.Port.kMXP;
+  static final I2C.Port i2cPort = I2C.Port.kMXP;
 
-  // static ColorSensorV3 IntakeSensor;
+  static ColorSensorV3 IntakeSensor;
 
-  // PixySystem pixySystem;
+  PixySystem pixySystem;
 
   boolean isIntakeSolenoidEnabled;
 
@@ -43,7 +44,7 @@ public class IntakeSystem extends SubsystemBase {
   public IntakeSystem() {
     armRetractMotor = new TalonFX(DrivetrainConstants.ArmRetractionMotorID, "Aux");
     armRetractMotor.setNeutralMode(NeutralMode.Brake);
-    
+
     armRetractCANCoder = new CANCoder(DrivetrainConstants.ArmRetractionCANCoderID, "Aux");
 
     armRetractMotor.configRemoteFeedbackFilter(armRetractCANCoder, 0);
@@ -53,17 +54,17 @@ public class IntakeSystem extends SubsystemBase {
     armRetractMotor.config_kI(0, 0.00002, 2000);
     armRetractMotor.config_kD(0, 0.0, 2000);
     armRetractMotor.config_kF(0, 0.2, 2000);
-    armRetractMotor.configMotionCruiseVelocity(1500, 10); // 1500, 10500
-    armRetractMotor.configMotionAcceleration(1000, 10); // 1000, 7000
+    armRetractMotor.configMotionCruiseVelocity(10500, 10); // 1500, 10500
+    armRetractMotor.configMotionAcceleration(7000, 10); // 1000, 7000
 
     intakeMotor = new VictorSP(0);
 
     intakeSolenoidOn = new Solenoid(60, PneumaticsModuleType.REVPH, 0);
     intakeSolenoidOff = new Solenoid(60, PneumaticsModuleType.REVPH, 1);
 
-    // IntakeSensor = new ColorSensorV3(i2cPort);
+    IntakeSensor = new ColorSensorV3(i2cPort);
 
-    // pixySystem = new PixySystem();
+    pixySystem = new PixySystem();
 
     set = armRetractMotor.getSelectedSensorPosition();
     armRetractCANCoder.setPosition(armRetractCANCoder.getAbsolutePosition());
@@ -112,13 +113,36 @@ public class IntakeSystem extends SubsystemBase {
     intakeMotor.set(0);
   }
 
-  // public boolean ObjectInIntake() {
-  //   double prox = IntakeSensor.getProximity();
-  //   if (prox > 100) {
-  //     return true;
+  public boolean ObjectInIntake() {
+    double prox = IntakeSensor.getProximity();
+    if (prox > 100) {
+      return true;
+    }
+    return false;
+  }
+
+  // public int ObjectType() {
+  //   if (ObjectInIntake()) {
+  //     Color intakeSensorColor = IntakeSensor.getColor();
+  //     if (intakeSensorColor.blue > intakeSensorColor.green
+  //         || intakeSensorColor.blue > intakeSensorColor.red) {
+  //       return 2;
+  //     }
+  //     return 1;
+  //   } else {
+  //     return 0;
   //   }
-  //   return false;
   // }
+
+  public int ObjectType() {
+    if (pixySystem.GetConeCount() == 0 && pixySystem.GetCubeCount() == 0) {
+      return 0;
+    }else if(pixySystem.GetConeCount() > pixySystem.GetCubeCount()) {
+      return 1;
+    } else {
+      return 2;
+    }
+  }
 
   // public String ObjectType() {
   //   if (ObjectInIntake()) {
@@ -147,11 +171,16 @@ public class IntakeSystem extends SubsystemBase {
       // SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
       // SmartDashboard.putString("Object Type CV3", ObjectType());
       // SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
-      
-    }else {
-      // SmartDashboard.putNumber("ArmExtensionPositionCM", convertToCM(armRetractCANCoder.getPosition()));
-        SmartDashboard.putNumber("ArmExtendIntDC", armRetractMotor.getSelectedSensorPosition());
-        // SmartDashboard.putNumber("ArmExtendIntCM", convertToCM(armRetractMotor.getSelectedSensorPosition()));
+
+    } else {
+      // SmartDashboard.putNumber("ArmExtensionPositionCM",
+      // convertToCM(armRetractCANCoder.getPosition()));
+      SmartDashboard.putNumber("ArmExtendIntDC", armRetractMotor.getSelectedSensorPosition());
+      // SmartDashboard.putNumber("ArmExtendIntCM",
+      // convertToCM(armRetractMotor.getSelectedSensorPosition()));
+
     }
+    currentObject = ObjectType();
+    SmartDashboard.putNumber("ObjectType", currentObject); // Change to command call
   }
 }

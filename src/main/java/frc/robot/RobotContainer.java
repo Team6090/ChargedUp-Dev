@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+// import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.team3061.swerve.SwerveModule;
 import frc.lib.team3061.swerve.SwerveModuleIO;
 import frc.lib.team3061.swerve.SwerveModuleIOSim;
@@ -34,29 +34,36 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.autons.FeedForwardCharacterization;
 import frc.robot.commands.autons.FeedForwardCharacterization.FeedForwardCharacterizationData;
 import frc.robot.commands.pathplanner.FollowPath;
-import frc.robot.commands.robot.LockArmExtend;
-import frc.robot.commands.subautotele.HomePos;
-import frc.robot.commands.subautotele.pickup.PickupCNB;
-import frc.robot.commands.subautotele.pickup.PickupCNF;
-import frc.robot.commands.subautotele.score.cones.ScoreCN1;
-import frc.robot.commands.subautotele.score.cones.ScoreCN2;
 import frc.robot.commands.subautotele.score.cones.ScoreCN3;
+// import frc.robot.commands.robot.LockArmExtend;
+// import frc.robot.commands.subautotele.pickup.PickupCNB;
+// import frc.robot.commands.subautotele.pickup.PickupCNF;
+// import frc.robot.commands.subautotele.score.cones.ScoreCN1;
+// import frc.robot.commands.subautotele.score.cones.ScoreCN2;
+// import frc.robot.commands.subautotele.score.cones.ScoreCN3;
 // import frc.robot.commands.subautotele.CommandTest;
-import frc.robot.commands.subcommandsaux.ArmHold;
+// import frc.robot.commands.subcommandsaux.ArmHold;
 // import frc.robot.commands.subcommandsaux.ExtendArmO;
 import frc.robot.commands.subcommandsaux.IntakeInOut;
 import frc.robot.commands.subcommandsaux.IntakeOpenClose;
-import frc.robot.commands.subcommandsaux.PivotArmO;
-import frc.robot.commands.subcommandsaux.PivotMove;
+// import frc.robot.commands.subcommandsaux.PivotArmO;
+// import frc.robot.commands.subcommandsaux.PivotMove;
+import frc.robot.commands.teleop.ScoreController;
+import frc.robot.commands.teleop.StageController;
+import frc.robot.commands.teleop.stage.HomePos;
+import frc.robot.commands.teleop.stage.cone.ConeStage3;
+import frc.robot.commands.vision.AlignToAprilTagX;
+import frc.robot.commands.vision.AlignToAprilTagY;
+// import frc.robot.commands.teleop.stage.HomePos;
 import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
 import frc.robot.subsystems.auxiliary.AirCompressor;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-import frc.robot.subsystems.auxiliary.LockSystem;
+// import frc.robot.subsystems.auxiliary.LockSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.limelight.Limelight;
-import frc.robot.subsystems.limelight.LimelightPipeline;
+// import frc.robot.subsystems.limelight.LimelightPipeline;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -262,13 +269,25 @@ public class RobotContainer {
     // oi.LockOff().onTrue(new LockArmExtend(lockSystem, false));
     // oi.LockOn().onTrue(new LockArmExtend(lockSystem, true));
 
-    // oi.HighScore().onTrue(new ScoreCN3(intakeSystem, pivotSystem));
-    oi.MidScore().onTrue(new ScoreCN2(intakeSystem, pivotSystem));
-    // oi.LowScore().onTrue(new ScoreCN1(intakeSystem, pivotSystem)); 
+    // oi.BackPickup().onTrue(new PickupCNB(intakeSystem, pivotSystem));
+    // oi.FrontPickup().onTrue(new PickupCNF(intakeSystem, pivotSystem));
 
-    oi.BackPickup().onTrue(new PickupCNB(intakeSystem, pivotSystem));
-    oi.FrontPickup().onTrue(new PickupCNF(intakeSystem, pivotSystem));
-    oi.HomePos().onTrue(new HomePos(intakeSystem, pivotSystem));
+    // oi.LowScore().onTrue(new ConeStage3(intakeSystem, pivotSystem));
+    // oi.HomePos().onTrue(new HomePos(intakeSystem, pivotSystem));
+
+    // oi.LowScore().onTrue(new AlignToAprilTagX(drivetrain)); //FIXME: Remove
+    // oi.HomePos().onTrue(new AlignToAprilTagY(drivetrain)); //FIXME: Remove
+
+    // Auto TeleOp CommandGroups
+    // oi.HighScore().onTrue(new StageController(intakeSystem, pivotSystem, 3));
+    // oi.MidScore().onTrue(new StageController(intakeSystem, pivotSystem, 2));
+    // oi.LowScore().onTrue(new StageController(intakeSystem, pivotSystem, 1));
+    // oi.HomePos().onTrue(new StageController(intakeSystem, pivotSystem, 0));
+
+    // oi.Score().onTrue(new ScoreController(intakeSystem, pivotSystem));
+
+    oi.Score().onTrue(new ScoreCN3(intakeSystem, pivotSystem));
+
 
     // oi.PivotNeg().whileTrue(new PivotArmO(pivotSystem, .1, true));
     // oi.PivotPos().whileTrue(new PivotArmO(pivotSystem, .1, false));
@@ -290,8 +309,8 @@ public class RobotContainer {
     // oi.ArmOut().whileTrue(new ExtendArmO(intakeSystem, .2));
 
     // Intake
-    oi.IntakeIn().whileTrue(new IntakeInOut(intakeSystem, .75, false, false));
-    oi.IntakeOut().whileTrue(new IntakeInOut(intakeSystem, .75, true, false));
+    // oi.IntakeIn().whileTrue(new IntakeInOut(intakeSystem, .75, false, false));
+    // oi.IntakeOut().whileTrue(new IntakeInOut(intakeSystem, .75, true, false));
     oi.OpenIntake().onTrue(new IntakeOpenClose(intakeSystem, true));
     oi.CloseIntake().onTrue(new IntakeOpenClose(intakeSystem, false));
   }

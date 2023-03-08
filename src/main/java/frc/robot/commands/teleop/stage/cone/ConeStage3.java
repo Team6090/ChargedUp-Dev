@@ -1,0 +1,20 @@
+package frc.robot.commands.teleop.stage.cone;
+
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.subcommandsaux.ArmExtension;
+import frc.robot.commands.subcommandsaux.PivotMove;
+import frc.robot.subsystems.auxiliary.IntakeSystem;
+import frc.robot.subsystems.auxiliary.PivotSystem;
+
+public class ConeStage3 extends SequentialCommandGroup {
+
+  public ConeStage3(IntakeSystem intakeSystem, PivotSystem pivotSystem) { // HomePos to HighPole
+
+    pivotSystem.currentStage = 3;
+
+    addCommands(
+        new ArmExtension(intakeSystem, 500, true),
+        new PivotMove(pivotSystem, 114.73, true), // 113.73
+        new ArmExtension(intakeSystem, 25515, true)); // 25515
+  }
+}

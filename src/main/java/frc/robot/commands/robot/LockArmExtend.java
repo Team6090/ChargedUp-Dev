@@ -4,37 +4,34 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.auxiliary.LockSystem;
 
 public class LockArmExtend extends CommandBase {
-    
-    LockSystem lockSystem;
-    boolean enabled;
-    boolean done = false;
 
-    public LockArmExtend(LockSystem lockSystem, boolean enabled) {
-        this.lockSystem = lockSystem;
-        this.enabled = enabled;
+  LockSystem lockSystem;
+  boolean enabled;
+  boolean done = false;
 
-        addRequirements(lockSystem);
-    }
+  public LockArmExtend(LockSystem lockSystem, boolean enabled) {
+    this.lockSystem = lockSystem;
+    this.enabled = enabled;
 
-    @Override
-    public void initialize() {
-        lockSystem.extendLock(enabled);
-        done = true;
-    }
+    addRequirements(lockSystem);
+  }
 
-    @Override
-    public void execute() {
-        
-    }
+  @Override
+  public void initialize() {
+    lockSystem.extendLock(enabled);
+    done = true;
+  }
 
-    @Override
-    public void end(boolean interrupted) {
-        super.end(interrupted);
-    }
+  @Override
+  public void execute() {}
 
-    @Override
-    public boolean isFinished() {
-        return done;
-    }
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+  }
 
+  @Override
+  public boolean isFinished() {
+    return done;
+  }
 }

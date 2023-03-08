@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.team6328.util.Alert;
 import frc.lib.team6328.util.Alert.AlertType;
-import frc.robot.commands.robot.LockArmExtend;
-import frc.robot.subsystems.auxiliary.LockSystem;
+// import frc.robot.commands.robot.LockArmExtend;
+// import frc.robot.subsystems.auxiliary.LockSystem;
 import frc.robot.subsystems.limelight.Limelight;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -41,7 +41,6 @@ public class Robot extends LoggedRobot {
    * This method is executed when the code first starts running on the robot and should be used for
    * any initialization code.
    */
-
   @Override
   public void disabledInit() {
     // lockSystem.extendLock(true);
@@ -129,8 +128,6 @@ public class Robot extends LoggedRobot {
     // Invoke the factory method to create the RobotContainer singleton.
     robotContainer = RobotContainer.getInstance();
   }
-
-  
 
   /**
    * This method is called every robot packet, no matter the mode. Use this for items like
