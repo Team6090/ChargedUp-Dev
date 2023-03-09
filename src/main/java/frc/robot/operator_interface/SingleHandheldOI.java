@@ -15,33 +15,33 @@ public class SingleHandheldOI implements OperatorInterface {
     controller = new XboxController(port);
   }
 
-  @Override
-  public double getTranslateX() {
-    return -controller.getLeftY();
-  }
+  // @Override
+  // public double getTranslateX() {
+  //   return -controller.getLeftY();
+  // }
 
-  @Override
-  public double getTranslateY() {
-    return -controller.getLeftX();
-  }
+  // @Override
+  // public double getTranslateY() {
+  //   return -controller.getLeftX();
+  // }
 
-  @Override
-  public double getRotate() {
-    return -controller.getLeftTriggerAxis();
-  }
+  // @Override
+  // public double getRotate() {
+  //   return -controller.getLeftTriggerAxis();
+  // }
 
-  @Override
-  public Trigger getFieldRelativeButton() {
-    return new Trigger(controller::getBButton);
-  }
+  // @Override
+  // public Trigger getFieldRelativeButton() {
+  //   return new Trigger(controller::getBButton);
+  // }
 
-  @Override
-  public Trigger getResetGyroButton() {
-    return new Trigger(controller::getStartButton);
-  }
+  // @Override
+  // public Trigger getResetGyroButton() {
+  //   return new Trigger(controller::getStartButton);
+  // }
 
-  @Override
-  public Trigger getXStanceButton() {
-    return new Trigger(controller::getYButton);
-  }
+  // @Override
+  // public Trigger getXStanceButton() {
+  //   return new Trigger(controller::getYButton);
+  // }
 }

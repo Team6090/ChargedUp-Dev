@@ -1,5 +1,9 @@
 package frc.robot.subsystems.auxiliary;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -11,7 +15,6 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.SubsystemConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainConstants;
@@ -24,7 +27,9 @@ public class IntakeSystem extends SubsystemBase {
   Solenoid intakeSolenoidOff;
   double set;
 
-  public int currentObject = 0; // 0: No Object, 1: Cone, 2: Cube
+  PrintStream printStream;
+
+  // public int currentObject = 0; // 0: No Object, 1: Cone, 2: Cube
 
   final double CONVERT_VALUE = 228.20996542875;
 
@@ -50,12 +55,12 @@ public class IntakeSystem extends SubsystemBase {
     armRetractMotor.configRemoteFeedbackFilter(armRetractCANCoder, 0);
     armRetractMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.RemoteSensor0, 0, 2000);
     armRetractMotor.selectProfileSlot(0, 0);
-    armRetractMotor.config_kP(0, 0.2, 2000);
+    armRetractMotor.config_kP(0, 0.8, 2000);
     armRetractMotor.config_kI(0, 0.00002, 2000);
     armRetractMotor.config_kD(0, 0.0, 2000);
     armRetractMotor.config_kF(0, 0.2, 2000);
     armRetractMotor.configMotionCruiseVelocity(10500, 10); // 1500, 10500
-    armRetractMotor.configMotionAcceleration(7000, 10); // 1000, 7000
+    armRetractMotor.configMotionAcceleration(10000, 10); // 1000, 7000
 
     intakeMotor = new VictorSP(0);
 
@@ -137,7 +142,7 @@ public class IntakeSystem extends SubsystemBase {
   public int ObjectType() {
     if (pixySystem.GetConeCount() == 0 && pixySystem.GetCubeCount() == 0) {
       return 0;
-    }else if(pixySystem.GetConeCount() > pixySystem.GetCubeCount()) {
+    } else if (pixySystem.GetConeCount() > pixySystem.GetCubeCount()) {
       return 1;
     } else {
       return 2;
@@ -167,6 +172,7 @@ public class IntakeSystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Set", set);
     if (SubsystemConstants.Auxiliary.INTAKE_DEBUG == true) {
       // SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
       // SmartDashboard.putString("Object Type CV3", ObjectType());
@@ -180,7 +186,16 @@ public class IntakeSystem extends SubsystemBase {
       // convertToCM(armRetractMotor.getSelectedSensorPosition()));
 
     }
-    currentObject = ObjectType();
-    SmartDashboard.putNumber("ObjectType", currentObject); // Change to command call
+    // currentObject = ObjectType();
+    // SmartDashboard.putNumber("ObjectType", currentObject); // Change to command call
+    if (printStream == null) {
+      try {
+        printStream = new PrintStream(new File("/home/lvuser", "pid.csv"));
+      } catch (FileNotFoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+    printStream.println(set + "," + armRetractMotor.getSelectedSensorPosition());
   }
 }

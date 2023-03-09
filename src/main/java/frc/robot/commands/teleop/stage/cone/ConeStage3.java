@@ -10,7 +10,7 @@ public class ConeStage3 extends SequentialCommandGroup {
 
   public ConeStage3(IntakeSystem intakeSystem, PivotSystem pivotSystem) { // HomePos to HighPole
 
-    pivotSystem.currentStage = 3;
+    pivotSystem.SetCurrentStage(3);
 
     addCommands(
         new ArmExtension(intakeSystem, 500, true),

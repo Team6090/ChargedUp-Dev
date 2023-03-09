@@ -34,7 +34,10 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.autons.FeedForwardCharacterization;
 import frc.robot.commands.autons.FeedForwardCharacterization.FeedForwardCharacterizationData;
 import frc.robot.commands.pathplanner.FollowPath;
+import frc.robot.commands.subautotele.score.cones.ScoreCN2;
 import frc.robot.commands.subautotele.score.cones.ScoreCN3;
+import frc.robot.commands.subcommandsaux.ArmExtension;
+import frc.robot.commands.subcommandsaux.IntakeInOut;
 // import frc.robot.commands.robot.LockArmExtend;
 // import frc.robot.commands.subautotele.pickup.PickupCNB;
 // import frc.robot.commands.subautotele.pickup.PickupCNF;
@@ -44,16 +47,11 @@ import frc.robot.commands.subautotele.score.cones.ScoreCN3;
 // import frc.robot.commands.subautotele.CommandTest;
 // import frc.robot.commands.subcommandsaux.ArmHold;
 // import frc.robot.commands.subcommandsaux.ExtendArmO;
-import frc.robot.commands.subcommandsaux.IntakeInOut;
 import frc.robot.commands.subcommandsaux.IntakeOpenClose;
-// import frc.robot.commands.subcommandsaux.PivotArmO;
-// import frc.robot.commands.subcommandsaux.PivotMove;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
-import frc.robot.commands.teleop.stage.HomePos;
-import frc.robot.commands.teleop.stage.cone.ConeStage3;
-import frc.robot.commands.vision.AlignToAprilTagX;
-import frc.robot.commands.vision.AlignToAprilTagY;
+// import frc.robot.commands.subcommandsaux.PivotArmO;
+// import frc.robot.commands.subcommandsaux.PivotMove;
 // import frc.robot.commands.teleop.stage.HomePos;
 import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
@@ -216,7 +214,7 @@ public class RobotContainer {
      * and the left joystick's x axis specifies the velocity in the y direction.
      */
     drivetrain.setDefaultCommand(
-        new TeleopSwerve(drivetrain, oi::getTranslateX, oi::getTranslateY, oi::getRotate));
+        new TeleopSwerve(drivetrain, oi::PrimaryLeftStickYAxis, oi::PrimaryLeftStickXAxis, oi::PrimaryRightStickXAxis));
 
     configureButtonBindings();
   }
@@ -232,87 +230,27 @@ public class RobotContainer {
 
   /** Use this method to define your button->command mappings. */
   private void configureButtonBindings() {
-    // field-relative toggle
-    oi.getFieldRelativeButton()
-        .toggleOnTrue(
-            Commands.either(
-                Commands.runOnce(drivetrain::disableFieldRelative, drivetrain),
-                Commands.runOnce(drivetrain::enableFieldRelative, drivetrain),
-                drivetrain::getFieldRelative));
+    // Primary Controller
+    oi.PrimaryA().onTrue(new StageController(intakeSystem, pivotSystem, 1));
+    oi.PrimaryB().onTrue(new StageController(intakeSystem, pivotSystem, 0));
+    oi.PrimaryX().onTrue(new StageController(intakeSystem, pivotSystem, 2));
+    oi.PrimaryY().onTrue(new StageController(intakeSystem, pivotSystem, 3));
 
-    // reset gyro to 0 degrees
-    oi.getResetGyroButton().onTrue(Commands.runOnce(drivetrain::zeroGyroscope, drivetrain));
+    oi.PrimaryBack().onTrue(Commands.runOnce(drivetrain::zeroGyroscope, drivetrain));
+    oi.PrimaryStart(); // Empty
 
-    // x-stance
-    oi.getXStanceButton().onTrue(Commands.runOnce(drivetrain::enableXstance, drivetrain));
-    oi.getXStanceButton().onFalse(Commands.runOnce(drivetrain::disableXstance, drivetrain));
+    oi.PrimaryPOV90();  // Empty
+    oi.PrimaryPOV180(); // Back Pickup Command
+    oi.PrimaryPOV270(); // Station Pickup Command
+    oi.PrimaryPOV360(); // Front Pickup Command
 
-    // Limelight
-    // oi.alignToAprilTagLimelightX().onTrue(new AlignToAprilTagX(drivetrain));
-    // oi.alignToAprilTagLimelightY().onTrue(new AlignToAprilTagY(drivetrain));
-    // oi.AlignToAprilTagLimelightXY().onTrue(new AlignToAprilTagXY(drivetrain));
-    // oi.Set0().onTrue(new LimelightPipeline(0));
-    // oi.Set1().onTrue(new LimelightPipeline(1));
+    oi.PrimaryLeftBumper().onTrue(new IntakeInOut(intakeSystem, .75, false, false));
+    oi.PrimaryRightBumper().onTrue(new ScoreController(intakeSystem, pivotSystem));
+    // End
 
-    // SubAutoTeleCommands
-    // oi.RunCommandGroup().onTrue(new CommandTest(intakeSystem, pivotSystem));
-
-    // Pivot
-    // oi.PivotNeg().onTrue(new PivotMove(pivotSystem, 105.5, false));
-    // oi.PivotPos().onTrue(new PivotMove(pivotSystem, 53, false));
-
-    // oi.FrontPickup().onTrue(new PivotMove(pivotSystem, 53, false));
-    // oi.BackPickup().onTrue(new PivotMove(pivotSystem, 328, false));
-    // oi.SubStationPickup().onTrue(new PivotMove(pivotSystem, 105.5, false));
-    // oi.HighScore().onTrue(new PivotMove(pivotSystem, 120, false));
-
-    // oi.LockOff().onTrue(new LockArmExtend(lockSystem, false));
-    // oi.LockOn().onTrue(new LockArmExtend(lockSystem, true));
-
-    // oi.BackPickup().onTrue(new PickupCNB(intakeSystem, pivotSystem));
-    // oi.FrontPickup().onTrue(new PickupCNF(intakeSystem, pivotSystem));
-
-    // oi.LowScore().onTrue(new ConeStage3(intakeSystem, pivotSystem));
-    // oi.HomePos().onTrue(new HomePos(intakeSystem, pivotSystem));
-
-    // oi.LowScore().onTrue(new AlignToAprilTagX(drivetrain)); //FIXME: Remove
-    // oi.HomePos().onTrue(new AlignToAprilTagY(drivetrain)); //FIXME: Remove
-
-    // Auto TeleOp CommandGroups
-    // oi.HighScore().onTrue(new StageController(intakeSystem, pivotSystem, 3));
-    // oi.MidScore().onTrue(new StageController(intakeSystem, pivotSystem, 2));
-    // oi.LowScore().onTrue(new StageController(intakeSystem, pivotSystem, 1));
-    // oi.HomePos().onTrue(new StageController(intakeSystem, pivotSystem, 0));
-
-    // oi.Score().onTrue(new ScoreController(intakeSystem, pivotSystem));
-
-    oi.Score().onTrue(new ScoreCN3(intakeSystem, pivotSystem));
-
-
-    // oi.PivotNeg().whileTrue(new PivotArmO(pivotSystem, .1, true));
-    // oi.PivotPos().whileTrue(new PivotArmO(pivotSystem, .1, false));
-    // oi.PivotNeg().onFalse(new ArmHold(pivotSystem, true));
-    // oi.PivotPos().onFalse(new ArmHold(pivotSystem, true));
-    // Trigger s = new Trigger(oi.PivotNeg().and(oi.PivotPos()));
-    // Trigger n = new Trigger(oi.PivotNeg().or(oi.PivotPos()));
-    // s.onFalse(new ArmHold(pivotSystem, true));
-    // n.onTrue(new ArmHold(pivotSystem, false));
-    // Hold Pivot
-    // oi.HoldArm().onTrue(new ArmHold(pivotSystem, true));
-    // oi.ReleaseArm().onTrue(new ArmHold(pivotSystem, false));
-
-    // Extension
-    // oi.ArmIn().onTrue(new ArmExtension(intakeSystem, 0, false));
-    // oi.ArmOut().onTrue(new ArmExtension(intakeSystem, 62, false));
-
-    // oi.ArmIn().whileTrue(new ExtendArmO(intakeSystem, -.2));
-    // oi.ArmOut().whileTrue(new ExtendArmO(intakeSystem, .2));
-
-    // Intake
-    // oi.IntakeIn().whileTrue(new IntakeInOut(intakeSystem, .75, false, false));
-    // oi.IntakeOut().whileTrue(new IntakeInOut(intakeSystem, .75, true, false));
-    oi.OpenIntake().onTrue(new IntakeOpenClose(intakeSystem, true));
-    oi.CloseIntake().onTrue(new IntakeOpenClose(intakeSystem, false));
+    // Override Controller
+    oi.OverrideExtendArm().onTrue(new ScoreCN2(intakeSystem, pivotSystem));
+    oi.OverrideRetractArm().onTrue(new ArmExtension(intakeSystem, 500, true));
   }
 
   private PathPlannerTrajectory GenerateTrajectoryFromPath(

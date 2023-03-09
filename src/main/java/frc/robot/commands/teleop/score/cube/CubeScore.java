@@ -10,8 +10,6 @@ public class CubeScore extends SequentialCommandGroup {
 
   public CubeScore(IntakeSystem intakeSystem, PivotSystem pivotSystem) { // At hover height
     addCommands(
-        new IntakeInOut(intakeSystem, .75, false, true),
-        new HomePos(intakeSystem, pivotSystem)
-    );
+        new IntakeInOut(intakeSystem, .75, false, true), new HomePos(intakeSystem, pivotSystem));
   }
 }

@@ -9,24 +9,28 @@ import frc.robot.subsystems.auxiliary.PivotSystem;
 public class HomePos extends SequentialCommandGroup {
 
   public HomePos(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
-    int currentObject = intakeSystem.currentObject;
-    pivotSystem.currentStage = 0;
+    int currentObject = intakeSystem.ObjectType();
+    pivotSystem.SetCurrentStage(0);
 
     switch (currentObject) {
       case 0:
-        addCommands(new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
-      break;
+        addCommands(
+            new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
+        break;
 
       case 1:
-        addCommands(new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
-      break;
+        addCommands(
+            new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
+        break;
 
       case 2:
-        addCommands(new ArmExtension(intakeSystem, 587, true), new PivotMove(pivotSystem, 39.375, true));
-      break;
+        addCommands(
+            new ArmExtension(intakeSystem, 587, true), new PivotMove(pivotSystem, 39.375, true));
+        break;
 
       default:
-        addCommands(new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
+        addCommands(
+            new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
     }
 
     addCommands(new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));

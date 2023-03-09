@@ -9,136 +9,95 @@
 package frc.robot.operator_interface;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-/** Interface for all driver and operator controls. */
 public interface OperatorInterface {
 
+  // Primary Controller
   XboxController primaryController = new XboxController(0);
 
-  XboxController auxController = new XboxController(1);
-
-  public default double getTranslateX() {
-    return primaryController.getLeftY();
-  }
-
-  public default double getTranslateY() {
-    return primaryController.getLeftX();
-  }
-
-  public default double getRotate() {
-    return primaryController.getRightX();
-  }
-
-  public default Trigger getFieldRelativeButton() {
-    return new Trigger(() -> primaryController.getBButton());
-  }
-
-  public default Trigger getResetGyroButton() {
-    return new Trigger(() -> primaryController.getBackButton());
-  }
-
-  public default Trigger getXStanceButton() {
+  public default Trigger PrimaryA() {
     return new Trigger(() -> primaryController.getAButton());
   }
 
-  // public default Trigger alignToAprilTagLimelightX() {
-  //   return new Trigger(() -> primaryController.getXButton());
-  // }
-
-  // public default Trigger alignToAprilTagLimelightY() {
-  //   return new Trigger(() -> primaryController.getYButton());
-  // }
-
-  // public default Trigger AlignToAprilTagLimelightXY() {
-  //   return new Trigger(() -> primaryController.getRightBumper());
-  // }
-
-  // public default Trigger Set0() {
-  //   return new Trigger(() -> primaryController.getLeftBumper());
-  // }
-
-  // public default Trigger Set1() {
-  //   return new Trigger(() -> primaryController.getRightBumper());
-  // }
-
-  // public default Trigger PivotPos() {
-  //   return new Trigger(() -> auxController.getYButton());
-  // }
-
-  // public default Trigger PivotNeg() {
-  //   return new Trigger(() -> auxController.getAButton());
-  // }
-
-  // public default Trigger RunCommandGroup() {
-  //   return new Trigger(() -> auxController.getAButton());
-  // }
-
-  // public default Trigger ArmOut() {
-  //   return new Trigger(() -> auxController.getBButton());
-  // }
-
-  // public default Trigger ArmIn() {
-  //   return new Trigger(() -> auxController.getXButton());
-  // }
-
-  // public default Trigger HoldArm() {
-  //   return new Trigger(() -> auxController.getStartButton());
-  // }
-
-  // public default Trigger ReleaseArm() {
-  //   return new Trigger(() -> auxController.getBackButton());
-  // }
-
-  public default Trigger OpenIntake() {
-    return new Trigger(() -> auxController.getRightBumper());
+  public default Trigger PrimaryB() {
+    return new Trigger(() -> primaryController.getBButton());
   }
 
-  public default Trigger CloseIntake() {
-    return new Trigger(() -> auxController.getLeftBumper());
-  }
-
-  public default Trigger IntakeIn() {
+  public default Trigger PrimaryX() {
     return new Trigger(() -> primaryController.getXButton());
   }
 
-  public default Trigger IntakeOut() {
+  public default Trigger PrimaryY() {
     return new Trigger(() -> primaryController.getYButton());
   }
 
-  // public default Trigger FrontPickup() {
-  //   return new Trigger(() -> auxController.getBButton());
-  // }
+  public default Trigger PrimaryStart() {
+    return new Trigger(() -> primaryController.getStartButton());
+  }
 
-  // public default Trigger BackPickup() {
-  //   return new Trigger(() -> auxController.getXButton());
-  // }
+  public default Trigger PrimaryBack() {
+    return new Trigger(() -> primaryController.getBackButton());
+  }
 
-  public default Trigger LockOn() {
+  public default POVButton PrimaryPOV90() {
+    return new POVButton(primaryController, 90);
+  }
+
+  public default POVButton PrimaryPOV180() {
+    return new POVButton(primaryController, 180);
+  }
+
+  public default POVButton PrimaryPOV270() {
+    return new POVButton(primaryController, 270);
+  }
+
+  public default POVButton PrimaryPOV360() {
+    return new POVButton(primaryController, 360);
+  }
+
+  public default double PrimaryLeftStickXAxis() {
+    return primaryController.getLeftX();
+  }
+
+  public default double PrimaryLeftStickYAxis() {
+    return primaryController.getLeftY();
+  }
+
+  public default double PrimaryRightStickXAxis() {
+    return primaryController.getRightX();
+  }
+
+  public default double PrimaryRightStickYAxis() {
+    return primaryController.getRightY();
+  }
+
+  public default Trigger PrimaryLeftBumper() {
+    return new Trigger(() -> primaryController.getLeftBumper());
+  }
+
+  public default Trigger PrimaryRightBumper() {
     return new Trigger(() -> primaryController.getRightBumper());
   }
 
-  public default Trigger LockOff() {
-    return new Trigger(() -> primaryController.getRightBumper());
+  public default double PrimaryLeftTrigger() {
+    return primaryController.getLeftTriggerAxis();
   }
 
-  public default Trigger HomePos() {
-    return new Trigger(() -> auxController.getBButton());
+  public default double PrimaryRightTrigger() {
+    return primaryController.getRightTriggerAxis();
+  }
+  // End
+
+  // Override Controller
+  XboxController overrideController = new XboxController(1);
+
+  public default Trigger OverrideExtendArm() {
+    return new Trigger(() -> overrideController.getAButton());
   }
 
-  public default Trigger LowScore() {
-    return new Trigger(() -> auxController.getAButton());
-  }
-
-  public default Trigger MidScore() {
-    return new Trigger(() -> auxController.getXButton());
-  }
-
-  public default Trigger HighScore() {
-    return new Trigger(() -> primaryController.getYButton());
-  }
-
-  public default Trigger Score() {
-    return new Trigger(() -> primaryController.getRightBumper());
+  public default Trigger OverrideRetractArm() {
+    return new Trigger(() -> overrideController.getBButton());
   }
 }

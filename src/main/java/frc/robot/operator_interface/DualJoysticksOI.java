@@ -29,33 +29,33 @@ public class DualJoysticksOI implements OperatorInterface {
     }
   }
 
-  @Override
-  public double getTranslateX() {
-    return -translateJoystick.getY();
-  }
+  // @Override
+  // public double getTranslateX() {
+  //   return -translateJoystick.getY();
+  // }
 
-  @Override
-  public double getTranslateY() {
-    return -translateJoystick.getX();
-  }
+  // @Override
+  // public double getTranslateY() {
+  //   return -translateJoystick.getX();
+  // }
 
-  @Override
-  public double getRotate() {
-    return -rotateJoystick.getX();
-  }
+  // @Override
+  // public double getRotate() {
+  //   return -rotateJoystick.getX();
+  // }
 
-  @Override
-  public Trigger getFieldRelativeButton() {
-    return translateJoystickButtons[3];
-  }
+  // @Override
+  // public Trigger getFieldRelativeButton() {
+  //   return translateJoystickButtons[3];
+  // }
 
-  @Override
-  public Trigger getResetGyroButton() {
-    return rotateJoystickButtons[3];
-  }
+  // @Override
+  // public Trigger getResetGyroButton() {
+  //   return rotateJoystickButtons[3];
+  // }
 
-  @Override
-  public Trigger getXStanceButton() {
-    return translateJoystickButtons[1];
-  }
+  // @Override
+  // public Trigger getXStanceButton() {
+  //   return translateJoystickButtons[1];
+  // }
 }

@@ -44,9 +44,9 @@ public class AlignToAprilTagY extends CommandBase {
     limelightY = Limelight.GetY();
     limelightV = Limelight.GetV();
 
-      if (limelightY < 1.0 && limelightY > -1.0) {
-        done = true;
-      }
+    if (limelightY < 1.0 && limelightY > -1.0) {
+      done = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
