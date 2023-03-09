@@ -12,14 +12,14 @@ public class ScoreCN1 extends SequentialCommandGroup {
 
   public ScoreCN1(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
     addCommands(
-        new ArmExtension(intakeSystem, 400, true),
+        new ArmExtension(intakeSystem, 150, true),
         new PivotMove(pivotSystem, 60, true),
         new ArmExtension(intakeSystem, 6000, true),
         new WaitCommand(.25),
         new IntakeOpenClose(intakeSystem, false),
         new WaitCommand(.25),
         new IntakeOpenClose(intakeSystem, true),
-        new ArmExtension(intakeSystem, 400, true),
+        new ArmExtension(intakeSystem, 150, true),
         new PivotMove(pivotSystem, 30, true));
   }
 }

@@ -36,6 +36,8 @@ import frc.robot.commands.autons.FeedForwardCharacterization.FeedForwardCharacte
 import frc.robot.commands.pathplanner.FollowPath;
 import frc.robot.commands.subautotele.score.cones.ScoreCN2;
 import frc.robot.commands.subautotele.score.cones.ScoreCN3;
+import frc.robot.commands.subautotele.score.cubes.ScoreCB2;
+import frc.robot.commands.subautotele.score.cubes.ScoreCB3;
 import frc.robot.commands.subcommandsaux.ArmExtension;
 import frc.robot.commands.subcommandsaux.IntakeInOut;
 // import frc.robot.commands.robot.LockArmExtend;
@@ -50,6 +52,7 @@ import frc.robot.commands.subcommandsaux.IntakeInOut;
 import frc.robot.commands.subcommandsaux.IntakeOpenClose;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
+import frc.robot.commands.teleop.stage.cube.CubeStage3;
 // import frc.robot.commands.subcommandsaux.PivotArmO;
 // import frc.robot.commands.subcommandsaux.PivotMove;
 // import frc.robot.commands.teleop.stage.HomePos;
@@ -233,8 +236,8 @@ public class RobotContainer {
     // Primary Controller
     oi.PrimaryA().onTrue(new StageController(intakeSystem, pivotSystem, 1));
     oi.PrimaryB().onTrue(new StageController(intakeSystem, pivotSystem, 0));
-    oi.PrimaryX().onTrue(new StageController(intakeSystem, pivotSystem, 2));
-    oi.PrimaryY().onTrue(new StageController(intakeSystem, pivotSystem, 3));
+    oi.PrimaryX().onTrue(new ScoreCB2(intakeSystem, pivotSystem));//new StageController(intakeSystem, pivotSystem, 2));
+    oi.PrimaryY().onTrue(new ScoreCB3(intakeSystem, pivotSystem));//new StageController(intakeSystem, pivotSystem, 3));
 
     oi.PrimaryBack().onTrue(Commands.runOnce(drivetrain::zeroGyroscope, drivetrain));
     oi.PrimaryStart(); // Empty
@@ -249,8 +252,8 @@ public class RobotContainer {
     // End
 
     // Override Controller
-    oi.OverrideExtendArm().onTrue(new ScoreCN2(intakeSystem, pivotSystem));
-    oi.OverrideRetractArm().onTrue(new ArmExtension(intakeSystem, 500, true));
+    oi.OverrideExtendArm().onTrue(new IntakeOpenClose(intakeSystem, true));
+    oi.OverrideRetractArm().onTrue(new IntakeOpenClose(intakeSystem, false));
   }
 
   private PathPlannerTrajectory GenerateTrajectoryFromPath(

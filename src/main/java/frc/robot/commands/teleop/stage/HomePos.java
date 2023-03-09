@@ -15,12 +15,12 @@ public class HomePos extends SequentialCommandGroup {
     switch (currentObject) {
       case 0:
         addCommands(
-            new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
+            new ArmExtension(intakeSystem, 150, true), new PivotMove(pivotSystem, 30, true));
         break;
 
       case 1:
         addCommands(
-            new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
+            new ArmExtension(intakeSystem, 150, true), new PivotMove(pivotSystem, 30, true));
         break;
 
       case 2:
@@ -30,9 +30,9 @@ public class HomePos extends SequentialCommandGroup {
 
       default:
         addCommands(
-            new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
+            new ArmExtension(intakeSystem, 150, true), new PivotMove(pivotSystem, 30, true));
     }
 
-    addCommands(new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
+    addCommands(new ArmExtension(intakeSystem, 150, true), new PivotMove(pivotSystem, 30, true));
   }
 }
