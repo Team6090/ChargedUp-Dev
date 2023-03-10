@@ -1,7 +1,5 @@
 package frc.robot.commands.teleop;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.subcommandsaux.SetCurrentStage;
 import frc.robot.commands.teleop.stage.HomePos;
@@ -18,6 +16,7 @@ public class StageController extends SequentialCommandGroup {
 
   public StageController(IntakeSystem intakeSystem, PivotSystem pivotSystem, int setStageLocation) {
     int currentObject = intakeSystem.ObjectType();
+
 
     switch (currentObject) {
       case 0:
@@ -44,7 +43,8 @@ public class StageController extends SequentialCommandGroup {
 
           default:
             addCommands(new HomePos(intakeSystem, pivotSystem), new SetCurrentStage(pivotSystem, setStageLocation));
-        }
+          break;
+          }
         break;
 
       case 2:
@@ -67,11 +67,13 @@ public class StageController extends SequentialCommandGroup {
 
           default:
             addCommands(new HomePos(intakeSystem, pivotSystem), new SetCurrentStage(pivotSystem, setStageLocation));
-        }
+          break;
+          }
         break;
 
       default:
         addCommands(new HomePos(intakeSystem, pivotSystem), new SetCurrentStage(pivotSystem, setStageLocation));
+        break;
     }
   }
 }

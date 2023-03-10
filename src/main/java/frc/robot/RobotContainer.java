@@ -7,6 +7,11 @@ package frc.robot;
 import static frc.robot.Constants.*;
 import static frc.robot.subsystems.drivetrain.DrivetrainConstants.*;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
@@ -15,6 +20,8 @@ import com.pathplanner.lib.PathPoint;
 // import com.pathplanner.lib.commands.FollowPathWithEvents;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -34,6 +41,8 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.autons.FeedForwardCharacterization;
 import frc.robot.commands.autons.FeedForwardCharacterization.FeedForwardCharacterizationData;
 import frc.robot.commands.pathplanner.FollowPath;
+import frc.robot.commands.subautotele.pickup.PickupCNB;
+import frc.robot.commands.subautotele.pickup.PickupCNF;
 import frc.robot.commands.subautotele.score.cones.ScoreCN2;
 import frc.robot.commands.subautotele.score.cones.ScoreCN3;
 import frc.robot.commands.subcommandsaux.ArmExtension;
@@ -216,6 +225,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(
         new TeleopSwerve(drivetrain, oi::PrimaryLeftStickYAxis, oi::PrimaryLeftStickXAxis, oi::PrimaryRightStickXAxis));
 
+        
     configureButtonBindings();
   }
 
@@ -230,27 +240,28 @@ public class RobotContainer {
 
   /** Use this method to define your button->command mappings. */
   private void configureButtonBindings() {
+
     // Primary Controller
     oi.PrimaryA().onTrue(new StageController(intakeSystem, pivotSystem, 1));
-    oi.PrimaryB().onTrue(new StageController(intakeSystem, pivotSystem, 0));
     oi.PrimaryX().onTrue(new StageController(intakeSystem, pivotSystem, 2));
     oi.PrimaryY().onTrue(new StageController(intakeSystem, pivotSystem, 3));
+    oi.PrimaryB().onTrue(new StageController(intakeSystem, pivotSystem, 0));
 
     oi.PrimaryBack().onTrue(Commands.runOnce(drivetrain::zeroGyroscope, drivetrain));
     oi.PrimaryStart(); // Empty
 
+    oi.PrimaryPOV0().onTrue(new PickupCNF(intakeSystem, pivotSystem)); // Front Pickup Command
     oi.PrimaryPOV90();  // Empty
-    oi.PrimaryPOV180(); // Back Pickup Command
+    oi.PrimaryPOV180().onTrue(new PickupCNB(intakeSystem, pivotSystem)); // Back Pickup Command
     oi.PrimaryPOV270(); // Station Pickup Command
-    oi.PrimaryPOV360(); // Front Pickup Command
 
-    oi.PrimaryLeftBumper().onTrue(new IntakeInOut(intakeSystem, .75, false, false));
-    oi.PrimaryRightBumper().onTrue(new ScoreController(intakeSystem, pivotSystem));
+    oi.PrimaryLeftBumper().whileTrue(new IntakeInOut(intakeSystem, .75, false)); //FIXME: Broken Code
+    oi.PrimaryRightBumper().onTrue(new ScoreController(intakeSystem, pivotSystem)); // Cast Command into a runable function
     // End
 
     // Override Controller
-    oi.OverrideExtendArm().onTrue(new ScoreCN2(intakeSystem, pivotSystem));
-    oi.OverrideRetractArm().onTrue(new ArmExtension(intakeSystem, 500, true));
+    // oi.OverrideExtendArm().whileTrue(new IntakeInOut(intakeSystem, 1, false));
+    // oi.OverrideRetractArm().whileTrue(new IntakeInOut(intakeSystem, 1, true));
   }
 
   private PathPlannerTrajectory GenerateTrajectoryFromPath(

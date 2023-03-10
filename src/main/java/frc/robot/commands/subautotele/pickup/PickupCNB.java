@@ -11,7 +11,7 @@ public class PickupCNB extends SequentialCommandGroup {
   public PickupCNB(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
     addCommands(
         new ArmExtension(intakeSystem, 400, true),
-        new PivotMove(pivotSystem, 328.53, true),
-        new ArmExtension(intakeSystem, 6550, true));
+        new PivotMove(pivotSystem, 325.53, true),
+        new ArmExtension(intakeSystem, 6800, true));
   }
 }

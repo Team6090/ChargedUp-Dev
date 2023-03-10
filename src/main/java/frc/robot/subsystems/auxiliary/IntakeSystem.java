@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.SubsystemConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainConstants;
@@ -26,6 +28,8 @@ public class IntakeSystem extends SubsystemBase {
   Solenoid intakeSolenoidOn;
   Solenoid intakeSolenoidOff;
   double set;
+
+  int currentObject;
 
   PrintStream printStream;
 
@@ -72,7 +76,7 @@ public class IntakeSystem extends SubsystemBase {
     pixySystem = new PixySystem();
 
     set = armRetractMotor.getSelectedSensorPosition();
-    armRetractCANCoder.setPosition(armRetractCANCoder.getAbsolutePosition());
+    // armRetractCANCoder.setPosition(armRetractCANCoder.getAbsolutePosition());
   }
 
   public void ExtendArmPO(double power) {
@@ -126,28 +130,28 @@ public class IntakeSystem extends SubsystemBase {
     return false;
   }
 
-  // public int ObjectType() {
-  //   if (ObjectInIntake()) {
-  //     Color intakeSensorColor = IntakeSensor.getColor();
-  //     if (intakeSensorColor.blue > intakeSensorColor.green
-  //         || intakeSensorColor.blue > intakeSensorColor.red) {
-  //       return 2;
-  //     }
-  //     return 1;
-  //   } else {
-  //     return 0;
-  //   }
-  // }
-
   public int ObjectType() {
-    if (pixySystem.GetConeCount() == 0 && pixySystem.GetCubeCount() == 0) {
-      return 0;
-    } else if (pixySystem.GetConeCount() > pixySystem.GetCubeCount()) {
+    if (ObjectInIntake()) {
+      Color intakeSensorColor = IntakeSensor.getColor();
+      if (intakeSensorColor.blue > intakeSensorColor.green
+          || intakeSensorColor.blue > intakeSensorColor.red) {
+        return 2;
+      }
       return 1;
     } else {
-      return 2;
+      return 0;
     }
   }
+
+  // public int ObjectType() {
+  //   if (pixySystem.GetConeCount() == 0 && pixySystem.GetCubeCount() == 0) {
+  //     return 0;
+  //   } else if (pixySystem.GetConeCount() > pixySystem.GetCubeCount()) {
+  //     return 1;
+  //   } else {
+  //     return 2;
+  //   }
+  // }
 
   // public String ObjectType() {
   //   if (ObjectInIntake()) {
@@ -174,11 +178,11 @@ public class IntakeSystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Set", set);
     if (SubsystemConstants.Auxiliary.INTAKE_DEBUG == true) {
-      // SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
-      // SmartDashboard.putString("Object Type CV3", ObjectType());
-      // SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
-
+      
     } else {
+      SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
+      SmartDashboard.putNumber("Object Type CV3", ObjectType());
+      SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
       // SmartDashboard.putNumber("ArmExtensionPositionCM",
       // convertToCM(armRetractCANCoder.getPosition()));
       SmartDashboard.putNumber("ArmExtendIntDC", armRetractMotor.getSelectedSensorPosition());

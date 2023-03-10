@@ -1,38 +1,47 @@
 package frc.robot.commands.teleop.stage;
 
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.subcommandsaux.ArmExtension;
 import frc.robot.commands.subcommandsaux.PivotMove;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 
-public class HomePos extends SequentialCommandGroup {
+public class HomePos extends CommandBase {
+
+  IntakeSystem intakeSystem;
+  PivotSystem pivotSystem;
 
   public HomePos(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+    this.intakeSystem = intakeSystem;
+    this.pivotSystem = pivotSystem;
+
+    addRequirements(intakeSystem, pivotSystem);
+  }
+
+  @Override
+  public void initialize() {
     int currentObject = intakeSystem.ObjectType();
     pivotSystem.SetCurrentStage(0);
-
     switch (currentObject) {
       case 0:
-        addCommands(
-            new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
-        break;
+        Commands.sequence(new ArmExtension(intakeSystem, 600, true), new PivotMove(pivotSystem, 30, true)).schedule();
+      break;
 
       case 1:
-        addCommands(
-            new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
-        break;
+        Commands.sequence(new ArmExtension(intakeSystem, 600, true), new PivotMove(pivotSystem, 30, true)).schedule();
+      break;
 
       case 2:
-        addCommands(
-            new ArmExtension(intakeSystem, 587, true), new PivotMove(pivotSystem, 39.375, true));
-        break;
+        Commands.sequence(new ArmExtension(intakeSystem, 600, true), new PivotMove(pivotSystem, 42, true)).schedule();
+      break;
 
       default:
-        addCommands(
-            new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
+        Commands.sequence(new ArmExtension(intakeSystem, 600, true), new PivotMove(pivotSystem, 30, true)).schedule();
+      break;
     }
-
-    addCommands(new ArmExtension(intakeSystem, 400, true), new PivotMove(pivotSystem, 30, true));
   }
+
 }

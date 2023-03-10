@@ -146,7 +146,7 @@ public class PivotSystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("CurrentStage", currentStage);
+    SmartDashboard.putNumber("WriteStage", currentStage);
     if (SubsystemConstants.Auxiliary.PIVOT_DEBUG == true) {
       SmartDashboard.putNumber(
           "PivotPositionDegrees", convertToDegrees(pivotMotorRight.getSelectedSensorPosition()));

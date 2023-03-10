@@ -1,8 +1,11 @@
 package frc.robot.commands.teleop;
 
+import java.sql.Time;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.subcommandsaux.GetCurrentStage;
 import frc.robot.commands.teleop.score.cone.ConeScore1;
@@ -13,61 +16,84 @@ import frc.robot.commands.teleop.stage.HomePos;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 
-public class ScoreController extends SequentialCommandGroup {
+public class ScoreController extends CommandBase {
+
+  IntakeSystem intakeSystem;
+  PivotSystem pivotSystem;
+  int currentStage;
+  int currentObject;
 
   public ScoreController(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
-    // int currentStage = pivotSystem.GetCurrentStage();
-    int currentObject = intakeSystem.ObjectType();
-    
-    GetCurrentStage getCurrentStage = new GetCurrentStage(pivotSystem);
-    int currentStage = getCurrentStage.getStage();
-    SmartDashboard.putNumber("Stage", currentStage);
+      this.intakeSystem = intakeSystem;
+      this.pivotSystem = pivotSystem;
+
+      addRequirements(intakeSystem, pivotSystem);
+  }
+
+  @Override
+  public void initialize() {
+    currentStage = pivotSystem.currentStage;
+    SmartDashboard.putNumber("ReadStage", currentStage);
+
+    currentObject = intakeSystem.ObjectType();
+    SmartDashboard.putNumber("ReadObject", currentObject);
 
     switch (currentObject) {
-      case 0:
-        addCommands(new HomePos(intakeSystem, pivotSystem));
-        break;
+      case 0: // No Object
+        new HomePos(intakeSystem, pivotSystem).schedule();
+      break;
 
-      case 1:
-        switch (currentStage) { // Cone
-          case 0:
-            addCommands(new HomePos(intakeSystem, pivotSystem));
-            break;
-
-          case 1:
-            addCommands(new ConeScore1(intakeSystem, pivotSystem));
-            break;
-
-          case 2:
-            addCommands(new ConeScore2(intakeSystem, pivotSystem));
-            break;
-
-          case 3:
-            addCommands(new ConeScore3(intakeSystem, pivotSystem));
-            break;
-
-          default:
-            addCommands(new HomePos(intakeSystem, pivotSystem));
-        }
-        break;
-
-      case 2:
+      case 1: // Cone
         switch (currentStage) {
           case 0:
-            addCommands(new HomePos(intakeSystem, pivotSystem));
-            break;
+            new HomePos(intakeSystem, pivotSystem).schedule();
+          break;
 
           case 1:
-            addCommands(new CubeScore(intakeSystem, pivotSystem));
-            break;
+            new ConeScore1(intakeSystem, pivotSystem).schedule();
+          break;
 
-          default:
-            addCommands(new HomePos(intakeSystem, pivotSystem));
+          case 2:
+            new ConeScore2(intakeSystem, pivotSystem).schedule();
+          break;
+
+          case 3:
+            new ConeScore3(intakeSystem, pivotSystem).schedule();
+          break;
+
+          // default:
+          //   new HomePos(intakeSystem, pivotSystem).schedule();
+          // break;
         }
         break;
 
-      default:
-        addCommands(new HomePos(intakeSystem, pivotSystem));
+      case 2: // Cube
+        switch (currentStage) {
+          case 0:
+            new HomePos(intakeSystem, pivotSystem).schedule();
+          break;
+
+          case 1:
+            new CubeScore(intakeSystem, pivotSystem).schedule();
+          break;
+
+          case 2:
+            new CubeScore(intakeSystem, pivotSystem).schedule();
+          break;
+
+          case 3:
+            new CubeScore(intakeSystem, pivotSystem).schedule();
+          break;
+
+          // default:
+          //   new HomePos(intakeSystem, pivotSystem).schedule();
+          // break;
+        }
+        break;
+
+      // default:
+      //   new HomePos(intakeSystem, pivotSystem).schedule();
+      //   break;
     }
   }
 }

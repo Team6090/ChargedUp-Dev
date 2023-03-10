@@ -13,7 +13,7 @@ public class ScoreCB1 extends SequentialCommandGroup {
   public ScoreCB1(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
     addCommands(
         new PivotMove(pivotSystem, 40, true),
-        new IntakeInOut(intakeSystem, 1, true, true),
+        // new IntakeInOut(intakeSystem, 1, true, true),
         new WaitCommand(.1),
         new IntakeOpenClose(intakeSystem, true),
         new WaitCommand(.1),

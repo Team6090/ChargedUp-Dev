@@ -40,6 +40,10 @@ public interface OperatorInterface {
   public default Trigger PrimaryBack() {
     return new Trigger(() -> primaryController.getBackButton());
   }
+  
+  public default POVButton PrimaryPOV0() {
+    return new POVButton(primaryController, 0);
+  }
 
   public default POVButton PrimaryPOV90() {
     return new POVButton(primaryController, 90);
@@ -51,10 +55,6 @@ public interface OperatorInterface {
 
   public default POVButton PrimaryPOV270() {
     return new POVButton(primaryController, 270);
-  }
-
-  public default POVButton PrimaryPOV360() {
-    return new POVButton(primaryController, 360);
   }
 
   public default double PrimaryLeftStickXAxis() {

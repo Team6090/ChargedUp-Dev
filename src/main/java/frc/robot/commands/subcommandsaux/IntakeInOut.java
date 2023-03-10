@@ -12,45 +12,34 @@ public class IntakeInOut extends CommandBase {
 
   boolean done;
 
-  public IntakeInOut(IntakeSystem intakeSystem, double power, boolean reversed, boolean autonMode) {
+  public IntakeInOut(IntakeSystem intakeSystem, double power, boolean reversed) {
     this.intakeSystem = intakeSystem;
     this.power = power;
     this.reversed = reversed;
-    this.autonMode = autonMode;
 
     addRequirements(intakeSystem);
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
 
-  @Override
+  }
+
+  @Override 
   public void execute() {
     intakeSystem.IntakeOn(power, reversed);
-
-    if (autonMode == true) {
-
-      if (intakeSystem.ObjectInIntake() == false) { // AutoTele Object Removed
-        done = true;
-      }
-    } else {
-
-    }
   }
 
   @Override
   public void end(boolean interrupted) {
     intakeSystem.IntakeOff();
-    super.end(interrupted);
   }
 
   @Override
   public boolean isFinished() {
-    done = false;
-    if (autonMode == true) {
-      return done;
-    } else {
-      return false;
-    }
+    return false;
   }
+
+
+
 }

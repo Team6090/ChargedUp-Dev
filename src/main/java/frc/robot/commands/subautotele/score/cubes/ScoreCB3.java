@@ -15,7 +15,7 @@ public class ScoreCB3 extends SequentialCommandGroup {
     addCommands(
         new PivotMove(pivotSystem, 110, true),
         new ArmExtension(intakeSystem, 75, true),
-        new IntakeInOut(intakeSystem, 1, true, true),
+        // new IntakeInOut(intakeSystem, 1, true, true),
         new ArmExtension(intakeSystem, 0, true),
         new WaitCommand(.1),
         new IntakeOpenClose(intakeSystem, true),
