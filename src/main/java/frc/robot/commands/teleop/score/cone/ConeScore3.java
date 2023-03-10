@@ -17,7 +17,7 @@ public class ConeScore3 extends SequentialCommandGroup {
         new WaitCommand(.1),
         new IntakeOpenClose(intakeSystem, false),
         new WaitCommand(.1),
-        new ArmExtension(intakeSystem, 500, true),
+        new ArmExtension(intakeSystem, 150, true),
         new IntakeOpenClose(intakeSystem, true),
         new PivotMove(pivotSystem, 30, true));
   }

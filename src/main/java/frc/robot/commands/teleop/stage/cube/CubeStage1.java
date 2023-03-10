@@ -10,7 +10,7 @@ public class CubeStage1 extends SequentialCommandGroup {
 
   public CubeStage1(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
     addCommands(
-        new ArmExtension(intakeSystem, 500, true),
+        new ArmExtension(intakeSystem, 150, true),
         new PivotMove(pivotSystem, 60, true),
         new ArmExtension(intakeSystem, 6000, true));
   }
