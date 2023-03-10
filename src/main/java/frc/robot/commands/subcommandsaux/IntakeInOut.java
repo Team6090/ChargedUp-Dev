@@ -21,11 +21,9 @@ public class IntakeInOut extends CommandBase {
   }
 
   @Override
-  public void initialize() {
+  public void initialize() {}
 
-  }
-
-  @Override 
+  @Override
   public void execute() {
     intakeSystem.IntakeOn(power, reversed);
   }
@@ -39,7 +37,4 @@ public class IntakeInOut extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
-
-
 }

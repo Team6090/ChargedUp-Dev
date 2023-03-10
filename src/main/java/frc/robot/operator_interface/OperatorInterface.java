@@ -40,7 +40,7 @@ public interface OperatorInterface {
   public default Trigger PrimaryBack() {
     return new Trigger(() -> primaryController.getBackButton());
   }
-  
+
   public default POVButton PrimaryPOV0() {
     return new POVButton(primaryController, 0);
   }

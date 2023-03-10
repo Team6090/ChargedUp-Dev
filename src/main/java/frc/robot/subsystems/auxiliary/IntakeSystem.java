@@ -1,9 +1,5 @@
 package frc.robot.subsystems.auxiliary;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -16,10 +12,12 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.SubsystemConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainConstants;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 
 public class IntakeSystem extends SubsystemBase {
 
@@ -178,7 +176,7 @@ public class IntakeSystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Set", set);
     if (SubsystemConstants.Auxiliary.INTAKE_DEBUG == true) {
-      
+
     } else {
       SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
       SmartDashboard.putNumber("Object Type CV3", ObjectType());

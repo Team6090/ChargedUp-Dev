@@ -4,35 +4,34 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 
 public class GetCurrentStage extends CommandBase {
-    
-    PivotSystem pivotSystem;
 
-    boolean done = false;
+  PivotSystem pivotSystem;
 
-    public GetCurrentStage(PivotSystem pivotSystem) {
-        this.pivotSystem = pivotSystem;
+  boolean done = false;
 
-        addRequirements(pivotSystem);
-    }
+  public GetCurrentStage(PivotSystem pivotSystem) {
+    this.pivotSystem = pivotSystem;
 
-    @Override
-    public void initialize() {
-        done = true;
-    }
+    addRequirements(pivotSystem);
+  }
 
-    public int getStage() {
-        return pivotSystem.GetCurrentStage();
-    }
+  @Override
+  public void initialize() {
+    done = true;
+  }
 
-    @Override
-    public void end(boolean interrupted) {
-        done = false;
-        super.end(interrupted);
-    }
+  public int getStage() {
+    return pivotSystem.GetCurrentStage();
+  }
 
-    @Override
-    public boolean isFinished() {
-        return done;
-    }
+  @Override
+  public void end(boolean interrupted) {
+    done = false;
+    super.end(interrupted);
+  }
 
+  @Override
+  public boolean isFinished() {
+    return done;
+  }
 }

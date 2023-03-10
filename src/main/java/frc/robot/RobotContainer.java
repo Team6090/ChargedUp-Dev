@@ -7,11 +7,6 @@ package frc.robot;
 import static frc.robot.Constants.*;
 import static frc.robot.subsystems.drivetrain.DrivetrainConstants.*;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
@@ -20,8 +15,6 @@ import com.pathplanner.lib.PathPoint;
 // import com.pathplanner.lib.commands.FollowPathWithEvents;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -43,9 +36,6 @@ import frc.robot.commands.autons.FeedForwardCharacterization.FeedForwardCharacte
 import frc.robot.commands.pathplanner.FollowPath;
 import frc.robot.commands.subautotele.pickup.PickupCNB;
 import frc.robot.commands.subautotele.pickup.PickupCNF;
-import frc.robot.commands.subautotele.score.cones.ScoreCN2;
-import frc.robot.commands.subautotele.score.cones.ScoreCN3;
-import frc.robot.commands.subcommandsaux.ArmExtension;
 import frc.robot.commands.subcommandsaux.IntakeInOut;
 // import frc.robot.commands.robot.LockArmExtend;
 // import frc.robot.commands.subautotele.pickup.PickupCNB;
@@ -56,7 +46,6 @@ import frc.robot.commands.subcommandsaux.IntakeInOut;
 // import frc.robot.commands.subautotele.CommandTest;
 // import frc.robot.commands.subcommandsaux.ArmHold;
 // import frc.robot.commands.subcommandsaux.ExtendArmO;
-import frc.robot.commands.subcommandsaux.IntakeOpenClose;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
 // import frc.robot.commands.subcommandsaux.PivotArmO;
@@ -223,9 +212,12 @@ public class RobotContainer {
      * and the left joystick's x axis specifies the velocity in the y direction.
      */
     drivetrain.setDefaultCommand(
-        new TeleopSwerve(drivetrain, oi::PrimaryLeftStickYAxis, oi::PrimaryLeftStickXAxis, oi::PrimaryRightStickXAxis));
+        new TeleopSwerve(
+            drivetrain,
+            oi::PrimaryLeftStickYAxis,
+            oi::PrimaryLeftStickXAxis,
+            oi::PrimaryRightStickXAxis));
 
-        
     configureButtonBindings();
   }
 
@@ -251,12 +243,15 @@ public class RobotContainer {
     oi.PrimaryStart(); // Empty
 
     oi.PrimaryPOV0().onTrue(new PickupCNF(intakeSystem, pivotSystem)); // Front Pickup Command
-    oi.PrimaryPOV90();  // Empty
+    oi.PrimaryPOV90(); // Empty
     oi.PrimaryPOV180().onTrue(new PickupCNB(intakeSystem, pivotSystem)); // Back Pickup Command
     oi.PrimaryPOV270(); // Station Pickup Command
 
-    oi.PrimaryLeftBumper().whileTrue(new IntakeInOut(intakeSystem, .75, false)); //FIXME: Broken Code
-    oi.PrimaryRightBumper().onTrue(new ScoreController(intakeSystem, pivotSystem)); // Cast Command into a runable function
+    oi.PrimaryLeftBumper()
+        .whileTrue(new IntakeInOut(intakeSystem, .75, false)); // FIXME: Broken Code
+    oi.PrimaryRightBumper()
+        .onTrue(
+            new ScoreController(intakeSystem, pivotSystem)); // Cast Command into a runable function
     // End
 
     // Override Controller
