@@ -264,8 +264,8 @@ public class RobotContainer {
     // End
 
     // Override Controller
-    // oi.OverrideExtendArm().onTrue(new LockArmExtend(lockSystem, true));
-    // oi.OverrideRetractArm().onTrue(new LockArmExtend(lockSystem, false));
+    oi.OverrideExtendArm().onTrue(new LockArmExtend(Robot.lockSystem, true));
+    oi.OverrideRetractArm().onTrue(new LockArmExtend(Robot.lockSystem, false));
   }
 
   private PathPlannerTrajectory GenerateTrajectoryFromPath(

@@ -28,7 +28,7 @@ public class Robot extends LoggedRobot {
 
   private Command autonomousCommand;
   private RobotContainer robotContainer;
-  private LockSystem lockSystem = new LockSystem();
+  static LockSystem lockSystem = new LockSystem();
 
   private final Alert logReceiverQueueAlert =
       new Alert("Logging queue exceeded capacity, data will NOT be logged.", AlertType.ERROR);
