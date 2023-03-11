@@ -34,11 +34,16 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.autons.FeedForwardCharacterization;
 import frc.robot.commands.autons.FeedForwardCharacterization.FeedForwardCharacterizationData;
 import frc.robot.commands.pathplanner.FollowPath;
+import frc.robot.commands.robot.LockArmExtend;
 import frc.robot.commands.subautotele.pickup.PickupBack;
 import frc.robot.commands.subautotele.pickup.PickupFront;
 import frc.robot.commands.subautotele.pickup.PickupStation;
+import frc.robot.commands.subautotele.score.cones.ScoreCN3;
+import frc.robot.commands.subautotele.score.cubes.ScoreCB3;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
+import frc.robot.commands.subcommandsaux.ArmExtension;
 import frc.robot.commands.subcommandsaux.IntakeInOut;
+import frc.robot.commands.subcommandsaux.PivotMove;
 // import frc.robot.commands.robot.LockArmExtend;
 // import frc.robot.commands.subautotele.pickup.PickupCNB;
 // import frc.robot.commands.subautotele.pickup.PickupCNF;
@@ -50,6 +55,7 @@ import frc.robot.commands.subcommandsaux.IntakeInOut;
 // import frc.robot.commands.subcommandsaux.ExtendArmO;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
+import frc.robot.commands.vision.AlignToAprilTagX;
 // import frc.robot.commands.subcommandsaux.PivotArmO;
 // import frc.robot.commands.subcommandsaux.PivotMove;
 // import frc.robot.commands.teleop.stage.HomePos;
@@ -57,6 +63,7 @@ import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
 import frc.robot.subsystems.auxiliary.AirCompressor;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
+import frc.robot.subsystems.auxiliary.LockSystem;
 // import frc.robot.subsystems.auxiliary.LockSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
@@ -245,7 +252,7 @@ public class RobotContainer {
     oi.PrimaryStart(); // Empty
 
     oi.PrimaryPOV0().onTrue(new PickupFront(intakeSystem, pivotSystem)); // Front Pickup Command
-    oi.PrimaryPOV90(); // Empty
+    oi.PrimaryPOV90().onTrue(new AlignToAprilTagX(drivetrain));
     oi.PrimaryPOV180().onTrue(new PickupBack(intakeSystem, pivotSystem)); // Back Pickup Command
     oi.PrimaryPOV270().onTrue(new PickupStation(intakeSystem, pivotSystem));
 
@@ -257,8 +264,8 @@ public class RobotContainer {
     // End
 
     // Override Controller
-    oi.OverrideExtendArm().onTrue(new AutoBalanceV2(drivetrain, false, .7, -5, 8));
-    oi.OverrideRetractArm().onTrue(Commands.runOnce(drivetrain::disableXstance));
+    // oi.OverrideExtendArm().onTrue(new LockArmExtend(lockSystem, true));
+    // oi.OverrideRetractArm().onTrue(new LockArmExtend(lockSystem, false));
   }
 
   private PathPlannerTrajectory GenerateTrajectoryFromPath(
@@ -305,7 +312,19 @@ public class RobotContainer {
 
     AUTO_EVENT3_MAP.put("event1", Commands.print("passed marker 1"));
 
-    PathPlannerTrajectory testPath =
+    PathPlannerTrajectory score =
+      GenerateTrajectoryFromPath("Score",
+       MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND/10.0,
+        AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED/13.0);
+
+    Command scoreHighCone = 
+      Commands.sequence(
+        // new ScoreCN3(intakeSystem, pivotSystem),
+        // new FollowPath(score, drivetrain, true),
+        new AutoBalanceV2(drivetrain, true, .7, -10, 10)
+      );
+
+    PathPlannerTrajectory testPath = 
         GenerateTrajectoryFromPath(
             "testPath",
             AUTO_MAX_SPEED_METERS_PER_SECOND,
@@ -324,6 +343,7 @@ public class RobotContainer {
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
 
     autoChooser.addOption("TestPath", autoTestPath);
+    autoChooser.addOption("ScoreHighCone", new AutoBalanceV2(drivetrain, true, .7, -3, 8));
 
     // "auto" command for tuning the drive velocity PID
     autoChooser.addOption(

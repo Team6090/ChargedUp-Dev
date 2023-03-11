@@ -10,12 +10,12 @@ public class LockSystem extends SubsystemBase {
   Solenoid closeLock;
 
   public LockSystem() {
-    openLock = new Solenoid(PneumaticsModuleType.REVPH, 3);
-    closeLock = new Solenoid(PneumaticsModuleType.REVPH, 2);
+    openLock = new Solenoid(60, PneumaticsModuleType.REVPH, 3);
+    closeLock = new Solenoid(60, PneumaticsModuleType.REVPH, 2);
   }
 
   public void extendLock(boolean enabled) {
     openLock.set(!enabled);
-    // closeLock.set(enabled);
+    closeLock.set(enabled);
   }
 }

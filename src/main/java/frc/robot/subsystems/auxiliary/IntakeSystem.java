@@ -191,14 +191,14 @@ public class IntakeSystem extends SubsystemBase {
     }
     // currentObject = ObjectType();
     // SmartDashboard.putNumber("ObjectType", currentObject); // Change to command call
-    if (printStream == null) {
-      try {
-        printStream = new PrintStream(new File("/home/lvuser", "pid.csv"));
-      } catch (FileNotFoundException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    }
-    printStream.println(set + "," + armRetractMotor.getSelectedSensorPosition());
+    // if (printStream == null) {
+    //   try {
+    //     printStream = new PrintStream(new File("/home/lvuser", "pid.csv"));
+    //   } catch (FileNotFoundException e) {
+    //     // TODO Auto-generated catch block
+    //     e.printStackTrace();
+    //   }
+    // }
+    // printStream.println(set + "," + armRetractMotor.getSelectedSensorPosition());
   }
 }

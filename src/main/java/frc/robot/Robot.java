@@ -8,8 +8,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.team6328.util.Alert;
 import frc.lib.team6328.util.Alert.AlertType;
+import frc.robot.commands.robot.LockArmExtend;
 // import frc.robot.commands.robot.LockArmExtend;
-// import frc.robot.subsystems.auxiliary.LockSystem;
+import frc.robot.subsystems.auxiliary.LockSystem;
 import frc.robot.subsystems.limelight.Limelight;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -27,7 +28,7 @@ public class Robot extends LoggedRobot {
 
   private Command autonomousCommand;
   private RobotContainer robotContainer;
-  // private LockSystem lockSystem;
+  private LockSystem lockSystem = new LockSystem();
 
   private final Alert logReceiverQueueAlert =
       new Alert("Logging queue exceeded capacity, data will NOT be logged.", AlertType.ERROR);
@@ -35,7 +36,6 @@ public class Robot extends LoggedRobot {
   /** Create a new Robot. */
   public Robot() {
     super(Constants.LOOP_PERIOD_SECS);
-    // lockSystem = new LockSystem();
   }
   /**
    * This method is executed when the code first starts running on the robot and should be used for
@@ -43,12 +43,10 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void disabledInit() {
-    // lockSystem.extendLock(true);
   }
 
   @Override
   public void teleopExit() {
-    // lockSystem.extendLock(true);
   }
 
   @Override
@@ -151,6 +149,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void disabledPeriodic() {
+    new LockArmExtend(lockSystem, true).schedule();
     Limelight.TurnLimelightOff();
     robotContainer.updateOI();
   }
@@ -161,7 +160,7 @@ public class Robot extends LoggedRobot {
    */
   @Override
   public void autonomousInit() {
-    // lockSystem.extendLock(false);
+    new LockArmExtend(lockSystem, false).schedule();
     Limelight.TurnLimelightOn();
     autonomousCommand = robotContainer.getAutonomousCommand();
     // schedule the autonomous command
@@ -173,7 +172,7 @@ public class Robot extends LoggedRobot {
   /** This method is invoked at the start of the teleoperated period. */
   @Override
   public void teleopInit() {
-    // new LockArmExtend(lockSystem, false);
+    new LockArmExtend(lockSystem, false).schedule();
     Limelight.TurnLimelightOn();
     /*
      * This makes sure that the autonomous stops running when teleop starts running. If you want the

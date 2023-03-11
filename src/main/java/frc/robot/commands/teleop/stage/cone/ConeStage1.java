@@ -13,7 +13,7 @@ public class ConeStage1 extends SequentialCommandGroup {
     pivotSystem.currentStage = 1;
 
     addCommands(
-        new ArmExtension(intakeSystem, 50, true),
+        new ArmExtension(intakeSystem, 0, true),
         new PivotMove(pivotSystem, 60, true),
         new ArmExtension(intakeSystem, 6000, true));
   }

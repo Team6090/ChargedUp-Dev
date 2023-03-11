@@ -20,3 +20,5 @@ CharacterRobot
 [NOTES] Power up robot before putting pivotcancoder on to test if absolute value is 0; do the same for the extensioncancoder
 
 Start Robot in any orientation and still have teleop run normally
+
+Override Button to LOCK Extend and set power to 0 for pivot and extension 

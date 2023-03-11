@@ -151,6 +151,7 @@ public class PivotSystem extends SubsystemBase {
       SmartDashboard.putNumber(
           "PivotPositionDegrees", convertToDegrees(pivotMotorRight.getSelectedSensorPosition()));
       SmartDashboard.putNumber("PivotPositionEC", pivotMotorRight.getSelectedSensorPosition());
+      SmartDashboard.putNumber("PivotCountCAN", pivotAngleCanCoder.getAbsolutePosition());
       SmartDashboard.putBoolean("LimitSwitch", GetLimitSwitchOutput());
     } else {
 

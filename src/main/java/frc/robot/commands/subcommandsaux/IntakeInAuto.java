@@ -3,13 +3,13 @@ package frc.robot.commands.subcommandsaux;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 
-public class IntakeInOutAuto extends CommandBase {
+public class IntakeInAuto extends CommandBase {
 
   IntakeSystem intakeSystem;
 
   boolean done = false;
 
-  public IntakeInOutAuto(IntakeSystem intakeSystem) {
+  public IntakeInAuto(IntakeSystem intakeSystem) {
     this.intakeSystem = intakeSystem;
 
     addRequirements(intakeSystem);
@@ -20,8 +20,8 @@ public class IntakeInOutAuto extends CommandBase {
 
   @Override
   public void execute() {
-    if (intakeSystem.ObjectInIntake()) {
-      intakeSystem.IntakeOn(0.6, true);
+    if (intakeSystem.ObjectInIntake() == false) {
+      intakeSystem.IntakeOn(0.8, false);
     } else {
       done = true;
     }

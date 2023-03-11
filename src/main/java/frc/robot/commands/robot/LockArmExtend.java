@@ -27,6 +27,7 @@ public class LockArmExtend extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    done = false;
     super.end(interrupted);
   }
 
