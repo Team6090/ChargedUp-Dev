@@ -74,6 +74,7 @@ public class IntakeSystem extends SubsystemBase {
     pixySystem = new PixySystem();
 
     set = armRetractMotor.getSelectedSensorPosition();
+    // armRetractCANCoder.setPosition(0);
     // armRetractCANCoder.setPosition(armRetractCANCoder.getAbsolutePosition());
   }
 
@@ -178,9 +179,9 @@ public class IntakeSystem extends SubsystemBase {
     if (SubsystemConstants.Auxiliary.INTAKE_DEBUG == true) {
 
     } else {
-      SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
-      SmartDashboard.putNumber("Object Type CV3", ObjectType());
-      SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
+      // SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
+      // SmartDashboard.putNumber("Object Type CV3", ObjectType());
+      // SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
       // SmartDashboard.putNumber("ArmExtensionPositionCM",
       // convertToCM(armRetractCANCoder.getPosition()));
       SmartDashboard.putNumber("ArmExtendIntDC", armRetractMotor.getSelectedSensorPosition());

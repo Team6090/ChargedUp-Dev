@@ -6,12 +6,12 @@ import frc.robot.commands.subcommandsaux.PivotMove;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 
-public class PickupCNB extends SequentialCommandGroup {
+public class PickupFront extends SequentialCommandGroup {
 
-  public PickupCNB(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+  public PickupFront(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
     addCommands(
-        new ArmExtension(intakeSystem, 400, true),
-        new PivotMove(pivotSystem, 325.53, true),
-        new ArmExtension(intakeSystem, 6800, true));
+        new ArmExtension(intakeSystem, 50, true),
+        new PivotMove(pivotSystem, 51.67, true),
+        new ArmExtension(intakeSystem, 8799, true));
   }
 }

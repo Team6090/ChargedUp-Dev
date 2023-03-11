@@ -26,25 +26,25 @@ public class HomePos extends CommandBase {
     switch (currentObject) {
       case 0:
         Commands.sequence(
-                new ArmExtension(intakeSystem, 600, true), new PivotMove(pivotSystem, 30, true))
+                new ArmExtension(intakeSystem, 50, true), new PivotMove(pivotSystem, 30, true))
             .schedule();
         break;
 
       case 1:
         Commands.sequence(
-                new ArmExtension(intakeSystem, 600, true), new PivotMove(pivotSystem, 30, true))
+                new ArmExtension(intakeSystem, 50, true), new PivotMove(pivotSystem, 30, true))
             .schedule();
         break;
 
       case 2:
         Commands.sequence(
-                new ArmExtension(intakeSystem, 600, true), new PivotMove(pivotSystem, 42, true))
+                new ArmExtension(intakeSystem, 50, true), new PivotMove(pivotSystem, 42, true))
             .schedule();
         break;
 
       default:
         Commands.sequence(
-                new ArmExtension(intakeSystem, 600, true), new PivotMove(pivotSystem, 30, true))
+                new ArmExtension(intakeSystem, 50, true), new PivotMove(pivotSystem, 30, true))
             .schedule();
         break;
     }

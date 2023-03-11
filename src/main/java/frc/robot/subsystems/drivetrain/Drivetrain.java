@@ -342,6 +342,7 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Altitude", gyroIO.getAltitude());
     SmartDashboard.putNumber("Pressure", gyroIO.getBarometricPressure());
     SmartDashboard.putNumber("Temp", gyroIO.getTempC());
+    SmartDashboard.putNumber("Pitch", gyroIO.getPitch());
 
     SmartDashboard.putNumber("X", Limelight.GetX());
     SmartDashboard.putNumber("Y", Limelight.GetY());

@@ -13,8 +13,8 @@ public class ConeStage2 extends SequentialCommandGroup {
     pivotSystem.SetCurrentStage(2);
 
     addCommands(
-        new ArmExtension(intakeSystem, 600, true),
-        new PivotMove(pivotSystem, 100.58, true),
+        new ArmExtension(intakeSystem, 50, true),
+        new PivotMove(pivotSystem, 105.58, true),
         new ArmExtension(intakeSystem, 10506, true));
   }
 }

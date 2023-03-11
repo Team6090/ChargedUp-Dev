@@ -34,8 +34,10 @@ import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.autons.FeedForwardCharacterization;
 import frc.robot.commands.autons.FeedForwardCharacterization.FeedForwardCharacterizationData;
 import frc.robot.commands.pathplanner.FollowPath;
-import frc.robot.commands.subautotele.pickup.PickupCNB;
-import frc.robot.commands.subautotele.pickup.PickupCNF;
+import frc.robot.commands.subautotele.pickup.PickupBack;
+import frc.robot.commands.subautotele.pickup.PickupFront;
+import frc.robot.commands.subautotele.pickup.PickupStation;
+import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
 import frc.robot.commands.subcommandsaux.IntakeInOut;
 // import frc.robot.commands.robot.LockArmExtend;
 // import frc.robot.commands.subautotele.pickup.PickupCNB;
@@ -242,21 +244,21 @@ public class RobotContainer {
     oi.PrimaryBack().onTrue(Commands.runOnce(drivetrain::zeroGyroscope, drivetrain));
     oi.PrimaryStart(); // Empty
 
-    oi.PrimaryPOV0().onTrue(new PickupCNF(intakeSystem, pivotSystem)); // Front Pickup Command
+    oi.PrimaryPOV0().onTrue(new PickupFront(intakeSystem, pivotSystem)); // Front Pickup Command
     oi.PrimaryPOV90(); // Empty
-    oi.PrimaryPOV180().onTrue(new PickupCNB(intakeSystem, pivotSystem)); // Back Pickup Command
-    oi.PrimaryPOV270(); // Station Pickup Command
+    oi.PrimaryPOV180().onTrue(new PickupBack(intakeSystem, pivotSystem)); // Back Pickup Command
+    oi.PrimaryPOV270().onTrue(new PickupStation(intakeSystem, pivotSystem));
 
     oi.PrimaryLeftBumper()
-        .whileTrue(new IntakeInOut(intakeSystem, .75, false)); // FIXME: Broken Code
+        .whileTrue(new IntakeInOut(intakeSystem, .75, false));
     oi.PrimaryRightBumper()
         .onTrue(
-            new ScoreController(intakeSystem, pivotSystem)); // Cast Command into a runable function
+            new ScoreController(intakeSystem, pivotSystem));
     // End
 
     // Override Controller
-    // oi.OverrideExtendArm().whileTrue(new IntakeInOut(intakeSystem, 1, false));
-    // oi.OverrideRetractArm().whileTrue(new IntakeInOut(intakeSystem, 1, true));
+    oi.OverrideExtendArm().onTrue(new AutoBalanceV2(drivetrain, false, .7, -5, 8));
+    oi.OverrideRetractArm().onTrue(Commands.runOnce(drivetrain::disableXstance));
   }
 
   private PathPlannerTrajectory GenerateTrajectoryFromPath(
