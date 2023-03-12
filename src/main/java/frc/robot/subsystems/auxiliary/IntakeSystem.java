@@ -76,6 +76,7 @@ public class IntakeSystem extends SubsystemBase {
     set = armRetractMotor.getSelectedSensorPosition();
     // armRetractCANCoder.setPosition(0);
     // armRetractCANCoder.setPosition(armRetractCANCoder.getAbsolutePosition());
+    // ExtendArmToPosition(armRetractMotor.getSelectedSensorPosition());
   }
 
   public void ExtendArmPO(double power) {

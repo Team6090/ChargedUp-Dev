@@ -44,6 +44,7 @@ import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
 import frc.robot.commands.subcommandsaux.ArmExtension;
 import frc.robot.commands.subcommandsaux.IntakeInOut;
 import frc.robot.commands.subcommandsaux.PivotMove;
+import frc.robot.commands.subcommandsaux.TurnToGyro;
 // import frc.robot.commands.robot.LockArmExtend;
 // import frc.robot.commands.subautotele.pickup.PickupCNB;
 // import frc.robot.commands.subautotele.pickup.PickupCNF;
@@ -264,8 +265,8 @@ public class RobotContainer {
     // End
 
     // Override Controller
-    oi.OverrideExtendArm().onTrue(new LockArmExtend(Robot.lockSystem, true));
-    oi.OverrideRetractArm().onTrue(new LockArmExtend(Robot.lockSystem, false));
+    oi.OverrideExtendArm().onTrue(new AutoBalanceV2(drivetrain, true, 1, -7, 25));
+    oi.OverrideRetractArm().onTrue(Commands.runOnce(drivetrain::disableXstance, drivetrain));
   }
 
   private PathPlannerTrajectory GenerateTrajectoryFromPath(
@@ -314,14 +315,14 @@ public class RobotContainer {
 
     PathPlannerTrajectory score =
       GenerateTrajectoryFromPath("Score",
-       MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND/10.0,
-        AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED/13.0);
+       MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND/15.0,
+        AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED/18.0);
 
     Command scoreHighCone = 
       Commands.sequence(
         // new ScoreCN3(intakeSystem, pivotSystem),
-        // new FollowPath(score, drivetrain, true),
-        new AutoBalanceV2(drivetrain, true, .7, -10, 10)
+        new FollowPath(score, drivetrain, true),
+        new AutoBalanceV2(drivetrain, false, 1.0, -10.0, 40.0)
       );
 
     PathPlannerTrajectory testPath = 
@@ -343,7 +344,7 @@ public class RobotContainer {
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
 
     autoChooser.addOption("TestPath", autoTestPath);
-    autoChooser.addOption("ScoreHighCone", new AutoBalanceV2(drivetrain, true, .7, -3, 8));
+    autoChooser.addOption("ScoreHighCone", scoreHighCone);
 
     // "auto" command for tuning the drive velocity PID
     autoChooser.addOption(

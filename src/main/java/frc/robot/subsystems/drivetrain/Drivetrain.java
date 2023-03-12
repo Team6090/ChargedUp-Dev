@@ -330,6 +330,31 @@ public class Drivetrain extends SubsystemBase {
     setSwerveModuleStates(states);
   }
 
+
+  private double placeInAppropriate0To360Scope(double scopeReference, double newAngle) {
+    double lowerBound;
+    double upperBound;
+    double lowerOffset = scopeReference % 360;
+    if (lowerOffset >= 0) {
+      lowerBound = scopeReference - lowerOffset;
+      upperBound = scopeReference + (360 - lowerOffset);
+    } else {
+      upperBound = scopeReference - lowerOffset;
+      lowerBound = scopeReference - (360 + lowerOffset);
+    }
+    while (newAngle < lowerBound) {
+      newAngle += 360;
+    }
+    while (newAngle > upperBound) {
+      newAngle -= 360;
+    }
+    if (newAngle - scopeReference > 180) {
+      newAngle -= 360;
+    } else if (newAngle - scopeReference < -180) {
+      newAngle += 360;
+    }
+    return newAngle;
+  }
   /**
    * This method is invoked each iteration of the scheduler. Typically, when using a command-based
    * model, subsystems don't override the periodic method. However, the drivetrain needs to
@@ -339,6 +364,10 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
 
+    SmartDashboard.putNumber("Go", placeInAppropriate0To360Scope(Drivetrain.gyroIO.getYaw(), 90));
+
+    SmartDashboard.putNumber("Degrees", 180.0+gyroIO.getYaw());
+
     SmartDashboard.putNumber("Altitude", gyroIO.getAltitude());
     SmartDashboard.putNumber("Pressure", gyroIO.getBarometricPressure());
     SmartDashboard.putNumber("Temp", gyroIO.getTempC());
@@ -346,6 +375,9 @@ public class Drivetrain extends SubsystemBase {
 
     SmartDashboard.putNumber("X", Limelight.GetX());
     SmartDashboard.putNumber("Y", Limelight.GetY());
+
+    SmartDashboard.putNumber("FieldX", getPose().getX());
+    SmartDashboard.putNumber("FieldY", getPose().getY());
 
     // update and log gyro inputs
     // gyroIO.updateInputs(gyroInputs);
