@@ -39,12 +39,10 @@ import frc.robot.commands.subautotele.pickup.PickupBack;
 import frc.robot.commands.subautotele.pickup.PickupFront;
 import frc.robot.commands.subautotele.pickup.PickupStation;
 import frc.robot.commands.subautotele.score.cones.ScoreCN3;
-import frc.robot.commands.subautotele.score.cubes.ScoreCB3;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
 import frc.robot.commands.subcommandsaux.ArmExtension;
+import frc.robot.commands.subcommandsaux.IntakeInAuto;
 import frc.robot.commands.subcommandsaux.IntakeInOut;
-import frc.robot.commands.subcommandsaux.PivotMove;
-import frc.robot.commands.subcommandsaux.TurnToGyro;
 // import frc.robot.commands.robot.LockArmExtend;
 // import frc.robot.commands.subautotele.pickup.PickupCNB;
 // import frc.robot.commands.subautotele.pickup.PickupCNF;
@@ -56,6 +54,7 @@ import frc.robot.commands.subcommandsaux.TurnToGyro;
 // import frc.robot.commands.subcommandsaux.ExtendArmO;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
+import frc.robot.commands.teleop.stage.HomePos;
 import frc.robot.commands.vision.AlignToAprilTagX;
 // import frc.robot.commands.subcommandsaux.PivotArmO;
 // import frc.robot.commands.subcommandsaux.PivotMove;
@@ -64,7 +63,6 @@ import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
 import frc.robot.subsystems.auxiliary.AirCompressor;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-import frc.robot.subsystems.auxiliary.LockSystem;
 // import frc.robot.subsystems.auxiliary.LockSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
@@ -97,6 +95,7 @@ public class RobotContainer {
 
   /** Create the container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    // new ArmExtension(intakeSystem, intakeSystem.GetArmExtendedPosition(), true).schedule();
     // create real, simulated, or replay subsystems based on the mode and robot specified
     if (Constants.getMode() != Mode.REPLAY) {
       switch (Constants.getRobot()) {
@@ -257,16 +256,13 @@ public class RobotContainer {
     oi.PrimaryPOV180().onTrue(new PickupBack(intakeSystem, pivotSystem)); // Back Pickup Command
     oi.PrimaryPOV270().onTrue(new PickupStation(intakeSystem, pivotSystem));
 
-    oi.PrimaryLeftBumper()
-        .whileTrue(new IntakeInOut(intakeSystem, .75, false));
-    oi.PrimaryRightBumper()
-        .onTrue(
-            new ScoreController(intakeSystem, pivotSystem));
+    oi.PrimaryLeftBumper().whileTrue(new IntakeInOut(intakeSystem, .75, false));
+    oi.PrimaryRightBumper().onTrue(new ScoreController(intakeSystem, pivotSystem));
     // End
 
     // Override Controller
-    oi.OverrideExtendArm().onTrue(new AutoBalanceV2(drivetrain, true, 1, -7, 25));
-    oi.OverrideRetractArm().onTrue(Commands.runOnce(drivetrain::disableXstance, drivetrain));
+    oi.OverrideExtendArm().onTrue(Commands.runOnce(drivetrain::disableXstance, drivetrain));
+    oi.OverrideRetractArm().onTrue(new LockArmExtend(Robot.lockSystem, true));
   }
 
   private PathPlannerTrajectory GenerateTrajectoryFromPath(
@@ -288,6 +284,10 @@ public class RobotContainer {
       array[1] = y;
       return array;
     }
+  }
+
+  public void RobotInit() {
+    new ArmExtension(intakeSystem, intakeSystem.GetArmExtendedPosition(), true).schedule();
   }
 
   private PathPlannerTrajectory GenerateCorrectionPath(
@@ -314,18 +314,33 @@ public class RobotContainer {
     AUTO_EVENT3_MAP.put("event1", Commands.print("passed marker 1"));
 
     PathPlannerTrajectory score =
-      GenerateTrajectoryFromPath("Score",
-       MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND/15.0,
-        AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED/18.0);
+        GenerateTrajectoryFromPath(
+            "Score",
+            1.0,
+            1.0);
 
-    Command scoreHighCone = 
-      Commands.sequence(
-        // new ScoreCN3(intakeSystem, pivotSystem),
-        new FollowPath(score, drivetrain, true),
-        new AutoBalanceV2(drivetrain, false, 1.0, -10.0, 40.0)
+    PathPlannerTrajectory go = 
+        GenerateTrajectoryFromPath(
+          "RobotControlPath",
+          1.0,
+          1.0
+        );
+    Command gogo = Commands.sequence(
+      new ScoreCN3(intakeSystem, pivotSystem),
+      new FollowPath(go, drivetrain, true),
+      new PickupFront(intakeSystem, pivotSystem),
+      new IntakeInAuto(intakeSystem), // Auto Intake Refine to auton mode
+      new HomePos(intakeSystem, pivotSystem)
       );
 
-    PathPlannerTrajectory testPath = 
+    Command scoreHighCone =
+        Commands.sequence(
+            new ScoreCN3(intakeSystem, pivotSystem),
+            new FollowPath(score, drivetrain, true),
+            new AutoBalanceV2(drivetrain, false, 1.0, -10.0, 20.0),
+            new LockArmExtend(Robot.lockSystem, true));
+
+    PathPlannerTrajectory testPath =
         GenerateTrajectoryFromPath(
             "testPath",
             AUTO_MAX_SPEED_METERS_PER_SECOND,
@@ -345,6 +360,7 @@ public class RobotContainer {
 
     autoChooser.addOption("TestPath", autoTestPath);
     autoChooser.addOption("ScoreHighCone", scoreHighCone);
+    autoChooser.addOption("RobotControlPath", gogo);
 
     // "auto" command for tuning the drive velocity PID
     autoChooser.addOption(

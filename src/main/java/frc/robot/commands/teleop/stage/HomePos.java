@@ -11,6 +11,7 @@ public class HomePos extends CommandBase {
 
   IntakeSystem intakeSystem;
   PivotSystem pivotSystem;
+  int currentStage;
 
   public HomePos(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
     this.intakeSystem = intakeSystem;
@@ -21,8 +22,17 @@ public class HomePos extends CommandBase {
 
   @Override
   public void initialize() {
+    currentStage = pivotSystem.currentStage;
     int currentObject = intakeSystem.ObjectType();
     pivotSystem.SetCurrentStage(0);
+
+    // TODO: StationPickup to home (up before retract)
+
+    // switch (currentStage) {
+
+    //   super.end(false);
+    // }
+
     switch (currentObject) {
       case 0:
         Commands.sequence(

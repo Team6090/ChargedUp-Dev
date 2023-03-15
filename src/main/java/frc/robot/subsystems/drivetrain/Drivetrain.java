@@ -330,7 +330,6 @@ public class Drivetrain extends SubsystemBase {
     setSwerveModuleStates(states);
   }
 
-
   private double placeInAppropriate0To360Scope(double scopeReference, double newAngle) {
     double lowerBound;
     double upperBound;
@@ -366,7 +365,7 @@ public class Drivetrain extends SubsystemBase {
 
     SmartDashboard.putNumber("Go", placeInAppropriate0To360Scope(Drivetrain.gyroIO.getYaw(), 90));
 
-    SmartDashboard.putNumber("Degrees", 180.0+gyroIO.getYaw());
+    SmartDashboard.putNumber("Degrees", 180.0 + gyroIO.getYaw());
 
     SmartDashboard.putNumber("Altitude", gyroIO.getAltitude());
     SmartDashboard.putNumber("Pressure", gyroIO.getBarometricPressure());

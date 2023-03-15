@@ -5,46 +5,38 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
 public class TurnToGyro extends CommandBase {
-    
-    Drivetrain drivetrain;
-    double gyroDegree;
-    
-    boolean done = false;
 
-    public TurnToGyro(Drivetrain drivetrain, double gyroDegree) {
-        this.drivetrain = drivetrain;
-        this.gyroDegree = gyroDegree;
+  Drivetrain drivetrain;
+  double gyroDegree;
 
-        addRequirements(drivetrain);
-    } 
+  boolean done = false;
 
-    @Override
-    public void execute() {
-        double error = gyroDegree - Drivetrain.gyroIO.getYaw();
-        SmartDashboard.putNumber("Error", error);
-        SmartDashboard.putNumber("SetValue", gyroDegree);
-        
-        SmartDashboard.putNumber("Power", 0.05*error);
-        if (Drivetrain.gyroIO.getYaw() > gyroDegree) {
-            drivetrain.drive(0, 0, 0.07*error);
-        } else {
-            drivetrain.drive(0, 0, -0.07*error);
-        }
-        if (Drivetrain.gyroIO.getYaw() > gyroDegree-1 && Drivetrain.gyroIO.getYaw() < gyroDegree+1) {
-            done = true;
-        }
-        
-    }
+  public TurnToGyro(Drivetrain drivetrain, double gyroDegree) {
+    this.drivetrain = drivetrain;
+    this.gyroDegree = gyroDegree;
 
-    @Override
-    public void end(boolean interrupted) {
-        drivetrain.stop();
-        done = false;
-        super.end(interrupted);
-    }
+    addRequirements(drivetrain);
+  }
 
-    @Override
-    public boolean isFinished() {
-        return done;
-    }
+  @Override
+  public void initialize() {
+    double error = gyroDegree - Math.abs(Drivetrain.gyroIO.getYaw());
+    SmartDashboard.putNumber("Error", error);
+    SmartDashboard.putNumber("SetValue", gyroDegree);
+  }
+
+  @Override
+  public void execute() {}
+
+  @Override
+  public void end(boolean interrupted) {
+    drivetrain.stop();
+    done = false;
+    super.end(interrupted);
+  }
+
+  @Override
+  public boolean isFinished() {
+    return done;
+  }
 }

@@ -42,12 +42,10 @@ public class Robot extends LoggedRobot {
    * any initialization code.
    */
   @Override
-  public void disabledInit() {
-  }
+  public void disabledInit() {}
 
   @Override
-  public void teleopExit() {
-  }
+  public void teleopExit() {}
 
   @Override
   public void robotInit() {
@@ -161,6 +159,7 @@ public class Robot extends LoggedRobot {
   @Override
   public void autonomousInit() {
     new LockArmExtend(lockSystem, false).schedule();
+    // robotContainer.RobotInit();
     Limelight.TurnLimelightOn();
     autonomousCommand = robotContainer.getAutonomousCommand();
     // schedule the autonomous command
@@ -173,6 +172,7 @@ public class Robot extends LoggedRobot {
   @Override
   public void teleopInit() {
     new LockArmExtend(lockSystem, false).schedule();
+    robotContainer.RobotInit();
     Limelight.TurnLimelightOn();
     /*
      * This makes sure that the autonomous stops running when teleop starts running. If you want the

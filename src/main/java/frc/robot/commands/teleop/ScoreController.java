@@ -1,13 +1,7 @@
 package frc.robot.commands.teleop;
 
-import java.sql.Time;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.subcommandsaux.GetCurrentStage;
 import frc.robot.commands.teleop.score.cone.ConeScore1;
 import frc.robot.commands.teleop.score.cone.ConeScore2;
 import frc.robot.commands.teleop.score.cone.ConeScore3;
@@ -24,10 +18,10 @@ public class ScoreController extends CommandBase {
   int currentObject;
 
   public ScoreController(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
-      this.intakeSystem = intakeSystem;
-      this.pivotSystem = pivotSystem;
+    this.intakeSystem = intakeSystem;
+    this.pivotSystem = pivotSystem;
 
-      addRequirements(intakeSystem, pivotSystem);
+    addRequirements(intakeSystem, pivotSystem);
   }
 
   @Override
@@ -41,29 +35,29 @@ public class ScoreController extends CommandBase {
     switch (currentObject) {
       case 0: // No Object
         new HomePos(intakeSystem, pivotSystem).schedule();
-      break;
+        break;
 
       case 1: // Cone
         switch (currentStage) {
           case 0:
             new HomePos(intakeSystem, pivotSystem).schedule();
-          break;
+            break;
 
           case 1:
             new ConeScore1(intakeSystem, pivotSystem).schedule();
-          break;
+            break;
 
           case 2:
             new ConeScore2(intakeSystem, pivotSystem).schedule();
-          break;
+            break;
 
           case 3:
             new ConeScore3(intakeSystem, pivotSystem).schedule();
-          break;
+            break;
 
-          // default:
-          //   new HomePos(intakeSystem, pivotSystem).schedule();
-          // break;
+            // default:
+            //   new HomePos(intakeSystem, pivotSystem).schedule();
+            // break;
         }
         break;
 
@@ -71,29 +65,29 @@ public class ScoreController extends CommandBase {
         switch (currentStage) {
           case 0:
             new HomePos(intakeSystem, pivotSystem).schedule();
-          break;
+            break;
 
           case 1:
             new CubeScore(intakeSystem, pivotSystem).schedule();
-          break;
+            break;
 
           case 2:
             new CubeScore(intakeSystem, pivotSystem).schedule();
-          break;
+            break;
 
           case 3:
             new CubeScore(intakeSystem, pivotSystem).schedule();
-          break;
+            break;
 
-          // default:
-          //   new HomePos(intakeSystem, pivotSystem).schedule();
-          // break;
+            // default:
+            //   new HomePos(intakeSystem, pivotSystem).schedule();
+            // break;
         }
         break;
 
-      // default:
-      //   new HomePos(intakeSystem, pivotSystem).schedule();
-      //   break;
+        // default:
+        //   new HomePos(intakeSystem, pivotSystem).schedule();
+        //   break;
     }
   }
 }

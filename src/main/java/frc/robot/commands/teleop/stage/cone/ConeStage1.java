@@ -10,8 +10,6 @@ public class ConeStage1 extends SequentialCommandGroup {
 
   public ConeStage1(IntakeSystem intakeSystem, PivotSystem pivotSystem) { // HomePos to Ground
 
-    pivotSystem.currentStage = 1;
-
     addCommands(
         new ArmExtension(intakeSystem, 0, true),
         new PivotMove(pivotSystem, 60, true),

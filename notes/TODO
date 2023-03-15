@@ -16,9 +16,16 @@
 PivotCANCoderChangedPos
 CharacterRobot
 
-
 [NOTES] Power up robot before putting pivotcancoder on to test if absolute value is 0; do the same for the extensioncancoder
 
 Start Robot in any orientation and still have teleop run normally
 
-Override Button to LOCK Extend and set power to 0 for pivot and extension 
+Override Button to LOCK Extend and set power to 0 for pivot and extension
+
+MAKE Stage Controller SMARTER not all the way retract; current stage and set stage; going down to up
+
+NEW Command Extension{ new argument: allowed next command run after a point }
+
+Auton driving pathplanner and balance logic
+
+AprilTag X and Y import into RobotPose2D or SwerveModuleStates/SwerveModulePositions

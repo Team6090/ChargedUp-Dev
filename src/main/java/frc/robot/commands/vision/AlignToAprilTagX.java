@@ -57,7 +57,7 @@ public class AlignToAprilTagX extends CommandBase {
   public void end(boolean interrupted) {
     done = false;
     this.drivetrain.stop();
-    super.end(interrupted);
+    // super.end(interrupted);
   }
 
   // Returns true when the command should end.
