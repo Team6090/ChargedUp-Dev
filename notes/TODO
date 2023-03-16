@@ -31,3 +31,5 @@ NEW Command Extension{ new argument: allowed next command run after a point }
 AprilTag X and Y import into RobotPose2D or SwerveModuleStates/SwerveModulePositions
 
 Confirm Score (Button A + B) A Hold : B Confirm Score
+
+Default Score Slow Intake Out

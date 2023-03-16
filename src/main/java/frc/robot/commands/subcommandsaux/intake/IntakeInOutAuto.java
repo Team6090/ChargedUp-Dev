@@ -20,7 +20,7 @@ public class IntakeInOutAuto extends CommandBase {
 
   @Override
   public void execute() {
-    if (intakeSystem.ObjectInIntake()) {
+    if (intakeSystem.ObjectInIntake()) { // TODO: Log for proximity accuracy
       intakeSystem.IntakeOn(0.6, true);
     } else {
       done = true;
