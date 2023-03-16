@@ -1,34 +1,33 @@
-package frc.robot.commands.subcommandsaux;
+package frc.robot.commands.subcommandsaux.pivot;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 
-public class ArmHold extends CommandBase {
+public class PivotArmO extends CommandBase {
 
   PivotSystem pivotSystem;
-  boolean hold;
+  double power;
+  boolean reversed;
 
-  public ArmHold(PivotSystem pivotSystem, boolean hold) {
+  public PivotArmO(PivotSystem pivotSystem, double power, boolean reversed) {
     this.pivotSystem = pivotSystem;
-    this.hold = hold;
+    this.power = power;
+    this.reversed = reversed;
 
     addRequirements(pivotSystem);
   }
 
   @Override
-  public void initialize() {
-
-    pivotSystem.HoldArm(hold);
-  }
+  public void initialize() {}
 
   @Override
   public void execute() {
-    // armPivot = pivotSystem.GetArmPivot();
+    pivotSystem.PivotArm(power, reversed);
   }
 
   @Override
   public void end(boolean interrupted) {
-    // this.pivotSystem.HoldArm(false);
+    pivotSystem.PivotArm(0, false);
   }
 
   @Override

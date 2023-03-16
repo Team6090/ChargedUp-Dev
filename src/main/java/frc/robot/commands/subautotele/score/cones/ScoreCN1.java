@@ -2,9 +2,9 @@ package frc.robot.commands.subautotele.score.cones;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.subcommandsaux.ArmExtension;
-import frc.robot.commands.subcommandsaux.IntakeOpenClose;
-import frc.robot.commands.subcommandsaux.PivotMove;
+import frc.robot.commands.subcommandsaux.extension.ArmExtension;
+import frc.robot.commands.subcommandsaux.intake.IntakeOpenClose;
+import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 

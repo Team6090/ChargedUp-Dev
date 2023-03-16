@@ -1,36 +1,33 @@
-package frc.robot.commands.subcommandsaux;
+package frc.robot.commands.subcommandsaux.intake;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 
-public class OpenThenClose extends CommandBase {
+public class IntakeOpenClose extends CommandBase {
 
   IntakeSystem intakeSystem;
-
-  Timer timer;
+  boolean enabled;
 
   boolean done = false;
 
-  public OpenThenClose(IntakeSystem intakeSystem) {
+  public IntakeOpenClose(IntakeSystem intakeSystem, boolean enabled) {
     this.intakeSystem = intakeSystem;
+    this.enabled = enabled;
 
     addRequirements(intakeSystem);
   }
 
   @Override
   public void initialize() {
-    timer.start();
-    intakeSystem.EnableIntakeSolenoid(false);
+    intakeSystem.EnableIntakeSolenoid(enabled);
+    done = true;
   }
 
   @Override
   public void execute() {}
 
   @Override
-  public void end(boolean interrupted) {
-    // LOSER
-  }
+  public void end(boolean interrupted) {}
 
   @Override
   public boolean isFinished() {

@@ -24,7 +24,8 @@ public class PivotSystem extends SubsystemBase {
 
   ArmFeedforward feedforward;
 
-  public int currentStage = 0;
+  public int currentStage = 0; // 0: Home, 1: Low, 2: Mid, 3: High
+  public int currentPickup = 0; // 0: Home, 1: Front, 2: Back, 3: Station
 
   final double BOUND_LIMIT = 3000;
 
@@ -153,6 +154,7 @@ public class PivotSystem extends SubsystemBase {
       SmartDashboard.putNumber("PivotPositionEC", pivotMotorRight.getSelectedSensorPosition());
       SmartDashboard.putNumber("PivotCountCAN", pivotAngleCanCoder.getAbsolutePosition());
       SmartDashboard.putBoolean("LimitSwitch", GetLimitSwitchOutput());
+      SmartDashboard.putNumber("CurrentPickup", currentPickup);
     } else {
 
     }

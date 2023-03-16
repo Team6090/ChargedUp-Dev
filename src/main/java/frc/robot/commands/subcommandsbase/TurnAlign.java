@@ -1,4 +1,4 @@
-package frc.robot.commands.subcommandsaux;
+package frc.robot.commands.subcommandsbase;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.vision.AlignToAprilTagX;

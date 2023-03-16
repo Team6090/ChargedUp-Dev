@@ -6,7 +6,6 @@ import frc.robot.commands.teleop.score.cone.ConeScore1;
 import frc.robot.commands.teleop.score.cone.ConeScore2;
 import frc.robot.commands.teleop.score.cone.ConeScore3;
 import frc.robot.commands.teleop.score.cube.CubeScore;
-import frc.robot.commands.teleop.stage.HomePos;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 

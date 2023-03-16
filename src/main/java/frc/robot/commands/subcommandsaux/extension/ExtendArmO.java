@@ -1,16 +1,15 @@
-package frc.robot.commands.subcommandsaux;
+package frc.robot.commands.subcommandsaux.extension;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 
-public class IntakeInOutAuto extends CommandBase {
-
+public class ExtendArmO extends CommandBase {
   IntakeSystem intakeSystem;
+  double power;
 
-  boolean done = false;
-
-  public IntakeInOutAuto(IntakeSystem intakeSystem) {
+  public ExtendArmO(IntakeSystem intakeSystem, double power) {
     this.intakeSystem = intakeSystem;
+    this.power = power;
 
     addRequirements(intakeSystem);
   }
@@ -20,21 +19,16 @@ public class IntakeInOutAuto extends CommandBase {
 
   @Override
   public void execute() {
-    if (intakeSystem.ObjectInIntake()) {
-      intakeSystem.IntakeOn(0.6, true);
-    } else {
-      done = true;
-    }
+    intakeSystem.ExtendArmPO(power);
   }
 
   @Override
   public void end(boolean interrupted) {
-    intakeSystem.IntakeOff();
-    done = false;
+    this.intakeSystem.ExtendArmPO(0);
   }
 
   @Override
   public boolean isFinished() {
-    return done;
+    return false;
   }
 }

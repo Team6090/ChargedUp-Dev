@@ -40,9 +40,12 @@ import frc.robot.commands.subautotele.pickup.PickupFront;
 import frc.robot.commands.subautotele.pickup.PickupStation;
 import frc.robot.commands.subautotele.score.cones.ScoreCN3;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
-import frc.robot.commands.subcommandsaux.ArmExtension;
-import frc.robot.commands.subcommandsaux.IntakeInAuto;
-import frc.robot.commands.subcommandsaux.IntakeInOut;
+import frc.robot.commands.subcommandsaux.extension.ArmExtension;
+import frc.robot.commands.subcommandsaux.intake.IntakeInAuto;
+import frc.robot.commands.subcommandsaux.intake.IntakeInOut;
+import frc.robot.commands.subcommandsaux.util.LockRobotArm;
+import frc.robot.commands.subcommandsbase.LockRobotDrivetrain;
+import frc.robot.commands.teleop.HomePos;
 // import frc.robot.commands.robot.LockArmExtend;
 // import frc.robot.commands.subautotele.pickup.PickupCNB;
 // import frc.robot.commands.subautotele.pickup.PickupCNF;
@@ -54,7 +57,6 @@ import frc.robot.commands.subcommandsaux.IntakeInOut;
 // import frc.robot.commands.subcommandsaux.ExtendArmO;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
-import frc.robot.commands.teleop.stage.HomePos;
 import frc.robot.commands.vision.AlignToAprilTagX;
 // import frc.robot.commands.subcommandsaux.PivotArmO;
 // import frc.robot.commands.subcommandsaux.PivotMove;
@@ -261,8 +263,13 @@ public class RobotContainer {
     // End
 
     // Override Controller
-    oi.OverrideExtendArm().onTrue(Commands.runOnce(drivetrain::disableXstance, drivetrain));
-    oi.OverrideRetractArm().onTrue(new LockArmExtend(Robot.lockSystem, true));
+    oi.OverrideBack().onTrue(new LockRobotDrivetrain(drivetrain)); // End Drivetrain
+    oi.OverrideStart().onTrue(new LockRobotArm(intakeSystem, pivotSystem)); // End Arm
+
+    oi.OverrideA().onTrue(new LockArmExtend(Robot.lockSystem, true));
+
+    oi.OverrideB().onTrue(Commands.runOnce(drivetrain::disableXstance, drivetrain));
+    // End
   }
 
   private PathPlannerTrajectory GenerateTrajectoryFromPath(
@@ -313,25 +320,16 @@ public class RobotContainer {
 
     AUTO_EVENT3_MAP.put("event1", Commands.print("passed marker 1"));
 
-    PathPlannerTrajectory score =
-        GenerateTrajectoryFromPath(
-            "Score",
-            1.0,
-            1.0);
+    PathPlannerTrajectory score = GenerateTrajectoryFromPath("Score", 1.0, 1.0);
 
-    PathPlannerTrajectory go = 
-        GenerateTrajectoryFromPath(
-          "RobotControlPath",
-          1.0,
-          1.0
-        );
-    Command gogo = Commands.sequence(
-      new ScoreCN3(intakeSystem, pivotSystem),
-      new FollowPath(go, drivetrain, true),
-      new PickupFront(intakeSystem, pivotSystem),
-      new IntakeInAuto(intakeSystem), // Auto Intake Refine to auton mode
-      new HomePos(intakeSystem, pivotSystem)
-      );
+    PathPlannerTrajectory go = GenerateTrajectoryFromPath("RobotControlPath", 1.0, 1.0);
+    Command gogo =
+        Commands.sequence(
+            new ScoreCN3(intakeSystem, pivotSystem),
+            new FollowPath(go, drivetrain, true),
+            new PickupFront(intakeSystem, pivotSystem),
+            new IntakeInAuto(intakeSystem), // Auto Intake Refine to auton mode
+            new HomePos(intakeSystem, pivotSystem));
 
     Command scoreHighCone =
         Commands.sequence(

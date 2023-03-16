@@ -93,11 +93,75 @@ public interface OperatorInterface {
   // Override Controller
   XboxController overrideController = new XboxController(1);
 
-  public default Trigger OverrideExtendArm() {
+  public default Trigger OverrideA() {
     return new Trigger(() -> overrideController.getAButton());
   }
 
-  public default Trigger OverrideRetractArm() {
+  public default Trigger OverrideB() {
     return new Trigger(() -> overrideController.getBButton());
+  }
+
+  public default Trigger OverrideX() {
+    return new Trigger(() -> overrideController.getXButton());
+  }
+
+  public default Trigger OverrideY() {
+    return new Trigger(() -> overrideController.getYButton());
+  }
+
+  public default Trigger OverrideStart() {
+    return new Trigger(() -> overrideController.getStartButton());
+  }
+
+  public default Trigger OverrideBack() {
+    return new Trigger(() -> overrideController.getBackButton());
+  }
+
+  public default POVButton OverridePOV0() {
+    return new POVButton(overrideController, 0);
+  }
+
+  public default POVButton OverridePOV90() {
+    return new POVButton(overrideController, 90);
+  }
+
+  public default POVButton OverridePOV180() {
+    return new POVButton(overrideController, 180);
+  }
+
+  public default POVButton OverridePOV270() {
+    return new POVButton(overrideController, 270);
+  }
+
+  public default double OverrideLeftStickXAxis() {
+    return overrideController.getLeftX();
+  }
+
+  public default double OverrideLeftStickYAxis() {
+    return overrideController.getLeftY();
+  }
+
+  public default double OverrideRightStickXAxis() {
+    return overrideController.getRightX();
+  }
+
+  public default double OverrideRightStickYAxis() {
+    return overrideController.getRightY();
+  }
+
+  public default Trigger OverrideLeftBumper() {
+    return new Trigger(() -> overrideController.getLeftBumper());
+  }
+
+  public default Trigger OverrideRightBumper() {
+    return new Trigger(() -> overrideController.getRightBumper());
+  }
+
+  public default double OverrideLeftTrigger() {
+    return overrideController.getLeftTriggerAxis();
+  }
+
+  public default double OverrideRightTrigger() {
+    return overrideController.getRightTriggerAxis();
   }
 }

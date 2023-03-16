@@ -1,8 +1,9 @@
 package frc.robot.commands.subautotele.pickup;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.subcommandsaux.ArmExtension;
-import frc.robot.commands.subcommandsaux.PivotMove;
+import frc.robot.commands.subcommandsaux.extension.ArmExtension;
+import frc.robot.commands.subcommandsaux.pivot.PivotMove;
+import frc.robot.commands.subcommandsaux.util.PickupStationFeed;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 
@@ -10,8 +11,9 @@ public class PickupStation extends SequentialCommandGroup {
 
   public PickupStation(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
     addCommands(
+        new PickupStationFeed(pivotSystem, 3),
         new ArmExtension(intakeSystem, 50, true),
-        new PivotMove(pivotSystem, 108.00, true),
-        new ArmExtension(intakeSystem, 825, true));
+        new PivotMove(pivotSystem, 106.00, true),
+        new ArmExtension(intakeSystem, 8825, true));
   }
 }

@@ -2,8 +2,7 @@ package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.commands.subcommandsaux.SetCurrentStage;
-import frc.robot.commands.teleop.stage.HomePos;
+import frc.robot.commands.subcommandsaux.util.SetCurrentStage;
 import frc.robot.commands.teleop.stage.cone.ConeStage1;
 import frc.robot.commands.teleop.stage.cone.ConeStage2;
 import frc.robot.commands.teleop.stage.cone.ConeStage3;
