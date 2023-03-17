@@ -1,11 +1,11 @@
 package frc.robot.commands.subcommandsaux.pivot;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 
 public class PivotMove extends CommandBase {
 
-  PivotSystem pivotSystem;
+  PivotSubsystem pivotSystem;
   double deg;
 
   double pos;
@@ -13,7 +13,7 @@ public class PivotMove extends CommandBase {
 
   boolean done = false;
 
-  public PivotMove(PivotSystem pivotSystem, double deg, boolean autonMode) {
+  public PivotMove(PivotSubsystem pivotSystem, double deg, boolean autonMode) {
     this.pivotSystem = pivotSystem;
     this.deg = deg;
     this.autonMode = autonMode;

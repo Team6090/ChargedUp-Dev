@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 
 public class ConeStage3 extends SequentialCommandGroup {
 
-  public ConeStage3(IntakeSystem intakeSystem, PivotSystem pivotSystem) { // HomePos to HighPole
+  public ConeStage3(IntakeSystem intakeSystem, PivotSubsystem pivotSystem) { // HomePos to HighPole
 
     addCommands(
         new ArmExtension(intakeSystem, 0, true),

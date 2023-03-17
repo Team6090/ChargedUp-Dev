@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.SubsystemConstants;
+import frc.robot.subsystems.SystemConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainConstants;
 import java.io.PrintStream;
 
@@ -174,9 +174,9 @@ public class IntakeSystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Set", set);
-    if (SubsystemConstants.Auxiliary.INTAKE_DEBUG == true) {
+    // if (SubsystemConstants.SystemConstants.INTAKE_DEBUG == true) {
 
-    } else {
+    // } else {
       // SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
       // SmartDashboard.putNumber("Object Type CV3", ObjectType());
       // SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
@@ -186,7 +186,7 @@ public class IntakeSystem extends SubsystemBase {
       // SmartDashboard.putNumber("ArmExtendIntCM",
       // convertToCM(armRetractMotor.getSelectedSensorPosition()));
 
-    }
+    // }
     // currentObject = ObjectType();
     // SmartDashboard.putNumber("ObjectType", currentObject); // Change to command call
     // if (printStream == null) {

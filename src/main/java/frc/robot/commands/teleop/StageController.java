@@ -10,15 +10,15 @@ import frc.robot.commands.teleop.stage.cube.CubeStage1;
 import frc.robot.commands.teleop.stage.cube.CubeStage2;
 import frc.robot.commands.teleop.stage.cube.CubeStage3;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 
 public class StageController extends CommandBase {
 
   IntakeSystem intakeSystem;
-  PivotSystem pivotSystem;
+  PivotSubsystem pivotSystem;
   int setStageLocation;
 
-  public StageController(IntakeSystem intakeSystem, PivotSystem pivotSystem, int setStageLocation) {
+  public StageController(IntakeSystem intakeSystem, PivotSubsystem pivotSystem, int setStageLocation) {
     this.intakeSystem = intakeSystem;
     this.pivotSystem = pivotSystem;
     this.setStageLocation = setStageLocation;

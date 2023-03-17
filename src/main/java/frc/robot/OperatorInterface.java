@@ -6,7 +6,7 @@
  * Initially from https://github.com/Mechanical-Advantage/RobotCode2022
  */
 
-package frc.robot.operator_interface;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.POVButton;

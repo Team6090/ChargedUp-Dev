@@ -12,7 +12,6 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
-// import com.pathplanner.lib.commands.FollowPathWithEvents;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.SPI;
@@ -23,13 +22,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-// import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.team3061.swerve.SwerveModule;
 import frc.lib.team3061.swerve.SwerveModuleIO;
 import frc.lib.team3061.swerve.SwerveModuleIOSim;
 import frc.lib.team3061.swerve.SwerveModuleIOTalonFX;
 import frc.robot.Constants.Mode;
-// import frc.robot.commands.vision.AlignToAprilTagX;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.autons.FeedForwardCharacterization;
 import frc.robot.commands.autons.FeedForwardCharacterization.FeedForwardCharacterizationData;
@@ -46,30 +43,14 @@ import frc.robot.commands.subcommandsaux.intake.IntakeInOut;
 import frc.robot.commands.subcommandsaux.util.LockRobotArm;
 import frc.robot.commands.subcommandsbase.LockRobotDrivetrain;
 import frc.robot.commands.teleop.HomePos;
-// import frc.robot.commands.robot.LockArmExtend;
-// import frc.robot.commands.subautotele.pickup.PickupCNB;
-// import frc.robot.commands.subautotele.pickup.PickupCNF;
-// import frc.robot.commands.subautotele.score.cones.ScoreCN1;
-// import frc.robot.commands.subautotele.score.cones.ScoreCN2;
-// import frc.robot.commands.subautotele.score.cones.ScoreCN3;
-// import frc.robot.commands.subautotele.CommandTest;
-// import frc.robot.commands.subcommandsaux.ArmHold;
-// import frc.robot.commands.subcommandsaux.ExtendArmO;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
 import frc.robot.commands.vision.AlignToAprilTagX;
-// import frc.robot.commands.subcommandsaux.PivotArmO;
-// import frc.robot.commands.subcommandsaux.PivotMove;
-// import frc.robot.commands.teleop.stage.HomePos;
-import frc.robot.operator_interface.OISelector;
-import frc.robot.operator_interface.OperatorInterface;
 import frc.robot.subsystems.auxiliary.AirCompressor;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-// import frc.robot.subsystems.auxiliary.LockSystem;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.limelight.Limelight;
-// import frc.robot.subsystems.limelight.LimelightPipeline;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -91,7 +72,7 @@ public class RobotContainer {
 
   // RobotContainer singleton
   private static RobotContainer robotContainer = new RobotContainer();
-  private PivotSystem pivotSystem = new PivotSystem();
+  private PivotSubsystem pivotSystem = new PivotSubsystem();
   private IntakeSystem intakeSystem = new IntakeSystem();
   // private LockSystem lockSystem = new LockSystem();
 
@@ -205,9 +186,6 @@ public class RobotContainer {
    * new OI objects and binds all of the buttons to commands.
    */
   public void updateOI() {
-    if (!OISelector.didJoysticksChange()) {
-      return;
-    }
 
     CommandScheduler.getInstance().getActiveButtonLoop().clear();
     // oi = OISelector.findOperatorInterface();

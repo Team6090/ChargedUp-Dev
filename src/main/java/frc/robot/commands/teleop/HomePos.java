@@ -6,16 +6,16 @@ import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.commands.subcommandsaux.util.PickupStationFeed;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 
 public class HomePos extends CommandBase {
 
   IntakeSystem intakeSystem;
-  PivotSystem pivotSystem;
+  PivotSubsystem pivotSystem;
   int currentStage;
   int pickupStation;
 
-  public HomePos(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+  public HomePos(IntakeSystem intakeSystem, PivotSubsystem pivotSystem) {
     this.intakeSystem = intakeSystem;
     this.pivotSystem = pivotSystem;
 
@@ -32,21 +32,24 @@ public class HomePos extends CommandBase {
     if (pickupStation
         == 1) { // Cleanup add more safety for command clashing (interruping other commands)
       Commands.sequence(
-          new PickupStationFeed(pivotSystem, 0),
-          new ArmExtension(intakeSystem, 50, true),
-          new PivotMove(pivotSystem, 30, true)).schedule();
+              new PickupStationFeed(pivotSystem, 0),
+              new ArmExtension(intakeSystem, 50, true),
+              new PivotMove(pivotSystem, 30, true))
+          .schedule();
     } else if (pickupStation == 2) {
       Commands.sequence(
-          new PickupStationFeed(pivotSystem, 0),
-          new PivotMove(pivotSystem, 317.0, true),
-          new ArmExtension(intakeSystem, 50, true),
-          new PivotMove(pivotSystem, 30, true)).schedule();
+              new PickupStationFeed(pivotSystem, 0),
+              new PivotMove(pivotSystem, 317.0, true),
+              new ArmExtension(intakeSystem, 50, true),
+              new PivotMove(pivotSystem, 30, true))
+          .schedule();
     } else if (pickupStation == 3) {
       Commands.sequence(
-          new PickupStationFeed(pivotSystem, 0),
-          new PivotMove(pivotSystem, 118.0, true),
-          new ArmExtension(intakeSystem, 50, true),
-          new PivotMove(pivotSystem, 30, true)).schedule();
+              new PickupStationFeed(pivotSystem, 0),
+              new PivotMove(pivotSystem, 118.0, true),
+              new ArmExtension(intakeSystem, 50, true),
+              new PivotMove(pivotSystem, 30, true))
+          .schedule();
     } else {
       new PickupStationFeed(pivotSystem, 0).schedule(); // Set current pickup to home
       switch (currentObject) {

@@ -32,10 +32,8 @@ import frc.lib.team6328.util.TunableNumber;
 import frc.robot.subsystems.limelight.Limelight;
 import org.littletonrobotics.junction.Logger;
 
-/**
- * This subsystem models the robot's drivetrain mechanism. It consists of a four MK4 swerve modules,
- * each with two motors and an encoder. It also consists of a Pigeon which is used to measure the
- * robot's rotation.
+/** Drivetrain Subsystem
+ * @
  */
 public class Drivetrain extends SubsystemBase {
 

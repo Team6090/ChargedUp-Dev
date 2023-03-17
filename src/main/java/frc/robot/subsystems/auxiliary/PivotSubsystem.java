@@ -10,10 +10,10 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.SubsystemConstants;
+import frc.robot.subsystems.SystemConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainConstants;
 
-public class PivotSystem extends SubsystemBase {
+public class PivotSubsystem extends SubsystemBase {
 
   TalonFX pivotMotorLeft;
   TalonFX pivotMotorRight;
@@ -29,7 +29,7 @@ public class PivotSystem extends SubsystemBase {
 
   final double BOUND_LIMIT = 3000;
 
-  public PivotSystem() {
+  public PivotSubsystem() {
     limitSwitch = new DigitalInput(0);
 
     feedforward =
@@ -148,15 +148,15 @@ public class PivotSystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("WriteStage", currentStage);
-    if (SubsystemConstants.Auxiliary.PIVOT_DEBUG == true) {
-      SmartDashboard.putNumber(
-          "PivotPositionDegrees", convertToDegrees(pivotMotorRight.getSelectedSensorPosition()));
-      SmartDashboard.putNumber("PivotPositionEC", pivotMotorRight.getSelectedSensorPosition());
-      SmartDashboard.putNumber("PivotCountCAN", pivotAngleCanCoder.getAbsolutePosition());
-      SmartDashboard.putBoolean("LimitSwitch", GetLimitSwitchOutput());
-      SmartDashboard.putNumber("CurrentPickup", currentPickup);
-    } else {
+    // if (SubsystemConstants.SystemConstants.PIVOT_DEBUG == true) {
+    //   SmartDashboard.putNumber(
+    //       "PivotPositionDegrees", convertToDegrees(pivotMotorRight.getSelectedSensorPosition()));
+    //   SmartDashboard.putNumber("PivotPositionEC", pivotMotorRight.getSelectedSensorPosition());
+    //   SmartDashboard.putNumber("PivotCountCAN", pivotAngleCanCoder.getAbsolutePosition());
+    //   SmartDashboard.putBoolean("LimitSwitch", GetLimitSwitchOutput());
+    //   SmartDashboard.putNumber("CurrentPickup", currentPickup);
+    // } else {
 
-    }
+    // }
   }
 }
