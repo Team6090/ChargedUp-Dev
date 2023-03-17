@@ -41,51 +41,10 @@ public class TelescopeSubsystem extends SubsystemBase {
             canbus
         );
 
-        m_TelescopeMotor.configFactoryDefault();
-
         m_TelescoreEncoder = new CANCoder(
             constants.TELESCOPE_ENCODER_ID,
             canbus
         );
-
-        m_TelescoreEncoder.configFactoryDefault();
-
-        talonFXDefaultConfiguration.ENABLE_SOFT_LIMIT_FORWARD = true;
-        talonFXDefaultConfiguration.ENABLE_SOFT_LIMIT_REVERSE = true;
-        talonFXDefaultConfiguration.FORWARD_SOFT_LIMIT = 25500;
-        talonFXDefaultConfiguration.REVERSE_SOFT_LIMIT = 0;
-
-        talonFXDefaultConfiguration.NEUTRAL_DEADBAND = 0.01;
-
-        talonFXDefaultConfiguration.SENSOR_INITIALIZATION_STRATEGY = SensorInitializationStrategy.BootToAbsolutePosition;
-
-        talonFXDefaultConfiguration.TIMEOUT = 2000;
-
-        talonFXDefaultConfiguration.SLOT0_KP = 0.8;
-        talonFXDefaultConfiguration.SLOT0_KI = 0.00002;
-        talonFXDefaultConfiguration.SLOT0_KD = 0.0;
-        talonFXDefaultConfiguration.SLOT0_KF = 0.2;
-
-        TalonFXConfiguration defaultConfig = new TalonFXConfiguration();
-        defaultConfig.forwardSoftLimitEnable = talonFXDefaultConfiguration.ENABLE_SOFT_LIMIT_FORWARD;
-        defaultConfig.reverseSoftLimitEnable = talonFXDefaultConfiguration.ENABLE_SOFT_LIMIT_REVERSE;
-        defaultConfig.forwardSoftLimitThreshold = talonFXDefaultConfiguration.FORWARD_SOFT_LIMIT;
-        defaultConfig.reverseSoftLimitThreshold = talonFXDefaultConfiguration.REVERSE_SOFT_LIMIT;
-
-        defaultConfig.neutralDeadband = talonFXDefaultConfiguration.NEUTRAL_DEADBAND;
-
-        defaultConfig.initializationStrategy = talonFXDefaultConfiguration.SENSOR_INITIALIZATION_STRATEGY;
-
-        defaultConfig.slot0.kP = talonFXDefaultConfiguration.SLOT0_KP;
-        defaultConfig.slot0.kI = talonFXDefaultConfiguration.SLOT0_KI;
-        defaultConfig.slot0.kD = talonFXDefaultConfiguration.SLOT0_KD;
-        defaultConfig.slot0.kF = talonFXDefaultConfiguration.SLOT0_KF;
-
-        m_TelescopeMotor.configAllSettings(defaultConfig, talonFXDefaultConfiguration.TIMEOUT);
-        m_TelescopeMotor.clearStickyFaults(talonFXDefaultConfiguration.TIMEOUT);
-
-        m_TelescopeMotor.selectProfileSlot(0, 0);
-
     }
 
     @Override

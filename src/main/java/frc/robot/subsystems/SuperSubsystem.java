@@ -3,7 +3,17 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
-public class SuperSubsystem {
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.auxiliary.TelescopeSubsystem;
+
+public class SuperSubsystem extends SubsystemBase {
+
+    public TelescopeSubsystem telescopeSubsystem;
+
+    /** SuperSubsystem */
+    public SuperSubsystem() {
+        telescopeSubsystem = new TelescopeSubsystem("Aux");
+    }
     
     public static class TalonFXConfigurationDefault {
         public NeutralMode neutralMode = NeutralMode.Brake;
@@ -28,6 +38,11 @@ public class SuperSubsystem {
     }
 
     public static class CANCoderConfigurationDefault {
+        
+    }
+
+    @Override
+    public void periodic() {
         
     }
 
