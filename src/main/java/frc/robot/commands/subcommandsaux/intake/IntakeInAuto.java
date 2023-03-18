@@ -1,5 +1,6 @@
 package frc.robot.commands.subcommandsaux.intake;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
@@ -10,9 +11,9 @@ public class IntakeInAuto extends CommandBase {
 
   boolean done = false;
 
+
   public IntakeInAuto(IntakeSystem intakeSystem) {
     this.intakeSystem = intakeSystem;
-
     addRequirements(intakeSystem);
   }
 
