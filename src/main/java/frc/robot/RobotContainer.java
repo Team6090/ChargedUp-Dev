@@ -45,6 +45,7 @@ import frc.robot.commands.subautotele.pickup.PickupStation;
 import frc.robot.commands.subautotele.score.cones.ScoreCN3;
 import frc.robot.commands.subautotele.score.cubes.ScoreCB3;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
+import frc.robot.commands.subautotele.swerve.AutoBalanceV4;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.intake.IntakeInAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeInOut;
@@ -395,7 +396,7 @@ public class RobotContainer {
     Command scoreHighBalance =
         Commands.sequence(
           new ScoreCN3(intakeSystem, pivotSystem),
-          new AutoBalanceV2(drivetrain, true, 3.0, 13, -30)
+          new AutoBalanceV4(drivetrain, true, 1.0, -20)
         );
 
     PathPlannerTrajectory testPath =
@@ -416,6 +417,7 @@ public class RobotContainer {
     // add commands to the auto chooser
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
 
+    autoChooser.addOption("Balance", new AutoBalanceV4(drivetrain, true, 1.0, -20));
     autoChooser.addOption("TestPath", autoTestPath);
     autoChooser.addOption("ScoreHighAutoBalance", scoreHighCone);
     autoChooser.addOption("RobotControlPath", gogo);
