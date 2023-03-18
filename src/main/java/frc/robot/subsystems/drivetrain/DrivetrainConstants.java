@@ -122,8 +122,8 @@ public final class DrivetrainConstants {
 
   // FIXME: tune PID values for auto paths
 
-  public static final double AUTO_DRIVE_P_CONTROLLER = 5.75; // 5.75
-  public static final double AUTO_DRIVE_I_CONTROLLER = 0.75; // 0.75
+  public static final double AUTO_DRIVE_P_CONTROLLER = 5.8; // 5.75
+  public static final double AUTO_DRIVE_I_CONTROLLER = 0.9; // 0.75
   public static final double AUTO_DRIVE_D_CONTROLLER = 0.0; // 0.0
   public static final double AUTO_TURN_P_CONTROLLER = 0.62; // 10
   public static final double AUTO_TURN_I_CONTROLLER = 0.0;
@@ -134,6 +134,14 @@ public final class DrivetrainConstants {
   public static final HashMap<String, Command> AUTO_EVENT2_MAP = new HashMap<>();
 
   public static final HashMap<String, Command> AUTO_EVENT3_MAP = new HashMap<>();
+
+  public static final HashMap<String, Command> M1L1P1_MAP = new HashMap<>();
+
+  public static final HashMap<String, Command> M1L2P1_MAP = new HashMap<>();
+
+  public static final HashMap<String, Command> M1L3P1_MAP = new HashMap<>();
+
+  public static final HashMap<String, Command> FullPath_Map = new HashMap<>();
 
   public static final double DEADBAND = 0.1;
 }

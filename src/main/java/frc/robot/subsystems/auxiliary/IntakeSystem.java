@@ -122,8 +122,10 @@ public class IntakeSystem extends SubsystemBase {
   public boolean ObjectInIntake() {
     double prox = IntakeSensor.getProximity();
     if (prox > 100) {
+      SmartDashboard.putBoolean("Object", true);
       return true;
     }
+    SmartDashboard.putBoolean("Object", false);
     return false;
   }
 

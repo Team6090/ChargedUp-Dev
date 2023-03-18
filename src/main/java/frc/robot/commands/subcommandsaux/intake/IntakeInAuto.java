@@ -1,5 +1,6 @@
 package frc.robot.commands.subcommandsaux.intake;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 
@@ -20,6 +21,7 @@ public class IntakeInAuto extends CommandBase {
 
   @Override
   public void execute() {
+    SmartDashboard.putNumber("ObjectType", intakeSystem.ObjectType());
     if (intakeSystem.ObjectInIntake() == false) {
       intakeSystem.IntakeOn(0.8, false);
     } else {

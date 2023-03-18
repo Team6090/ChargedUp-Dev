@@ -15,6 +15,8 @@ public class HomePos extends CommandBase {
   int currentStage;
   int pickupStation;
 
+  boolean done = false;
+
   public HomePos(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
     this.intakeSystem = intakeSystem;
     this.pivotSystem = pivotSystem;
@@ -76,5 +78,16 @@ public class HomePos extends CommandBase {
       }
     }
     pivotSystem.SetCurrentStage(0);
+    done = true;
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    done = false;
+  }
+
+  @Override
+  public boolean isFinished() {
+    return done;
   }
 }

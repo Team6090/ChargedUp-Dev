@@ -33,3 +33,6 @@ AprilTag X and Y import into RobotPose2D or SwerveModuleStates/SwerveModulePosit
 Confirm Score (Button A + B) A Hold : B Confirm Score
 
 Default Score Slow Intake Out
+
+Intake Command Auton
+YoYo effect on extend when reenable
