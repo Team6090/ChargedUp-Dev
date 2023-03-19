@@ -2,6 +2,9 @@ package frc.robot.commands.subcommandsaux.extension;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
+import frc.robot.commands.robot.LockArmExtend;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 
 public class ArmExtension extends CommandBase {
@@ -23,6 +26,9 @@ public class ArmExtension extends CommandBase {
 
   @Override
   public void initialize() {
+    if (Robot.lockSystem.locked == true) {
+      new LockArmExtend(Robot.lockSystem, false);
+    }
     intakeSystem.ExtendArmToPosition(ec);
   }
 

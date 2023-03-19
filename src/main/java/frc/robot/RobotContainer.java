@@ -47,6 +47,7 @@ import frc.robot.commands.subautotele.score.cubes.ScoreCB3;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV4;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
+import frc.robot.commands.subcommandsaux.intake.IntakeCube;
 import frc.robot.commands.subcommandsaux.intake.IntakeInAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeInOut;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
@@ -235,6 +236,10 @@ public class RobotContainer {
             oi::PrimaryLeftStickYAxis,
             oi::PrimaryLeftStickXAxis,
             oi::PrimaryRightStickXAxis));
+
+    intakeSystem.setDefaultCommand(
+      new IntakeCube(intakeSystem, oi::PrimaryLeftTrigger)
+    );
 
     configureButtonBindings();
   }
