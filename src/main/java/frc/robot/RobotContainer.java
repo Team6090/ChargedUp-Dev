@@ -46,6 +46,8 @@ import frc.robot.commands.subautotele.score.cones.ScoreCN3;
 import frc.robot.commands.subautotele.score.cubes.ScoreCB3;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
+import frc.robot.commands.subcommandsaux.intake.IntakeCube;
+import frc.robot.commands.subcommandsaux.intake.IntakeCubeAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeInAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeInOut;
 import frc.robot.commands.subcommandsaux.intake.IntakeOpenClose;
@@ -236,6 +238,10 @@ public class RobotContainer {
             oi::PrimaryLeftStickXAxis,
             oi::PrimaryRightStickXAxis));
 
+    intakeSystem.setDefaultCommand(
+      new IntakeCube(intakeSystem, oi::PrimaryLeftTrigger)
+    );
+
     configureButtonBindings();
   }
 
@@ -337,7 +343,8 @@ public class RobotContainer {
     FullPath_Map.put("BPUP2", new PickupBack(intakeSystem, pivotSystem).ignoringDisable(true));
 
     List<PathPlannerTrajectory> p_FullPathRed = PathPlanner.loadPathGroup("Red3", MAX_VELOCITY_METERS_PER_SECOND, AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-    List<PathPlannerTrajectory> p_FullPathBlue = PathPlanner.loadPathGroup("Blue3", 2.0,2.0);
+    List<PathPlannerTrajectory> p_FullPathBlueCube = PathPlanner.loadPathGroup("Blue3CubeStart", 2.0,2.0);
+    List<PathPlannerTrajectory> p_FullPathBlueCone = PathPlanner.loadPathGroup("Blue3ConeStart", 1.0, 1.0);
 
     PathPlannerTrajectory p_1Meter = GenerateTrajectoryFromPath("1Meter", MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
     PathPlannerTrajectory p_3Meter = GenerateTrajectoryFromPath("3Meter", MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
@@ -370,30 +377,57 @@ public class RobotContainer {
       new ScoreCN3(intakeSystem, pivotSystem)
     );
 
-    Command c_FullPathBlue = Commands.sequence(
+    Command c_FullPathBlueCube = Commands.sequence(
       //Add vision if time
-      new ScoreCN3(intakeSystem, pivotSystem),
+      new ScoreCB3(intakeSystem, pivotSystem),
       new FollowPathWithEvents(
-        new FollowPath(p_FullPathBlue.get(0), drivetrain, true),
-        p_FullPathBlue.get(0).getMarkers(),
+        new FollowPath(p_FullPathBlueCube.get(0), drivetrain, true),
+        p_FullPathBlueCube.get(0).getMarkers(),
         FullPath_Map
       ),
       // new PickupBack(intakeSystem, pivotSystem),
       new IntakeInAuto(intakeSystem),
       new ArmExtension(intakeSystem, 50, true),
       new PivotMove(pivotSystem, 30, true),
-      new FollowPath(p_FullPathBlue.get(1), drivetrain, false),
-      new ScoreCB3(intakeSystem, pivotSystem),
+      new FollowPath(p_FullPathBlueCube.get(1), drivetrain, false),
+      new ScoreCN3(intakeSystem, pivotSystem),
       new FollowPathWithEvents(
-        new FollowPath(p_FullPathBlue.get(2), drivetrain, false),
-        p_FullPathBlue.get(2).getMarkers(),
+        new FollowPath(p_FullPathBlueCube.get(2), drivetrain, false),
+        p_FullPathBlueCube.get(2).getMarkers(),
         FullPath_Map
       ),
       // new PickupBack(intakeSystem, pivotSystem),
       new IntakeInAuto(intakeSystem),
       new ArmExtension(intakeSystem, 50, true),
       new PivotMove(pivotSystem, 33, true),
-      new FollowPath(p_FullPathRed.get(3), drivetrain, false),
+      new FollowPath(p_FullPathBlueCube.get(3), drivetrain, false),
+      new ScoreCN3(intakeSystem, pivotSystem)
+    );
+
+    Command c_FullPathBlueCone = Commands.sequence(
+      //Add vision if time
+      new ScoreCN3(intakeSystem, pivotSystem),
+      new FollowPathWithEvents(
+        new FollowPath(p_FullPathBlueCone.get(0), drivetrain, true),
+        p_FullPathBlueCone.get(0).getMarkers(),
+        FullPath_Map
+      ),
+      // new PickupBack(intakeSystem, pivotSystem),
+      new IntakeCubeAuto(intakeSystem),
+      new ArmExtension(intakeSystem, 50, true),
+      new PivotMove(pivotSystem, 30, true),
+      new FollowPath(p_FullPathBlueCone.get(1), drivetrain, false),
+      new ScoreCB3(intakeSystem, pivotSystem),
+      new FollowPathWithEvents(
+        new FollowPath(p_FullPathBlueCone.get(2), drivetrain, false),
+        p_FullPathBlueCone.get(2).getMarkers(),
+        FullPath_Map
+      ),
+      // new PickupBack(intakeSystem, pivotSystem),
+      new IntakeInAuto(intakeSystem),
+      new ArmExtension(intakeSystem, 50, true),
+      new PivotMove(pivotSystem, 33, true),
+      new FollowPath(p_FullPathBlueCone.get(3), drivetrain, false),
       new ScoreCN3(intakeSystem, pivotSystem)
     );
 
@@ -458,7 +492,8 @@ public class RobotContainer {
     autoChooser.addOption("ScoreHighAutoBalance", scoreHighCone);
     autoChooser.addOption("Blue_ScoreHighAndGrab", gogo);
     autoChooser.addOption("Red_MakeLink", c_FullPathRed);
-    autoChooser.addOption("Blue_MakeLink", c_FullPathBlue);
+    autoChooser.addOption("Blue_MakeLinkCubeStart", c_FullPathBlueCube);
+    autoChooser.addOption("Blue_MakeLinkConeStart", c_FullPathBlueCone);
     autoChooser.addOption("AutoBalance", scoreHighBalance);
     autoChooser.addOption("ScoreAndBackup", scoreBackup);
 
