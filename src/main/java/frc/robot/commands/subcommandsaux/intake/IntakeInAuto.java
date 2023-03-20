@@ -13,6 +13,7 @@ public class IntakeInAuto extends CommandBase {
 
   boolean done = false;
 
+
   public IntakeInAuto(IntakeSystem intakeSystem) {
     this.intakeSystem = intakeSystem;
     timer = new Timer();

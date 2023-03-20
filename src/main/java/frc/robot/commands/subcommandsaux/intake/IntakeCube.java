@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 
 public class IntakeCube extends CommandBase {
-
+    
     IntakeSystem intakeSystem;
     DoubleSupplier trigger;
 
@@ -60,5 +60,7 @@ public class IntakeCube extends CommandBase {
           return 0.0;
         }
       }
+
+}
 
 }
