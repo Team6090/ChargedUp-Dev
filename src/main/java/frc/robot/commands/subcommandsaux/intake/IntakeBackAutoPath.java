@@ -1,48 +1,42 @@
 package frc.robot.commands.subcommandsaux.intake;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 
-public class IntakeInOutAuto extends CommandBase {
+public class IntakeBackAutoPath extends CommandBase {
 
   IntakeSystem intakeSystem;
 
+  boolean object;
+
   boolean done = false;
 
-  Timer timer;
-
-  public IntakeInOutAuto(IntakeSystem intakeSystem) {
+  public IntakeBackAutoPath(IntakeSystem intakeSystem) {
     this.intakeSystem = intakeSystem;
-
-    timer = new Timer();
 
     addRequirements(intakeSystem);
   }
 
   @Override
   public void initialize() {
-    timer.start();
+    object = intakeSystem.ObjectInIntake();
   }
 
   @Override
   public void execute() {
-    if (intakeSystem.ObjectInIntake() || timer.get() < 0.25) { // TODO: Log for proximity accuracy
-      intakeSystem.IntakeOn(0.4, true);
+    object = intakeSystem.ObjectInIntake();
+    if (object == false) {
+      intakeSystem.IntakeOn(0.7, false);
     } else {
-      done = true;
+      intakeSystem.IntakeOff();
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    timer.stop();
-    timer.reset();
-    intakeSystem.IntakeOff();
     done = false;
   }
 
-  @Override
   public boolean isFinished() {
     return done;
   }

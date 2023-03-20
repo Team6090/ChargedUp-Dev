@@ -1,7 +1,6 @@
 package frc.robot.commands.subautotele.swerve;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
@@ -63,58 +62,7 @@ public class AutoBalanceV3 extends CommandBase {
   }
 
   @Override
-  public void execute() {
-    SmartDashboard.putBoolean("Climax", pastClimax);
-    SmartDashboard.putBoolean("EnagagedWithSubStation", engagedWithStation);
-    gyroPitch = Drivetrain.gyroIO.getPitch();
-    if (pastClimax = false) {
-
-      if (engagedWithStation == true) {
-        if (deadband(gyroPitch, allowedError) == 0.0) {
-          // done = true;
-        } else {
-          // Updates
-          prevPitch = newPitch;
-          newPitch = gyroPitch;
-          prevTime = newTime;
-          newTime = timer.get();
-
-          double changeOverTime = (newPitch - prevPitch) / (newTime - prevTime);
-          SmartDashboard.putNumber("ChangeOverTime", changeOverTime);
-
-          if (gyroPitch > 0) {
-            setDriveDirection = -1;
-          } else if (gyroPitch < 0) {
-            setDriveDirection = 1;
-          }
-          SmartDashboard.putNumber(
-              "Judge", judgeSpeed(speed / Math.abs(changeOverTime) * setDriveDirection));
-          if (changeOverTime < changeMin) { // Change for forward / backward
-            pastClimax = true;
-            // drivetrain.enableXstance();
-            // engagedWithStation = false;
-            // Fast Change (Breaking past mid)
-            // drivetrain.drive(judgeSpeed(speed/Math.abs(changeOverTime)*setDriveDirection), 0, 0);
-            // // Calculated Speed
-          } else {
-            // Slow Change (Remain Constant?)
-            if (changeOverTime <= changeMin && deadband(gyroPitch, allowedError) == 0.0) {
-              done = true;
-            }
-          }
-        }
-      } else if (pastClimax == true) {
-        if (deadband(gyroPitch, allowedError) == 0.0) {
-          done = true;
-          super.end(done);
-        }
-      }
-    } else {
-      if (deadband(gyroPitch, allowedError) < activateMin) {
-        engagedWithStation = true;
-      }
-    }
-  }
+  public void execute() {}
 
   @Override
   public void end(boolean interrupted) {

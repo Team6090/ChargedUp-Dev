@@ -15,7 +15,10 @@ public class HomePos extends CommandBase {
   int currentStage;
   int pickupStation;
 
-  public HomePos(IntakeSystem intakeSystem, PivotSubsystem pivotSystem) {
+  boolean done = false;
+
+  public HomePos(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+
     this.intakeSystem = intakeSystem;
     this.pivotSystem = pivotSystem;
 
@@ -31,25 +34,115 @@ public class HomePos extends CommandBase {
 
     if (pickupStation
         == 1) { // Cleanup add more safety for command clashing (interruping other commands)
-      Commands.sequence(
-              new PickupStationFeed(pivotSystem, 0),
-              new ArmExtension(intakeSystem, 50, true),
-              new PivotMove(pivotSystem, 30, true))
-          .schedule();
+      switch (currentObject) {
+        case 0:
+          Commands.sequence(
+                  new PickupStationFeed(pivotSystem, 0),
+                  new ArmExtension(intakeSystem, 50, true),
+                  new PivotMove(pivotSystem, 30, true))
+              .schedule();
+          break;
+
+        case 1:
+          Commands.sequence(
+                  new PickupStationFeed(pivotSystem, 0),
+                  new ArmExtension(intakeSystem, 50, true),
+                  new PivotMove(pivotSystem, 30, true))
+              .schedule();
+          break;
+
+        case 2:
+          Commands.sequence(
+                  new PickupStationFeed(pivotSystem, 0),
+                  new ArmExtension(intakeSystem, 50, true),
+                  new PivotMove(pivotSystem, 37, true))
+              .schedule();
+          break;
+
+        default:
+          Commands.sequence(
+                  new PickupStationFeed(pivotSystem, 0),
+                  new ArmExtension(intakeSystem, 50, true),
+                  new PivotMove(pivotSystem, 30, true))
+              .schedule();
+          break;
+      }
     } else if (pickupStation == 2) {
-      Commands.sequence(
-              new PickupStationFeed(pivotSystem, 0),
-              new PivotMove(pivotSystem, 317.0, true),
-              new ArmExtension(intakeSystem, 50, true),
-              new PivotMove(pivotSystem, 30, true))
-          .schedule();
+      switch (currentObject) {
+        case 0:
+          Commands.sequence(
+                  new PickupStationFeed(pivotSystem, 0),
+                  new PivotMove(pivotSystem, 317.0, true),
+                  new ArmExtension(intakeSystem, 50, true),
+                  new PivotMove(pivotSystem, 30, true))
+              .schedule();
+          break;
+
+        case 1:
+          Commands.sequence(
+                  new PickupStationFeed(pivotSystem, 0),
+                  new PivotMove(pivotSystem, 317.0, true),
+                  new ArmExtension(intakeSystem, 50, true),
+                  new PivotMove(pivotSystem, 30, true))
+              .schedule();
+          break;
+
+        case 2:
+          Commands.sequence(
+                  new PickupStationFeed(pivotSystem, 0),
+                  new PivotMove(pivotSystem, 317.0, true),
+                  new ArmExtension(intakeSystem, 50, true),
+                  new PivotMove(pivotSystem, 37, true))
+              .schedule();
+          break;
+
+        default:
+          Commands.sequence(
+                  new PickupStationFeed(pivotSystem, 0),
+                  new PivotMove(pivotSystem, 317.0, true),
+                  new ArmExtension(intakeSystem, 50, true),
+                  new PivotMove(pivotSystem, 30, true))
+              .schedule();
+          break;
+      }
     } else if (pickupStation == 3) {
-      Commands.sequence(
-              new PickupStationFeed(pivotSystem, 0),
-              new PivotMove(pivotSystem, 118.0, true),
-              new ArmExtension(intakeSystem, 50, true),
-              new PivotMove(pivotSystem, 30, true))
-          .schedule();
+      switch (currentObject) {
+        case 0:
+          Commands.sequence(
+                  new PickupStationFeed(pivotSystem, 0),
+                  new PivotMove(pivotSystem, 118.0, true),
+                  new ArmExtension(intakeSystem, 50, true),
+                  new PivotMove(pivotSystem, 30, true))
+              .schedule();
+          break;
+
+        case 1:
+          Commands.sequence(
+                  new PickupStationFeed(pivotSystem, 0),
+                  new PivotMove(pivotSystem, 118.0, true),
+                  new ArmExtension(intakeSystem, 50, true),
+                  new PivotMove(pivotSystem, 30, true))
+              .schedule();
+          break;
+
+        case 2:
+          Commands.sequence(
+                  new PickupStationFeed(pivotSystem, 0),
+                  new PivotMove(pivotSystem, 118.0, true),
+                  new ArmExtension(intakeSystem, 50, true),
+                  new PivotMove(pivotSystem, 37, true))
+              .schedule();
+          break;
+
+        default:
+          Commands.sequence(
+                  new PickupStationFeed(pivotSystem, 0),
+                  new PivotMove(pivotSystem, 118.0, true),
+                  new ArmExtension(intakeSystem, 50, true),
+                  new PivotMove(pivotSystem, 30, true))
+              .schedule();
+          break;
+      }
     } else {
       new PickupStationFeed(pivotSystem, 0).schedule(); // Set current pickup to home
       switch (currentObject) {
@@ -67,7 +160,7 @@ public class HomePos extends CommandBase {
 
         case 2:
           Commands.sequence(
-                  new ArmExtension(intakeSystem, 50, true), new PivotMove(pivotSystem, 42, true))
+                  new ArmExtension(intakeSystem, 50, true), new PivotMove(pivotSystem, 37, true))
               .schedule();
           break;
 
@@ -79,5 +172,16 @@ public class HomePos extends CommandBase {
       }
     }
     pivotSystem.SetCurrentStage(0);
+    done = true;
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    done = false;
+  }
+
+  @Override
+  public boolean isFinished() {
+    return done;
   }
 }
