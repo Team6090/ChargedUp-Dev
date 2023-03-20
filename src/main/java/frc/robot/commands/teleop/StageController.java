@@ -18,7 +18,8 @@ public class StageController extends CommandBase {
   PivotSubsystem pivotSystem;
   int setStageLocation;
 
-  public StageController(IntakeSystem intakeSystem, PivotSubsystem pivotSystem, int setStageLocation) {
+  public StageController(
+      IntakeSystem intakeSystem, PivotSubsystem pivotSystem, int setStageLocation) {
     this.intakeSystem = intakeSystem;
     this.pivotSystem = pivotSystem;
     this.setStageLocation = setStageLocation;

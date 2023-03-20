@@ -12,9 +12,7 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
-
 import com.pathplanner.lib.commands.FollowPathWithEvents;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.SPI;
@@ -54,16 +52,12 @@ import frc.robot.commands.teleop.HomePos;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
 import frc.robot.commands.vision.AlignToAprilTagX;
-
-import frc.robot.operator_interface.OISelector;
-import frc.robot.operator_interface.OperatorInterface;
 import frc.robot.subsystems.auxiliary.AirCompressor;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.limelight.Limelight;
 import java.util.List;
-
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**

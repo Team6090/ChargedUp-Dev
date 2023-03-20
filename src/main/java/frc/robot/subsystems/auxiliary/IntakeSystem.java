@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.SystemConstants;
 import frc.robot.subsystems.drivetrain.DrivetrainConstants;
 import java.io.PrintStream;
 
@@ -179,14 +178,14 @@ public class IntakeSystem extends SubsystemBase {
     // if (SubsystemConstants.SystemConstants.INTAKE_DEBUG == true) {
 
     // } else {
-      // SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
-      // SmartDashboard.putNumber("Object Type CV3", ObjectType());
-      // SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
-      // SmartDashboard.putNumber("ArmExtensionPositionCM",
-      // convertToCM(armRetractCANCoder.getPosition()));
-      SmartDashboard.putNumber("ArmExtendIntDC", armRetractMotor.getSelectedSensorPosition());
-      // SmartDashboard.putNumber("ArmExtendIntCM",
-      // convertToCM(armRetractMotor.getSelectedSensorPosition()));
+    // SmartDashboard.putBoolean("ObjectInIntake CV3", ObjectInIntake());
+    // SmartDashboard.putNumber("Object Type CV3", ObjectType());
+    // SmartDashboard.putNumber("Proximity CV3", IntakeSensor.getProximity());
+    // SmartDashboard.putNumber("ArmExtensionPositionCM",
+    // convertToCM(armRetractCANCoder.getPosition()));
+    SmartDashboard.putNumber("ArmExtendIntDC", armRetractMotor.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("ArmExtendIntCM",
+    // convertToCM(armRetractMotor.getSelectedSensorPosition()));
 
     // }
     // currentObject = ObjectType();

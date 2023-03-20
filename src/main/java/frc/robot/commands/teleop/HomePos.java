@@ -17,7 +17,7 @@ public class HomePos extends CommandBase {
 
   boolean done = false;
 
-  public HomePos(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+  public HomePos(IntakeSystem intakeSystem, PivotSubsystem pivotSystem) {
 
     this.intakeSystem = intakeSystem;
     this.pivotSystem = pivotSystem;
