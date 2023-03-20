@@ -13,7 +13,6 @@ public class IntakeInAuto extends CommandBase {
 
   boolean done = false;
 
-
   public IntakeInAuto(IntakeSystem intakeSystem) {
     this.intakeSystem = intakeSystem;
     timer = new Timer();
@@ -35,10 +34,9 @@ public class IntakeInAuto extends CommandBase {
       done = true;
     }
 
-  if (timer.get() > 1.0){
-    done = true;
-  }
-
+    if (timer.get() > 1.0) {
+      done = true;
+    }
   }
 
   @Override

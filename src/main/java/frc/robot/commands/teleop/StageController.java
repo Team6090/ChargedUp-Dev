@@ -33,7 +33,7 @@ public class StageController extends CommandBase {
     switch (currentObject) {
       case 0:
         Commands.sequence(
-          new SetCurrentStage(pivotSystem, setStageLocation),
+                new SetCurrentStage(pivotSystem, setStageLocation),
                 new HomePos(intakeSystem, pivotSystem))
             .schedule();
         ;
@@ -43,35 +43,35 @@ public class StageController extends CommandBase {
         switch (setStageLocation) {
           case 0:
             Commands.sequence(
-              new SetCurrentStage(pivotSystem, setStageLocation),
+                    new SetCurrentStage(pivotSystem, setStageLocation),
                     new HomePos(intakeSystem, pivotSystem))
                 .schedule();
             break;
 
           case 1:
             Commands.sequence(
-              new SetCurrentStage(pivotSystem, setStageLocation),
+                    new SetCurrentStage(pivotSystem, setStageLocation),
                     new ConeStage1(intakeSystem, pivotSystem))
                 .schedule();
             break;
 
           case 2:
             Commands.sequence(
-              new SetCurrentStage(pivotSystem, setStageLocation),
+                    new SetCurrentStage(pivotSystem, setStageLocation),
                     new ConeStage2(intakeSystem, pivotSystem))
-                    .schedule();
+                .schedule();
             break;
 
           case 3:
             Commands.sequence(
-              new SetCurrentStage(pivotSystem, setStageLocation),
+                    new SetCurrentStage(pivotSystem, setStageLocation),
                     new ConeStage3(intakeSystem, pivotSystem))
                 .schedule();
             break;
 
           default:
             Commands.sequence(
-              new SetCurrentStage(pivotSystem, setStageLocation),
+                    new SetCurrentStage(pivotSystem, setStageLocation),
                     new HomePos(intakeSystem, pivotSystem))
                 .schedule();
             break;
@@ -82,35 +82,35 @@ public class StageController extends CommandBase {
         switch (setStageLocation) {
           case 0:
             Commands.sequence(
-              new SetCurrentStage(pivotSystem, setStageLocation),
+                    new SetCurrentStage(pivotSystem, setStageLocation),
                     new HomePos(intakeSystem, pivotSystem))
                 .schedule();
             break;
 
           case 1:
             Commands.sequence(
-              new SetCurrentStage(pivotSystem, setStageLocation),
+                    new SetCurrentStage(pivotSystem, setStageLocation),
                     new CubeStage1(intakeSystem, pivotSystem))
                 .schedule();
             break;
 
           case 2:
             Commands.sequence(
-              new SetCurrentStage(pivotSystem, setStageLocation),
+                    new SetCurrentStage(pivotSystem, setStageLocation),
                     new CubeStage2(intakeSystem, pivotSystem))
                 .schedule();
             break;
 
           case 3:
             Commands.sequence(
-              new SetCurrentStage(pivotSystem, setStageLocation),
+                    new SetCurrentStage(pivotSystem, setStageLocation),
                     new CubeStage3(intakeSystem, pivotSystem))
                 .schedule();
             break;
 
           default:
             Commands.sequence(
-              new SetCurrentStage(pivotSystem, setStageLocation),
+                    new SetCurrentStage(pivotSystem, setStageLocation),
                     new HomePos(intakeSystem, pivotSystem))
                 .schedule();
             break;
@@ -119,7 +119,7 @@ public class StageController extends CommandBase {
 
       default:
         Commands.sequence(
-          new SetCurrentStage(pivotSystem, setStageLocation),
+                new SetCurrentStage(pivotSystem, setStageLocation),
                 new HomePos(intakeSystem, pivotSystem))
             .schedule();
         break;

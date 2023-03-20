@@ -86,34 +86,33 @@ public class AutoBalanceV2 extends CommandBase {
         SmartDashboard.putNumber(
             "Judge", judgeSpeed(speed / Math.abs(changeOverTime) * setDriveDirection));
         if (reversed == false) {
-        if (changeOverTime > changeMin) { // Change for forward / backward
-          drivetrain.enableXstance();
-          done = true;
+          if (changeOverTime > changeMin) { // Change for forward / backward
+            drivetrain.enableXstance();
+            done = true;
 
-          
-          // Fast Change (Breaking past mid)
-          // drivetrain.drive(judgeSpeed(speed/Math.abs(changeOverTime)*setDriveDirection), 0, 0);
-          // // Calculated Speed
+            // Fast Change (Breaking past mid)
+            // drivetrain.drive(judgeSpeed(speed/Math.abs(changeOverTime)*setDriveDirection), 0, 0);
+            // // Calculated Speed
+          } else {
+            // Slow Change (Remain Constant?)
+            if (changeOverTime <= changeMin && deadband(gyroPitch, allowedError) == 0.0) {
+              done = true;
+            }
+          }
         } else {
-          // Slow Change (Remain Constant?)
-          if (changeOverTime <= changeMin && deadband(gyroPitch, allowedError) == 0.0) {
+          if (changeOverTime < changeMin) { // Change for forward / backward
+            drivetrain.enableXstance();
             done = true;
+            // Fast Change (Breaking past mid)
+            // drivetrain.drive(judgeSpeed(speed/Math.abs(changeOverTime)*setDriveDirection), 0, 0);
+            // // Calculated Speed
+          } else {
+            // Slow Change (Remain Constant?)
+            if (changeOverTime >= changeMin && deadband(gyroPitch, allowedError) == 0.0) {
+              done = true;
+            }
           }
         }
-      } else {
-        if (changeOverTime < changeMin) { // Change for forward / backward
-          drivetrain.enableXstance();
-          done = true;
-          // Fast Change (Breaking past mid)
-          // drivetrain.drive(judgeSpeed(speed/Math.abs(changeOverTime)*setDriveDirection), 0, 0);
-          // // Calculated Speed
-        } else {
-          // Slow Change (Remain Constant?)
-          if (changeOverTime >= changeMin && deadband(gyroPitch, allowedError) == 0.0) {
-            done = true;
-          }
-        }
-      }
       }
     } else {
       if (deadband(gyroPitch, allowedError) < activateMin) {

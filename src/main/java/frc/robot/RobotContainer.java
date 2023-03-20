@@ -7,16 +7,12 @@ package frc.robot;
 import static frc.robot.Constants.*;
 import static frc.robot.subsystems.drivetrain.DrivetrainConstants.*;
 
-import java.util.List;
-
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.commands.FollowPathWithEvents;
-
-// import com.pathplanner.lib.commands.FollowPathWithEvents;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.SPI;
@@ -27,13 +23,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-// import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lib.team3061.swerve.SwerveModule;
 import frc.lib.team3061.swerve.SwerveModuleIO;
 import frc.lib.team3061.swerve.SwerveModuleIOSim;
 import frc.lib.team3061.swerve.SwerveModuleIOTalonFX;
 import frc.robot.Constants.Mode;
-// import frc.robot.commands.vision.AlignToAprilTagX;
 import frc.robot.commands.TeleopSwerve;
 import frc.robot.commands.autons.FeedForwardCharacterization;
 import frc.robot.commands.autons.FeedForwardCharacterization.FeedForwardCharacterizationData;
@@ -48,39 +42,24 @@ import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV4;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.intake.IntakeCube;
-// import frc.robot.commands.subcommandsaux.intake.IntakeCube;
 import frc.robot.commands.subcommandsaux.intake.IntakeCubeAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeInAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeInOut;
-import frc.robot.commands.subcommandsaux.intake.IntakeOpenClose;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.commands.subcommandsaux.util.LockRobotArm;
 import frc.robot.commands.subcommandsbase.LockRobotDrivetrain;
 import frc.robot.commands.teleop.HomePos;
-// import frc.robot.commands.robot.LockArmExtend;
-// import frc.robot.commands.subautotele.pickup.PickupCNB;
-// import frc.robot.commands.subautotele.pickup.PickupCNF;
-// import frc.robot.commands.subautotele.score.cones.ScoreCN1;
-// import frc.robot.commands.subautotele.score.cones.ScoreCN2;
-// import frc.robot.commands.subautotele.score.cones.ScoreCN3;
-// import frc.robot.commands.subautotele.CommandTest;
-// import frc.robot.commands.subcommandsaux.ArmHold;
-// import frc.robot.commands.subcommandsaux.ExtendArmO;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
 import frc.robot.commands.vision.AlignToAprilTagX;
-// import frc.robot.commands.subcommandsaux.PivotArmO;
-// import frc.robot.commands.subcommandsaux.PivotMove;
-// import frc.robot.commands.teleop.stage.HomePos;
 import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
 import frc.robot.subsystems.auxiliary.AirCompressor;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-// import frc.robot.subsystems.auxiliary.LockSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.limelight.Limelight;
-// import frc.robot.subsystems.limelight.LimelightPipeline;
+import java.util.List;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -104,7 +83,6 @@ public class RobotContainer {
   private static RobotContainer robotContainer = new RobotContainer();
   private PivotSystem pivotSystem = new PivotSystem();
   private IntakeSystem intakeSystem = new IntakeSystem();
-  // private LockSystem lockSystem = new LockSystem();
 
   /** Create the container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -240,13 +218,9 @@ public class RobotContainer {
             oi::PrimaryLeftStickXAxis,
             oi::PrimaryRightStickXAxis));
 
-    intakeSystem.setDefaultCommand(
-      new IntakeCube(intakeSystem, oi::PrimaryLeftTrigger)
-    );
+    intakeSystem.setDefaultCommand(new IntakeCube(intakeSystem, oi::PrimaryLeftTrigger));
 
-    intakeSystem.setDefaultCommand(
-      new IntakeCube(intakeSystem, oi::PrimaryLeftTrigger)
-    );
+    intakeSystem.setDefaultCommand(new IntakeCube(intakeSystem, oi::PrimaryLeftTrigger));
 
     configureButtonBindings();
   }
@@ -291,9 +265,6 @@ public class RobotContainer {
     oi.OverrideY().onTrue(Commands.runOnce(drivetrain::disableXstance, drivetrain));
     oi.OverrideX().onTrue(Commands.runOnce(drivetrain::enableXstance, drivetrain));
     // End
-  }
-
-  private void whileTrue(IntakeOpenClose intakeOpenClose) {
   }
 
   private PathPlannerTrajectory GenerateTrajectoryFromPath(
@@ -349,109 +320,102 @@ public class RobotContainer {
     FullPath_Map.put("BPUP1", new PickupBack(intakeSystem, pivotSystem).ignoringDisable(true));
     FullPath_Map.put("BPUP2", new PickupBack(intakeSystem, pivotSystem).ignoringDisable(true));
 
-    List<PathPlannerTrajectory> p_FullPathRed = PathPlanner.loadPathGroup("Red3", MAX_VELOCITY_METERS_PER_SECOND, AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-    List<PathPlannerTrajectory> p_FullPathBlueCube = PathPlanner.loadPathGroup("Blue3CubeStart", 2.0,2.0);
-    List<PathPlannerTrajectory> p_FullPathBlueCone = PathPlanner.loadPathGroup("Blue3ConeStart", 1.0, 1.0);
+    List<PathPlannerTrajectory> p_FullPathRed =
+        PathPlanner.loadPathGroup(
+            "Red3",
+            MAX_VELOCITY_METERS_PER_SECOND,
+            AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+    List<PathPlannerTrajectory> p_FullPathBlueCube =
+        PathPlanner.loadPathGroup("Blue3CubeStart", 2.0, 2.0);
+    List<PathPlannerTrajectory> p_FullPathBlueCone =
+        PathPlanner.loadPathGroup("Blue3ConeStart", 1.0, 1.0);
 
-    PathPlannerTrajectory p_1Meter = GenerateTrajectoryFromPath("1Meter", MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-    PathPlannerTrajectory p_3Meter = GenerateTrajectoryFromPath("3Meter", MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-    PathPlannerTrajectory p_5Meter = GenerateTrajectoryFromPath("5Meter", MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+    PathPlannerTrajectory p_1Meter =
+        GenerateTrajectoryFromPath(
+            "1Meter",
+            MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+            AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+    PathPlannerTrajectory p_3Meter =
+        GenerateTrajectoryFromPath(
+            "3Meter",
+            MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+            AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+    PathPlannerTrajectory p_5Meter =
+        GenerateTrajectoryFromPath(
+            "5Meter",
+            MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+            AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
     PathPlannerTrajectory ScoreBackup = GenerateTrajectoryFromPath("ScoreThenBackup", 1, 1);
 
-    Command c_FullPathRed = Commands.sequence(
-      new ScoreCN3(intakeSystem, pivotSystem),
-      new FollowPathWithEvents(
-        new FollowPath(p_FullPathRed.get(0), drivetrain, true),
-        p_FullPathRed.get(0).getMarkers(),
-        FullPath_Map
-      ),
-      // new PickupBack(intakeSystem, pivotSystem),
-      new IntakeInAuto(intakeSystem),
-      new ArmExtension(intakeSystem, 50, true),
-      new PivotMove(pivotSystem, 30, true),
-      new FollowPath(p_FullPathRed.get(1), drivetrain, false),
-      new ScoreCB3(intakeSystem, pivotSystem),
-      new FollowPathWithEvents(
-        new FollowPath(p_FullPathRed.get(2), drivetrain, false),
-        p_FullPathRed.get(2).getMarkers(),
-        FullPath_Map
-      ),
-      // new PickupBack(intakeSystem, pivotSystem),
-      new IntakeInAuto(intakeSystem),
-      new ArmExtension(intakeSystem, 50, true),
-      new PivotMove(pivotSystem, 33, true),
-      new FollowPath(p_FullPathRed.get(3), drivetrain, false),
-      new ScoreCN3(intakeSystem, pivotSystem)
-    );
+    Command c_FullPathRed =
+        Commands.sequence(
+            new ScoreCN3(intakeSystem, pivotSystem),
+            new FollowPathWithEvents(
+                new FollowPath(p_FullPathRed.get(0), drivetrain, true),
+                p_FullPathRed.get(0).getMarkers(),
+                FullPath_Map),
+            new IntakeInAuto(intakeSystem),
+            new ArmExtension(intakeSystem, 50, true),
+            new PivotMove(pivotSystem, 30, true),
+            new FollowPath(p_FullPathRed.get(1), drivetrain, false),
+            new ScoreCB3(intakeSystem, pivotSystem),
+            new FollowPathWithEvents(
+                new FollowPath(p_FullPathRed.get(2), drivetrain, false),
+                p_FullPathRed.get(2).getMarkers(),
+                FullPath_Map),
+            new IntakeInAuto(intakeSystem),
+            new ArmExtension(intakeSystem, 50, true),
+            new PivotMove(pivotSystem, 33, true),
+            new FollowPath(p_FullPathRed.get(3), drivetrain, false),
+            new ScoreCN3(intakeSystem, pivotSystem));
 
-    Command c_FullPathBlueCube = Commands.sequence(
-      //Add vision if time
-      new ScoreCB3(intakeSystem, pivotSystem),
-      new FollowPathWithEvents(
-        new FollowPath(p_FullPathBlueCube.get(0), drivetrain, true),
-        p_FullPathBlueCube.get(0).getMarkers(),
-        FullPath_Map
-      ),
-      // new PickupBack(intakeSystem, pivotSystem),
-      new IntakeInAuto(intakeSystem),
-      new ArmExtension(intakeSystem, 50, true),
-      new PivotMove(pivotSystem, 30, true),
-      new FollowPath(p_FullPathBlueCube.get(1), drivetrain, false),
-      new ScoreCN3(intakeSystem, pivotSystem),
-      new FollowPathWithEvents(
-        new FollowPath(p_FullPathBlueCube.get(2), drivetrain, false),
-        p_FullPathBlueCube.get(2).getMarkers(),
-        FullPath_Map
-      ),
-      // new PickupBack(intakeSystem, pivotSystem),
-      new IntakeInAuto(intakeSystem),
-      new ArmExtension(intakeSystem, 50, true),
-      new PivotMove(pivotSystem, 33, true),
-      new FollowPath(p_FullPathBlueCube.get(3), drivetrain, false),
-      new ScoreCN3(intakeSystem, pivotSystem)
-    );
+    Command c_FullPathBlueCube =
+        Commands.sequence(
+            new ScoreCB3(intakeSystem, pivotSystem),
+            new FollowPathWithEvents(
+                new FollowPath(p_FullPathBlueCube.get(0), drivetrain, true),
+                p_FullPathBlueCube.get(0).getMarkers(),
+                FullPath_Map),
+            new IntakeInAuto(intakeSystem),
+            new ArmExtension(intakeSystem, 50, true),
+            new PivotMove(pivotSystem, 30, true),
+            new FollowPath(p_FullPathBlueCube.get(1), drivetrain, false),
+            new ScoreCN3(intakeSystem, pivotSystem),
+            new FollowPathWithEvents(
+                new FollowPath(p_FullPathBlueCube.get(2), drivetrain, false),
+                p_FullPathBlueCube.get(2).getMarkers(),
+                FullPath_Map),
+            new IntakeInAuto(intakeSystem),
+            new ArmExtension(intakeSystem, 50, true),
+            new PivotMove(pivotSystem, 33, true),
+            new FollowPath(p_FullPathBlueCube.get(3), drivetrain, false),
+            new ScoreCN3(intakeSystem, pivotSystem));
 
-    Command c_FullPathBlueCone = Commands.sequence(
-      //Add vision if time
-      new ScoreCN3(intakeSystem, pivotSystem),
-      new FollowPathWithEvents(
-        new FollowPath(p_FullPathBlueCone.get(0), drivetrain, true),
-        p_FullPathBlueCone.get(0).getMarkers(),
-        FullPath_Map
-      ),
-      // new PickupBack(intakeSystem, pivotSystem),
-      new IntakeCubeAuto(intakeSystem),
-      new ArmExtension(intakeSystem, 50, true),
-      new PivotMove(pivotSystem, 30, true),
-      new FollowPath(p_FullPathBlueCone.get(1), drivetrain, false),
-      new ScoreCB3(intakeSystem, pivotSystem),
-      new FollowPathWithEvents(
-        new FollowPath(p_FullPathBlueCone.get(2), drivetrain, false),
-        p_FullPathBlueCone.get(2).getMarkers(),
-        FullPath_Map
-      ),
-      // new PickupBack(intakeSystem, pivotSystem),
-      new IntakeInAuto(intakeSystem),
-      new ArmExtension(intakeSystem, 50, true),
-      new PivotMove(pivotSystem, 33, true),
-      new FollowPath(p_FullPathBlueCone.get(3), drivetrain, false),
-      new ScoreCN3(intakeSystem, pivotSystem)
-    );
+    Command c_FullPathBlueCone =
+        Commands.sequence(
+            new ScoreCN3(intakeSystem, pivotSystem),
+            new FollowPathWithEvents(
+                new FollowPath(p_FullPathBlueCone.get(0), drivetrain, true),
+                p_FullPathBlueCone.get(0).getMarkers(),
+                FullPath_Map),
+            new IntakeCubeAuto(intakeSystem),
+            new ArmExtension(intakeSystem, 50, true),
+            new PivotMove(pivotSystem, 30, true),
+            new FollowPath(p_FullPathBlueCone.get(1), drivetrain, false),
+            new ScoreCB3(intakeSystem, pivotSystem),
+            new FollowPathWithEvents(
+                new FollowPath(p_FullPathBlueCone.get(2), drivetrain, false),
+                p_FullPathBlueCone.get(2).getMarkers(),
+                FullPath_Map),
+            new IntakeInAuto(intakeSystem),
+            new ArmExtension(intakeSystem, 50, true),
+            new PivotMove(pivotSystem, 33, true),
+            new FollowPath(p_FullPathBlueCone.get(3), drivetrain, false),
+            new ScoreCN3(intakeSystem, pivotSystem));
 
-    // Command c_RightPickupScore = Commands.sequence(
-    //   new ScoreCN3(intakeSystem, pivotSystem),
-    //   new FollowPathWithEvents(
-    //     new FollowPath(p_FirstTest.get(0), drivetrain, true),
-    //     p_FirstTest.get(0).getMarkers(),
-    //     M1L1P1_MAP
-    //   ),
-    //   new HomePos(intakeSystem, pivotSystem)
-    // );
-
-    Command scoreBackup = 
-      Commands.sequence(
-        new ScoreCN3(intakeSystem, pivotSystem),
-        new FollowPath(ScoreBackup, drivetrain, true));
+    Command scoreBackup =
+        Commands.sequence(
+            new ScoreCN3(intakeSystem, pivotSystem), new FollowPath(ScoreBackup, drivetrain, true));
 
     PathPlannerTrajectory score = GenerateTrajectoryFromPath("Score", 1.0, 1.0);
 
@@ -473,9 +437,7 @@ public class RobotContainer {
 
     Command scoreHighBalance =
         Commands.sequence(
-          new ScoreCN3(intakeSystem, pivotSystem),
-          new AutoBalanceV4(drivetrain, true, 1.0, -20)
-        );
+            new ScoreCN3(intakeSystem, pivotSystem), new AutoBalanceV4(drivetrain, true, 1.0, -20));
 
     PathPlannerTrajectory testPath =
         GenerateTrajectoryFromPath(
@@ -524,11 +486,10 @@ public class RobotContainer {
             drivetrain::runCharacterizationVolts,
             drivetrain::getCharacterizationVelocity));
 
-            autoChooser.addOption("1Meter", new FollowPath(p_1Meter, drivetrain, true));
-            autoChooser.addOption("3Meter", new FollowPath(p_3Meter, drivetrain, true));
-            autoChooser.addOption("5Meter", new FollowPath(p_5Meter, drivetrain, true));
+    autoChooser.addOption("1Meter", new FollowPath(p_1Meter, drivetrain, true));
+    autoChooser.addOption("3Meter", new FollowPath(p_3Meter, drivetrain, true));
+    autoChooser.addOption("5Meter", new FollowPath(p_5Meter, drivetrain, true));
     Shuffleboard.getTab("MAIN").add(autoChooser.getSendableChooser());
-    
   }
 
   /**
