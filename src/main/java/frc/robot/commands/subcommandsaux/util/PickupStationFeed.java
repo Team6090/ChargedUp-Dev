@@ -1,16 +1,16 @@
 package frc.robot.commands.subcommandsaux.util;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 
 public class PickupStationFeed extends CommandBase {
 
-  PivotSystem pivotSystem;
+  PivotSubsystem pivotSystem;
   int set;
 
   boolean done;
 
-  public PickupStationFeed(PivotSystem pivotSystem, int set) {
+  public PickupStationFeed(PivotSubsystem pivotSystem, int set) {
     this.pivotSystem = pivotSystem;
     this.set = set;
 

@@ -7,16 +7,16 @@ import frc.robot.commands.teleop.score.cone.ConeScore2;
 import frc.robot.commands.teleop.score.cone.ConeScore3;
 import frc.robot.commands.teleop.score.cube.CubeScore;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 
 public class ScoreController extends CommandBase {
 
   IntakeSystem intakeSystem;
-  PivotSystem pivotSystem;
+  PivotSubsystem pivotSystem;
   int currentStage;
   int currentObject;
 
-  public ScoreController(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+  public ScoreController(IntakeSystem intakeSystem, PivotSubsystem pivotSystem) {
     this.intakeSystem = intakeSystem;
     this.pivotSystem = pivotSystem;
 

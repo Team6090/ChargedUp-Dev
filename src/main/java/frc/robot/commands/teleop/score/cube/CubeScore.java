@@ -6,11 +6,11 @@ import frc.robot.commands.subcommandsaux.intake.IntakeInOutAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeOpenClose;
 import frc.robot.commands.teleop.HomePos;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 
 public class CubeScore extends SequentialCommandGroup {
 
-  public CubeScore(IntakeSystem intakeSystem, PivotSystem pivotSystem) { // At hover height
+  public CubeScore(IntakeSystem intakeSystem, PivotSubsystem pivotSystem) { // At hover height
     addCommands(
         new IntakeOpenClose(intakeSystem, false),
         new IntakeInOutAuto(intakeSystem),

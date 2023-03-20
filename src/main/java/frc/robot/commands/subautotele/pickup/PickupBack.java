@@ -5,11 +5,11 @@ import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.commands.subcommandsaux.util.PickupStationFeed;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 
 public class PickupBack extends SequentialCommandGroup {
 
-  public PickupBack(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+  public PickupBack(IntakeSystem intakeSystem, PivotSubsystem pivotSystem) {
     addCommands(
         new PickupStationFeed(pivotSystem, 2),
         new ArmExtension(intakeSystem, 50, true),

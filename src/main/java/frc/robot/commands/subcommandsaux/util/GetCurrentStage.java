@@ -1,15 +1,15 @@
 package frc.robot.commands.subcommandsaux.util;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 
 public class GetCurrentStage extends CommandBase {
 
-  PivotSystem pivotSystem;
+  PivotSubsystem pivotSystem;
 
   boolean done = false;
 
-  public GetCurrentStage(PivotSystem pivotSystem) {
+  public GetCurrentStage(PivotSubsystem pivotSystem) {
     this.pivotSystem = pivotSystem;
 
     addRequirements(pivotSystem);

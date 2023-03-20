@@ -5,11 +5,11 @@ import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.intake.IntakeOpenClose;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 
 public class ScoreCN2 extends SequentialCommandGroup {
 
-  public ScoreCN2(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+  public ScoreCN2(IntakeSystem intakeSystem, PivotSubsystem pivotSystem) {
     addCommands(
         new ArmExtension(intakeSystem, 150, true),
         new PivotMove(pivotSystem, 104.58, true),

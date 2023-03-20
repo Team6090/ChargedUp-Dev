@@ -4,16 +4,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 
 public class MoveArmToLocationByPath extends CommandBase {
 
   private IntakeSystem intakeSystem;
-  private PivotSystem pivotSystem;
+  private PivotSubsystem pivotSystem;
   private double[][] path;
 
   public MoveArmToLocationByPath(
-      IntakeSystem intakeSystem, PivotSystem pivotSystem, double[][] path) {
+      IntakeSystem intakeSystem, PivotSubsystem pivotSystem, double[][] path) {
     this.intakeSystem = intakeSystem;
     this.pivotSystem = pivotSystem;
     this.path = path;

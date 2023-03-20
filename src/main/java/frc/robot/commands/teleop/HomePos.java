@@ -6,18 +6,19 @@ import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.commands.subcommandsaux.util.PickupStationFeed;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 
 public class HomePos extends CommandBase {
 
   IntakeSystem intakeSystem;
-  PivotSystem pivotSystem;
+  PivotSubsystem pivotSystem;
   int currentStage;
   int pickupStation;
 
   boolean done = false;
 
   public HomePos(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+
     this.intakeSystem = intakeSystem;
     this.pivotSystem = pivotSystem;
 

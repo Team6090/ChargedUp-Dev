@@ -7,11 +7,11 @@ import frc.robot.commands.subcommandsaux.extension.ExtendArmO;
 import frc.robot.commands.subcommandsaux.pivot.PivotArmO;
 import frc.robot.commands.teleop.HomePos;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
-import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PivotSubsystem;
 
 public class LockRobotArm extends SequentialCommandGroup {
 
-  public LockRobotArm(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+  public LockRobotArm(IntakeSystem intakeSystem, PivotSubsystem pivotSystem) {
     addCommands(
         new HomePos(intakeSystem, pivotSystem), // Set To Home
         new LockArmExtend(Robot.lockSystem, true), // Lock Extend Movement
