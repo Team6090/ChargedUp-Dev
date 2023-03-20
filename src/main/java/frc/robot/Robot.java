@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.WrapperCommand;
 import frc.lib.team6328.util.Alert;
 import frc.lib.team6328.util.Alert.AlertType;
 import frc.robot.commands.robot.LockArmExtend;
@@ -42,13 +41,10 @@ public class Robot extends LoggedRobot {
    * any initialization code.
    */
   @Override
-  public void disabledInit() {
-    
-  }
+  public void disabledInit() {}
 
   @Override
-  public void teleopExit() {
-  }
+  public void teleopExit() {}
 
   @Override
   public void robotInit() {

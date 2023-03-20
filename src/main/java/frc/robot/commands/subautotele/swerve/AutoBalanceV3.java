@@ -1,7 +1,6 @@
 package frc.robot.commands.subautotele.swerve;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
@@ -63,9 +62,7 @@ public class AutoBalanceV3 extends CommandBase {
   }
 
   @Override
-  public void execute() {
-    
-  }
+  public void execute() {}
 
   @Override
   public void end(boolean interrupted) {

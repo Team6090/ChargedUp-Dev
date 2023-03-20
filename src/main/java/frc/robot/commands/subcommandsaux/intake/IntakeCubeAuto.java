@@ -1,5 +1,6 @@
 package frc.robot.commands.subcommandsaux.intake;
 
+
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -51,5 +52,4 @@ public class IntakeCubeAuto extends CommandBase {
     public boolean isFinished() {
         return done;
     }
-
 }

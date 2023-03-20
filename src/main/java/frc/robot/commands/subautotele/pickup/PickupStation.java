@@ -13,7 +13,7 @@ public class PickupStation extends SequentialCommandGroup {
     addCommands(
         new PickupStationFeed(pivotSystem, 3),
         new ArmExtension(intakeSystem, 50, true),
-        new PivotMove(pivotSystem, 109, true)); //108
-        // new ArmExtension(intakeSystem, 5825, true)); //8825
+        new PivotMove(pivotSystem, 109, true)); // 108
+    // new ArmExtension(intakeSystem, 5825, true)); //8825
   }
 }

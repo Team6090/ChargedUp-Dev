@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.774916417165216,
-        "y": 3.865184791710525
+        "x": 1.7634809592015757,
+        "y": 4.436957689892555
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.129415614038075,
-        "y": 5.28318157920196
+        "x": 2.2586866108396983,
+        "y": 4.494134979710757
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -24,16 +24,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.349099602621459,
-        "y": 4.459828605819836
+        "x": 6.326228686694178,
+        "y": 4.619925017310805
       },
       "prevControl": {
-        "x": 5.349630842513744,
-        "y": 4.492419978432045
+        "x": 6.365867266434049,
+        "y": 4.597097442371325
       },
       "nextControl": {
-        "x": 7.401161735276395,
-        "y": 4.425522231928913
+        "x": 3.764686102838682,
+        "y": 6.095099094620442
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -49,16 +49,16 @@
     },
     {
       "anchorPoint": {
-        "x": 1.7977873330924976,
-        "y": 4.951553298256383
+        "x": 1.774916417165216,
+        "y": 3.819442959855962
       },
       "prevControl": {
-        "x": 1.1828301816375384,
-        "y": 5.08306106483825
+        "x": 1.771410345822045,
+        "y": 3.6803687965768357
       },
       "nextControl": {
-        "x": 2.412744484547457,
-        "y": 4.820045531674515
+        "x": 1.8092227910561378,
+        "y": 5.180262457529195
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -74,41 +74,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.383405976512382,
-        "y": 3.3505891833466976
+        "x": 5.662972124803023,
+        "y": 3.3391537253830568
       },
       "prevControl": {
-        "x": 5.906522718551857,
-        "y": 5.591938944220256
+        "x": 5.443235193070173,
+        "y": 5.316786110978665
       },
       "nextControl": {
-        "x": 6.418784362816529,
-        "y": 3.184310882820874
-      },
-      "holonomicAngle": 180.0,
-      "isReversal": false,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": true,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 4.027701636002416,
-        "y": 4.631360475274445
-      },
-      "prevControl": {
-        "x": 5.925987657966756,
-        "y": 4.768585970838132
-      },
-      "nextControl": {
-        "x": 2.851531648434108,
-        "y": 4.546336138823723
+        "x": 5.674407582766664,
+        "y": 3.2362346037102916
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -124,12 +99,37 @@
     },
     {
       "anchorPoint": {
-        "x": 1.7863518751288567,
-        "y": 4.4026513160016325
+        "x": 6.360535060585099,
+        "y": 3.3277182674194163
       },
       "prevControl": {
-        "x": 1.7863518751288567,
-        "y": 4.4026513160016325
+        "x": 6.361377102002393,
+        "y": 3.3048628575214414
+      },
+      "nextControl": {
+        "x": 6.280486854839614,
+        "y": 5.500455280511135
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 1.7634809592015757,
+        "y": 4.94
+      },
+      "prevControl": {
+        "x": 1.7634809592015757,
+        "y": 4.94
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
@@ -145,12 +145,12 @@
       }
     }
   ],
-  "maxVelocity": 2.0,
-  "maxAcceleration": 2.0,
+  "maxVelocity": 4.0,
+  "maxAcceleration": 3.0,
   "isReversed": null,
   "markers": [
     {
-      "position": 0.18,
+      "position": 0.01,
       "names": [
         "BPUP1"
       ]
