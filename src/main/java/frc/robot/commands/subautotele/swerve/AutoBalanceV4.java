@@ -83,12 +83,33 @@ public class AutoBalanceV4 extends CommandBase {
       }
     }
 
+    @Override
+    public void execute() {
+        prevPitch = pitch;
+        prevTime = time;
+        pitch = Drivetrain.gyroIO.getPitch();
+        time = timer.get();
+
+        // RateOfChange Calculation
+        rateOfChange = (pitch-prevPitch)/(time-prevTime);
+        SmartDashboard.putNumber("RateOfChange(Pitch/Time)", rateOfChange);
+
+        // Engage Check
+        if (reversedDirection == false) {
+            if (pitch < minActivePitch) {
+                engaged = true;
+            }
+        } else {
+            if (pitch > minActivePitch) {
+                engaged = true;
+            }
+        }
     // Speed Change
     if (engaged == true) {
 
       if (rateOfChange > 1 || rateOfChange < -1) {
         // Safe
-        balanceSpeed = Math.pow(initSpeed / Math.abs(rateOfChange), 0.20);
+        balanceSpeed = Math.pow(initSpeed / Math.abs(rateOfChange), 0.15); //0.20
       } else {
         // Bad
         balanceSpeed = safeSpeed;
