@@ -169,6 +169,7 @@ public class Robot extends LoggedRobot {
   /** This method is invoked at the start of the teleoperated period. */
   @Override
   public void teleopInit() {
+    robotContainer.UnlockDrive();
     new LockArmExtend(lockSystem, false).schedule();
     robotContainer.RobotInit();
     Limelight.TurnLimelightOn();

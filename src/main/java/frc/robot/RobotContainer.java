@@ -292,6 +292,10 @@ public class RobotContainer {
     new ArmExtension(intakeSystem, intakeSystem.GetArmExtendedPosition(), true).schedule();
   }
 
+  public void UnlockDrive() {
+    Commands.runOnce(drivetrain::disableXstance, drivetrain).schedule();
+  }
+
   private PathPlannerTrajectory GenerateCorrectionPath(
       double idealX, double idealY, double lastX, double lastY) {
     double[] correction = GenerateCorrection(idealX, idealY);
