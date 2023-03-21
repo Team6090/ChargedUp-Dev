@@ -52,6 +52,7 @@ import frc.robot.commands.teleop.HomePos;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
 import frc.robot.commands.vision.AlignToAprilTagX;
+import frc.robot.subsystems.SuperSystem;
 import frc.robot.subsystems.auxiliary.AirCompressor;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSubsystem;
@@ -81,6 +82,8 @@ public class RobotContainer {
   private static RobotContainer robotContainer = new RobotContainer();
   private PivotSubsystem pivotSystem = new PivotSubsystem();
   private IntakeSystem intakeSystem = new IntakeSystem();
+
+  private SuperSystem superSystem = new SuperSystem();
 
   /** Create the container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

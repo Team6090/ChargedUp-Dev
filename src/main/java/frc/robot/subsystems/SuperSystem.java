@@ -5,12 +5,12 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.auxiliary.TelescopeSubsystem;
 
-public class SuperSubsystem extends SubsystemBase {
+public class SuperSystem extends SubsystemBase {
 
   public TelescopeSubsystem telescopeSubsystem;
 
   /** SuperSubsystem */
-  public SuperSubsystem() {
+  public SuperSystem() {
     telescopeSubsystem = new TelescopeSubsystem("Aux");
   }
 
