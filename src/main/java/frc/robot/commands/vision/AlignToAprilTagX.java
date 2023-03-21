@@ -23,6 +23,7 @@ public class AlignToAprilTagX extends CommandBase {
 
   @Override
   public void initialize() {
+    Limelight.TurnLimelightOn();
     timer.start();
     drivetrain.drive(0, 0, 0);
 
@@ -60,6 +61,7 @@ public class AlignToAprilTagX extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Limelight.TurnLimelightOff();
     timer.stop();
     timer.reset();
     done = false;

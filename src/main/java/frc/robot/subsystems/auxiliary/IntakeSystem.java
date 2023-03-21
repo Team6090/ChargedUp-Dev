@@ -88,6 +88,9 @@ public class IntakeSystem extends SubsystemBase {
   public double GetArmExtendedPosition() {
     return armRetractMotor.getSelectedSensorPosition();
   }
+  public double GetArmExtentedVelo() {
+    return armRetractMotor.getSelectedSensorVelocity();
+  }
 
   // private boolean _isExtensionStable(){
   //   if(armRetractMotor.getSelectedSensorVelocity() > 1 && armRetractMotor.voltage) {

@@ -35,11 +35,11 @@ public class ScoreController extends CommandBase {
 
     int correctObject = -1;
 
-    if(currentObjectCV3==currentObjectPixy){
+    if (currentObjectCV3 == currentObjectPixy) {
       correctObject = currentObjectPixy;
-    }else if(currentObjectPixy == -1){
+    } else if (currentObjectPixy == -1) {
       correctObject = currentObjectCV3;
-    }else{
+    } else {
       correctObject = 0;
     }
 

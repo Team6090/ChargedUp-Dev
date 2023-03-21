@@ -55,7 +55,7 @@ public class PixySystem {
     }
   }
 
-  public  static int GetCubeCount() {
+  public static int GetCubeCount() {
     int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG2, 1);
     return blockCount;
   }
@@ -66,12 +66,12 @@ public class PixySystem {
   }
 
   public static int GetObject() {
-    if(GetConeCount()>GetConeCount()){
-      return 1; //Cone
-    }else if(GetConeCount()<GetCubeCount()){
-      return 2; //Cube
-    }else{
-      return -1; // Null 
+    if (GetConeCount() > GetConeCount()) {
+      return 1; // Cone
+    } else if (GetConeCount() < GetCubeCount()) {
+      return 2; // Cube
+    } else {
+      return -1; // Null
     }
   }
 
