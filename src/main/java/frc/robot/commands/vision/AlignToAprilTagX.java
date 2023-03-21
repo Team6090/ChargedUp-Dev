@@ -53,7 +53,7 @@ public class AlignToAprilTagX extends CommandBase {
     limelightX = Limelight.GetX();
     limelightV = Limelight.GetV();
 
-    if ((limelightX < 1.0 && limelightX > -1.0) || timer.get() > 5.0) {
+    if ((limelightX < 1.0 && limelightX > -1.0) || timer.get() > 3.0) {
       done = true;
     }
   }

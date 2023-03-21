@@ -1,21 +1,3 @@
-<!-- [x] Command Refresh (High)  Solution: CommandScheduler.getInstance().removeComposedCommand(); -->
-
-<!-- [ ] SetPoints (Mid) -->
-
-<!-- [ ] SubAutoTele (Low) -->
-<!-- [ ] Auton (Low) -->
-
-<!-- [ ] Geometry (Mid) -->
-
-<!-- [ ] Drop Down (High) -->
-
-<!-- [x] EncoderCounts To Meters (High) -->
-
-<!-- [x]Rename CANIVORE to Drivetrain (High) -->
-
-<!-- PivotCANCoderChangedPos -->
-<!-- CharacterRobot -->
-
 [NOTE] Power up robot before putting pivotcancoder on to test if absolute value is 0; do the same for the extensioncancoder
 
 Start Robot in any orientation and still have teleop run normally (Low)
@@ -33,8 +15,3 @@ AprilTag X and Y import into RobotPose2D or SwerveModuleStates/SwerveModulePosit
 Confirm Score (Button A + B) A Hold : B Confirm Score
 
 Default Score Slow Intake Out
-
-Intake Command Auton
-YoYo effect on extend when reenable
-
-FIX STAGE UP to to be called first

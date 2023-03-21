@@ -49,7 +49,6 @@ public class ArmExtension extends CommandBase {
 
   @Override
   public void execute() {
-
     prevTime = newTime;
     prevPos = newPos;
     newTime = timer.get();
