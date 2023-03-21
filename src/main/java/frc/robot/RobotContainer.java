@@ -329,6 +329,14 @@ public class RobotContainer {
         PathPlanner.loadPathGroup("Blue3CubeStart", 2.0, 2.0);
     List<PathPlannerTrajectory> p_FullPathBlueCone =
         PathPlanner.loadPathGroup("Blue3ConeStart", 1.0, 1.0);
+    List<PathPlannerTrajectory> p_2PieceLeftBlue = 
+        PathPlanner.loadPathGroup("LeftBlue2Piece", 2.0, 2.0);
+    List<PathPlannerTrajectory> p_2PieceRightBlue = 
+        PathPlanner.loadPathGroup("RightBlue2Piece", 2.0, 2.0);
+    List<PathPlannerTrajectory> p_2PieceLeftRed = 
+        PathPlanner.loadPathGroup("LeftRed2Piece", 2.0, 2.0);
+    List<PathPlannerTrajectory> p_2PieceRightRed = 
+        PathPlanner.loadPathGroup("RightRed2Piece", 2.0, 2.0);
 
     PathPlannerTrajectory p_1Meter =
         GenerateTrajectoryFromPath(
@@ -413,6 +421,52 @@ public class RobotContainer {
             new FollowPath(p_FullPathBlueCone.get(3), drivetrain, false),
             new ScoreCN3(intakeSystem, pivotSystem));
 
+    Command c_2PieceLeftBlue =
+        Commands.sequence(
+            new ScoreCN3(intakeSystem, pivotSystem),
+            new PickupBack(intakeSystem, pivotSystem),
+            new FollowPath(p_2PieceLeftBlue.get(0), drivetrain, true),
+            new IntakeCubeAuto(intakeSystem),
+            new ArmExtension(intakeSystem, 50, true),
+            new PivotMove(pivotSystem, 33, true),
+            new FollowPath(p_2PieceLeftBlue.get(1), drivetrain, false),
+            new ScoreCB3(intakeSystem, pivotSystem));
+
+    Command c_2PieceRightBlue =
+        Commands.sequence(
+            new ScoreCN3(intakeSystem, pivotSystem),
+            new PickupBack(intakeSystem, pivotSystem),
+            new FollowPath(p_2PieceRightBlue.get(0), drivetrain, true),
+            new IntakeCubeAuto(intakeSystem),
+            new ArmExtension(intakeSystem, 50, true),
+            new PivotMove(pivotSystem, 33, true),
+            new FollowPath(p_2PieceRightBlue.get(1), drivetrain, false),
+            new ScoreCB3(intakeSystem, pivotSystem));
+
+
+    Command c_2PieceLeftRed =
+        Commands.sequence(
+            new ScoreCN3(intakeSystem, pivotSystem),
+            new PickupBack(intakeSystem, pivotSystem),
+            new FollowPath(p_2PieceLeftRed.get(0), drivetrain, true),
+            new IntakeCubeAuto(intakeSystem),
+            new ArmExtension(intakeSystem, 50, true),
+            new PivotMove(pivotSystem, 33, true),
+            new FollowPath(p_2PieceLeftRed.get(1), drivetrain, false),
+            new ScoreCB3(intakeSystem, pivotSystem));
+
+
+    Command c_2PieceRightRed =
+        Commands.sequence(
+            new ScoreCN3(intakeSystem, pivotSystem),
+            new PickupBack(intakeSystem, pivotSystem),
+            new FollowPath(p_2PieceRightRed.get(0), drivetrain, true),
+            new IntakeCubeAuto(intakeSystem),
+            new ArmExtension(intakeSystem, 50, true),
+            new PivotMove(pivotSystem, 33, true),
+            new FollowPath(p_2PieceRightRed.get(1), drivetrain, false),
+            new ScoreCB3(intakeSystem, pivotSystem));
+            
     Command scoreBackup =
         Commands.sequence(
             new ScoreCN3(intakeSystem, pivotSystem), new FollowPath(ScoreBackup, drivetrain, true));
@@ -464,6 +518,10 @@ public class RobotContainer {
     autoChooser.addOption("Red_MakeLink", c_FullPathRed);
     autoChooser.addOption("Blue_MakeLinkCubeStart", c_FullPathBlueCube);
     autoChooser.addOption("Blue_MakeLinkConeStart", c_FullPathBlueCone);
+    autoChooser.addOption("2PieceLeftBlue", c_2PieceLeftBlue);
+    autoChooser.addOption("2PieceRightBlue", c_2PieceRightBlue);
+    autoChooser.addOption("2PieceLeftRed", c_2PieceLeftRed);
+    autoChooser.addOption("2PieceRightRed", c_2PieceRightRed);
     autoChooser.addOption("AutoBalance", scoreHighBalance);
     autoChooser.addOption("ScoreAndBackup", scoreBackup);
 
