@@ -89,6 +89,12 @@ public class IntakeSystem extends SubsystemBase {
     return armRetractMotor.getSelectedSensorPosition();
   }
 
+  // private boolean _isExtensionStable(){
+  //   if(armRetractMotor.getSelectedSensorVelocity() > 1 && armRetractMotor.voltage) {
+  //     return false;
+  //   }
+  // }
+
   public void EnableIntakeSolenoid(boolean enable) {
     intakeSolenoidOn.set(enable);
     intakeSolenoidOff.set(!enable);
@@ -185,6 +191,8 @@ public class IntakeSystem extends SubsystemBase {
       // SmartDashboard.putNumber("ArmExtensionPositionCM",
       // convertToCM(armRetractCANCoder.getPosition()));
       SmartDashboard.putNumber("ArmExtendIntDC", armRetractMotor.getSelectedSensorPosition());
+      SmartDashboard.putNumber("Velocity", armRetractMotor.getSelectedSensorVelocity());
+      SmartDashboard.putNumber("Position", armRetractMotor.getSelectedSensorPosition());
       // SmartDashboard.putNumber("ArmExtendIntCM",
       // convertToCM(armRetractMotor.getSelectedSensorPosition()));
 

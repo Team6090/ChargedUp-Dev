@@ -8,13 +8,15 @@ import frc.robot.commands.teleop.score.cone.ConeScore3;
 import frc.robot.commands.teleop.score.cube.CubeScore;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PixySystem;
 
 public class ScoreController extends CommandBase {
 
   IntakeSystem intakeSystem;
   PivotSystem pivotSystem;
   int currentStage;
-  int currentObject;
+  int currentObjectCV3;
+  int currentObjectPixy;
 
   public ScoreController(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
     this.intakeSystem = intakeSystem;
@@ -28,10 +30,22 @@ public class ScoreController extends CommandBase {
     currentStage = pivotSystem.currentStage;
     SmartDashboard.putNumber("ReadStage", currentStage);
 
-    currentObject = intakeSystem.ObjectType();
-    SmartDashboard.putNumber("ReadObject", currentObject);
+    currentObjectCV3 = intakeSystem.ObjectType();
+    currentObjectPixy = PixySystem.GetObject();
 
-    switch (currentObject) {
+    int correctObject = -1;
+
+    if(currentObjectCV3==currentObjectPixy){
+      correctObject = currentObjectPixy;
+    }else if(currentObjectPixy == -1){
+      correctObject = currentObjectCV3;
+    }else{
+      correctObject = 0;
+    }
+
+    SmartDashboard.putNumber("ReadObject", currentObjectCV3);
+
+    switch (correctObject) {
       case 0: // No Object
         new HomePos(intakeSystem, pivotSystem).schedule();
         break;
