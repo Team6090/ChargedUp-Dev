@@ -1,5 +1,6 @@
 package frc.robot.commands.vision;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.limelight.Limelight;
@@ -10,15 +11,19 @@ public class AlignToAprilTagX extends CommandBase {
   double limelightX, limelightV;
   boolean done = false;
 
+  Timer timer;
+
   int side = 0;
 
   public AlignToAprilTagX(Drivetrain driveTrain) {
     addRequirements(driveTrain);
+    timer = new Timer();
     this.drivetrain = driveTrain;
   }
 
   @Override
   public void initialize() {
+    timer.start();
     drivetrain.drive(0, 0, 0);
 
     limelightX = Limelight.GetX();
@@ -47,7 +52,7 @@ public class AlignToAprilTagX extends CommandBase {
     limelightX = Limelight.GetX();
     limelightV = Limelight.GetV();
 
-    if (limelightX < 1.0 && limelightX > -1.0) {
+    if ((limelightX < 1.0 && limelightX > -1.0) || timer.get() > 5.0) {
       done = true;
     }
   }
@@ -55,6 +60,8 @@ public class AlignToAprilTagX extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    timer.stop();
+    timer.reset();
     done = false;
     this.drivetrain.stop();
     // super.end(interrupted);
