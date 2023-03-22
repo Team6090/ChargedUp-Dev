@@ -29,9 +29,9 @@ public class AlignToAprilTagX extends CommandBase {
     }
 
     if (limelightX < -1.0) {
-      drivetrain.drive(0, 0.5, 0);
-    } else if (limelightX > 1.0) {
       drivetrain.drive(0, -0.5, 0);
+    } else if (limelightX > 1.0) {
+      drivetrain.drive(0, 0.5, 0);
     }
   }
 
