@@ -185,6 +185,8 @@ public class IntakeSystem extends SubsystemBase {
       // SmartDashboard.putNumber("ArmExtensionPositionCM",
       // convertToCM(armRetractCANCoder.getPosition()));
       SmartDashboard.putNumber("ArmExtendIntDC", armRetractMotor.getSelectedSensorPosition());
+      SmartDashboard.putNumber("Velocity", armRetractMotor.getSelectedSensorVelocity());
+      SmartDashboard.putNumber("Position", armRetractMotor.getSelectedSensorPosition());
       // SmartDashboard.putNumber("ArmExtendIntCM",
       // convertToCM(armRetractMotor.getSelectedSensorPosition()));
 

@@ -45,6 +45,7 @@ import frc.robot.commands.subcommandsaux.intake.IntakeCube;
 import frc.robot.commands.subcommandsaux.intake.IntakeCubeAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeInAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeInOut;
+import frc.robot.commands.subcommandsaux.intake.IntakeStopAuto;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.commands.subcommandsaux.util.LockRobotArm;
 import frc.robot.commands.subcommandsbase.LockRobotDrivetrain;
@@ -220,8 +221,6 @@ public class RobotContainer {
 
     intakeSystem.setDefaultCommand(new IntakeCube(intakeSystem, oi::PrimaryLeftTrigger));
 
-    intakeSystem.setDefaultCommand(new IntakeCube(intakeSystem, oi::PrimaryLeftTrigger));
-
     configureButtonBindings();
   }
 
@@ -251,7 +250,7 @@ public class RobotContainer {
     oi.PrimaryPOV180().onTrue(new PickupBack(intakeSystem, pivotSystem)); // Back Pickup Command
     oi.PrimaryPOV270().onTrue(new PickupStation(intakeSystem, pivotSystem));
 
-    oi.PrimaryLeftBumper().whileTrue(new IntakeInOut(intakeSystem, .75, false));
+    oi.PrimaryLeftBumper().whileTrue(new IntakeInOut(intakeSystem, .75, true));
     oi.PrimaryRightBumper().onTrue(new ScoreController(intakeSystem, pivotSystem));
     // End
 
@@ -260,7 +259,7 @@ public class RobotContainer {
     oi.OverrideStart().onTrue(new LockRobotArm(intakeSystem, pivotSystem)); // End Arm
 
     oi.OverrideA().onTrue(new LockArmExtend(Robot.lockSystem, true));
-    oi.OverrideB().whileTrue(new IntakeInOut(intakeSystem, 0.75, true));
+    oi.OverrideB().whileTrue(new IntakeInOut(intakeSystem, 0.75, false));
 
     oi.OverrideY().onTrue(Commands.runOnce(drivetrain::disableXstance, drivetrain));
     oi.OverrideX().onTrue(Commands.runOnce(drivetrain::enableXstance, drivetrain));
@@ -319,6 +318,7 @@ public class RobotContainer {
 
     FullPath_Map.put("BPUP1", new PickupBack(intakeSystem, pivotSystem).ignoringDisable(true));
     FullPath_Map.put("BPUP2", new PickupBack(intakeSystem, pivotSystem).ignoringDisable(true));
+    FullPath_Map.put("ININ1", new IntakeCubeAuto(intakeSystem, true).ignoringDisable(true));
 
     List<PathPlannerTrajectory> p_FullPathRed =
         PathPlanner.loadPathGroup(
@@ -406,7 +406,7 @@ public class RobotContainer {
                 new FollowPath(p_FullPathBlueCone.get(0), drivetrain, true),
                 p_FullPathBlueCone.get(0).getMarkers(),
                 FullPath_Map),
-            new IntakeCubeAuto(intakeSystem),
+            new IntakeCubeAuto(intakeSystem, true),
             new ArmExtension(intakeSystem, 50, true),
             new PivotMove(pivotSystem, 30, true),
             new FollowPath(p_FullPathBlueCone.get(1), drivetrain, false),
@@ -424,11 +424,9 @@ public class RobotContainer {
     Command c_2PieceLeftBlue =
         Commands.sequence(
             new ScoreCN3(intakeSystem, pivotSystem),
-            new PickupBack(intakeSystem, pivotSystem),
             new FollowPath(p_2PieceLeftBlue.get(0), drivetrain, true),
-            new IntakeCubeAuto(intakeSystem),
-            new ArmExtension(intakeSystem, 50, true),
-            new PivotMove(pivotSystem, 33, true),
+            new IntakeStopAuto(intakeSystem),
+            new HomePos(intakeSystem, pivotSystem),
             new FollowPath(p_2PieceLeftBlue.get(1), drivetrain, false),
             new ScoreCB3(intakeSystem, pivotSystem));
 
@@ -437,7 +435,7 @@ public class RobotContainer {
             new ScoreCN3(intakeSystem, pivotSystem),
             new PickupBack(intakeSystem, pivotSystem),
             new FollowPath(p_2PieceRightBlue.get(0), drivetrain, true),
-            new IntakeCubeAuto(intakeSystem),
+            new IntakeCubeAuto(intakeSystem, true),
             new ArmExtension(intakeSystem, 50, true),
             new PivotMove(pivotSystem, 33, true),
             new FollowPath(p_2PieceRightBlue.get(1), drivetrain, false),
@@ -445,15 +443,15 @@ public class RobotContainer {
 
 
     Command c_2PieceLeftRed =
-        Commands.sequence(
-            new ScoreCN3(intakeSystem, pivotSystem),
-            new PickupBack(intakeSystem, pivotSystem),
-            new FollowPath(p_2PieceLeftRed.get(0), drivetrain, true),
-            new IntakeCubeAuto(intakeSystem),
-            new ArmExtension(intakeSystem, 50, true),
-            new PivotMove(pivotSystem, 33, true),
-            new FollowPath(p_2PieceLeftRed.get(1), drivetrain, false),
-            new ScoreCB3(intakeSystem, pivotSystem));
+            Commands.sequence(
+                new ScoreCN3(intakeSystem, pivotSystem),
+                new PickupBack(intakeSystem, pivotSystem),
+                new FollowPath(p_2PieceLeftRed.get(0), drivetrain, true),
+                new IntakeCubeAuto(intakeSystem, true),
+                new ArmExtension(intakeSystem, 50, true),
+                new PivotMove(pivotSystem, 33, true),
+                new FollowPath(p_2PieceLeftRed.get(1), drivetrain, false),
+                new ScoreCB3(intakeSystem, pivotSystem));
 
 
     Command c_2PieceRightRed =
@@ -461,7 +459,7 @@ public class RobotContainer {
             new ScoreCN3(intakeSystem, pivotSystem),
             new PickupBack(intakeSystem, pivotSystem),
             new FollowPath(p_2PieceRightRed.get(0), drivetrain, true),
-            new IntakeCubeAuto(intakeSystem),
+            new IntakeCubeAuto(intakeSystem, true),
             new ArmExtension(intakeSystem, 50, true),
             new PivotMove(pivotSystem, 33, true),
             new FollowPath(p_2PieceRightRed.get(1), drivetrain, false),

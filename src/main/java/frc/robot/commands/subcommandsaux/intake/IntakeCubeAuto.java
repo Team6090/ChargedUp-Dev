@@ -10,10 +10,12 @@ public class IntakeCubeAuto extends CommandBase {
 
   Timer timer;
 
+  boolean reversed;
   boolean done = false;
 
-  public IntakeCubeAuto(IntakeSystem intakeSystem) {
+  public IntakeCubeAuto(IntakeSystem intakeSystem, boolean reversed) {
     this.intakeSystem = intakeSystem;
+    this.reversed = reversed;
 
     timer = new Timer();
 
@@ -23,8 +25,13 @@ public class IntakeCubeAuto extends CommandBase {
   @Override
   public void initialize() {
     timer.start();
-    intakeSystem.EnableIntakeSolenoid(false);
-    intakeSystem.IntakeOn(0.75, false);
+    if (reversed = true){
+      intakeSystem.EnableIntakeSolenoid(false);
+      intakeSystem.IntakeOn(0.75, true);
+    }else{
+      intakeSystem.EnableIntakeSolenoid(false);
+      intakeSystem.IntakeOn(0.75, false);
+    }
   }
 
   @Override

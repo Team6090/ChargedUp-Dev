@@ -13,7 +13,7 @@ public class PickupBack extends SequentialCommandGroup {
     addCommands(
         new PickupStationFeed(pivotSystem, 2),
         new ArmExtension(intakeSystem, 50, true),
-        new PivotMove(pivotSystem, 324, true), // 325.99
+        new PivotMove(pivotSystem, 322, true), // 325.99
         new ArmExtension(intakeSystem, 7326, true));
   }
 }

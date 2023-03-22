@@ -73,5 +73,18 @@
   "maxVelocity": 2.0,
   "maxAcceleration": 2.0,
   "isReversed": null,
-  "markers": []
+  "markers": [
+    {
+      "position": 0.01,
+      "names": [
+        "BPUP1"
+      ]
+    },
+    {
+      "position": 0.2181818181817811,
+      "names": [
+        "ININ1"
+      ]
+    }
+  ]
 }
