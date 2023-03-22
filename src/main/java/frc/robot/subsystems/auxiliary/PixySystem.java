@@ -12,7 +12,7 @@ public class PixySystem {
   private static final int blockSignatureTwo = 2;
 
   private Pixy2 pixy;
-  private Pixy2CCC pixy2ccc;
+  public static Pixy2CCC pixy2ccc;
 
   public PixySystem() {
     this(new SPILink());
@@ -55,14 +55,24 @@ public class PixySystem {
     }
   }
 
-  public int GetCubeCount() {
-    int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG2, 25);
+  public static int GetCubeCount() {
+    int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG2, 1);
     return blockCount;
   }
 
-  public int GetConeCount() {
-    int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG1, 25);
+  public static int GetConeCount() {
+    int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG1, 1);
     return blockCount;
+  }
+
+  public static int GetObject() {
+    if (GetConeCount() > GetConeCount()) {
+      return 1; // Cone
+    } else if (GetConeCount() < GetCubeCount()) {
+      return 2; // Cube
+    } else {
+      return -1; // Null
+    }
   }
 
   public void GetCubes() {
