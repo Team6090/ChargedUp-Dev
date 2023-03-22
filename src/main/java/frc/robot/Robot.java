@@ -158,7 +158,7 @@ public class Robot extends LoggedRobot {
   public void autonomousInit() {
     new LockArmExtend(lockSystem, false).schedule();
     // robotContainer.RobotInit();
-    // Limelight.TurnLimelightOn();
+    Limelight.TurnLimelightOn();
     autonomousCommand = robotContainer.getAutonomousCommand();
     // schedule the autonomous command
     if (autonomousCommand != null) {
@@ -172,7 +172,7 @@ public class Robot extends LoggedRobot {
     robotContainer.UnlockDrive();
     new LockArmExtend(lockSystem, false).schedule();
     robotContainer.RobotInit();
-    // Limelight.TurnLimelightOn();
+    Limelight.TurnLimelightOn();
     /*
      * This makes sure that the autonomous stops running when teleop starts running. If you want the
      * autonomous to continue until interrupted by another command, remove this line or comment it

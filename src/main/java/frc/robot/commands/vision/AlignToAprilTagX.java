@@ -23,10 +23,9 @@ public class AlignToAprilTagX extends CommandBase {
 
   @Override
   public void initialize() {
-    Limelight.TurnLimelightOn();
+    // Limelight.TurnLimelightOn();
     timer.start();
-    drivetrain.drive(0, 0, 0);
-
+    drivetrain.drive(0, 0, 0); 
     limelightX = Limelight.GetX();
     limelightV = Limelight.GetV();
 
@@ -35,9 +34,9 @@ public class AlignToAprilTagX extends CommandBase {
     }
 
     if (limelightX < -1.0) {
-      drivetrain.drive(0, 0.5, 0);
-    } else if (limelightX > 1.0) {
       drivetrain.drive(0, -0.5, 0);
+    } else if (limelightX > 1.0) {
+      drivetrain.drive(0, 0.5, 0);
     }
   }
 
@@ -53,14 +52,14 @@ public class AlignToAprilTagX extends CommandBase {
     limelightX = Limelight.GetX();
     limelightV = Limelight.GetV();
 
-    if ((limelightX < 1.0 && limelightX > -1.0) || timer.get() > 3.0) {
+    if ((limelightX < 1.0 && limelightX > -1.0) || timer.get() > 2.0) {
       done = true;
     }
   }
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Limelight.TurnLimelightOff();
+    // Limelight.TurnLimelightOff();
     timer.stop();
     timer.reset();
     done = false;

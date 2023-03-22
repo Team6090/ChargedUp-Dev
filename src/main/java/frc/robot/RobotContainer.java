@@ -52,6 +52,7 @@ import frc.robot.commands.teleop.HomePos;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
 import frc.robot.commands.vision.AlignToAprilTagX;
+import frc.robot.commands.vision.LimelightLed;
 import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
 import frc.robot.subsystems.auxiliary.AirCompressor;
@@ -220,8 +221,6 @@ public class RobotContainer {
 
     intakeSystem.setDefaultCommand(new IntakeCube(intakeSystem, oi::PrimaryLeftTrigger));
 
-    intakeSystem.setDefaultCommand(new IntakeCube(intakeSystem, oi::PrimaryLeftTrigger));
-
     configureButtonBindings();
   }
 
@@ -251,7 +250,7 @@ public class RobotContainer {
     oi.PrimaryPOV180().onTrue(new PickupBack(intakeSystem, pivotSystem)); // Back Pickup Command
     oi.PrimaryPOV270().onTrue(new PickupStation(intakeSystem, pivotSystem));
 
-    oi.PrimaryLeftBumper().whileTrue(new IntakeInOut(intakeSystem, .75, false));
+    oi.PrimaryLeftBumper().whileTrue(new IntakeInOut(intakeSystem, .75, true));
     oi.PrimaryRightBumper().onTrue(new ScoreController(intakeSystem, pivotSystem));
     // End
 
@@ -260,7 +259,7 @@ public class RobotContainer {
     oi.OverrideStart().onTrue(new LockRobotArm(intakeSystem, pivotSystem)); // End Arm
 
     oi.OverrideA().onTrue(new LockArmExtend(Robot.lockSystem, true));
-    oi.OverrideB().whileTrue(new IntakeInOut(intakeSystem, 0.75, true));
+    oi.OverrideB().whileTrue(new IntakeInOut(intakeSystem, 0.75, false));
 
     oi.OverrideY().onTrue(Commands.runOnce(drivetrain::disableXstance, drivetrain));
     oi.OverrideX().onTrue(Commands.runOnce(drivetrain::enableXstance, drivetrain));

@@ -17,12 +17,12 @@ public class ArmExtension extends CommandBase {
 
   Timer timer;
 
-  double prevPos, newPos;
-  double prevTime, newTime;
+  // double prevPos, newPos;
+  // double prevTime, newTime;
 
-  double velo;
+  // double velo;
 
-  boolean safe = true;
+  // boolean safe = true;
 
   boolean done = false;
 
@@ -36,10 +36,10 @@ public class ArmExtension extends CommandBase {
 
   @Override
   public void initialize() {
-    timer.start();
-    newTime = timer.get();
-    newPos = intakeSystem.GetArmExtendedPosition();
-    velo = intakeSystem.GetArmExtentedVelo();
+    // timer.start();
+    // newTime = timer.get();
+    // newPos = intakeSystem.GetArmExtendedPosition();
+    // velo = intakeSystem.GetArmExtentedVelo();
 
     if (Robot.lockSystem.locked == true) {
       new LockArmExtend(Robot.lockSystem, false);
@@ -49,17 +49,17 @@ public class ArmExtension extends CommandBase {
 
   @Override
   public void execute() {
-    prevTime = newTime;
-    prevPos = newPos;
-    newTime = timer.get();
-    newPos = intakeSystem.GetArmExtendedPosition();
+    // prevTime = newTime;
+    // prevPos = newPos;
+    // newTime = timer.get();
+    // newPos = intakeSystem.GetArmExtendedPosition();
 
-    double change = (newPos-prevPos)/(newTime-prevPos);
+    // double change = (newPos-prevPos)/(newTime-prevPos);
 
-    if (velo > 1 && change < 1) {
-      intakeSystem.ExtendArmToPosition(50); // Send home for reset
-      done = true;
-    }
+    // if (velo > 1 && change < 1) {
+    //   intakeSystem.ExtendArmToPosition(50); // Send home for reset
+    //   done = true;
+    // }
 
     if (autonMode == true) {
       currentPos = intakeSystem.GetArmExtendedPosition();

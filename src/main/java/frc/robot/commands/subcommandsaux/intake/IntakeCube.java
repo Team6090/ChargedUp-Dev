@@ -38,7 +38,7 @@ public class IntakeCube extends CommandBase {
 
   private void run() {
     intakeSystem.EnableIntakeSolenoid(false);
-    intakeSystem.IntakeOn(0.75, false);
+    intakeSystem.IntakeOn(0.75, true);
   }
 
   private void stop() {

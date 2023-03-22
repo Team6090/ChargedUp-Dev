@@ -24,6 +24,10 @@ public class Limelight {
     limelightNetworkTable.getEntry("ledMode").setDouble(1.0);
   }
 
+  public static double GetLimelightOnOff() {
+    return limelightNetworkTable.getEntry("ledMode").getDouble(-1.0);
+  }
+
   public static void TurnLimelightOn() {
     limelightNetworkTable.getEntry("ledMode").setDouble(3.0);
   }
