@@ -11,12 +11,15 @@ import frc.robot.commands.teleop.stage.cube.CubeStage2;
 import frc.robot.commands.teleop.stage.cube.CubeStage3;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PixySystem;
 
 public class StageController extends CommandBase {
 
   IntakeSystem intakeSystem;
   PivotSystem pivotSystem;
   int setStageLocation;
+  int currentObjectCV3;
+  int currentObjectPixy;
 
   public StageController(IntakeSystem intakeSystem, PivotSystem pivotSystem, int setStageLocation) {
     this.intakeSystem = intakeSystem;
@@ -28,9 +31,22 @@ public class StageController extends CommandBase {
 
   @Override
   public void initialize() {
-    int currentObject = intakeSystem.ObjectType();
+    // int currentObject = intakeSystem.ObjectType();
 
-    switch (currentObject) {
+    currentObjectCV3 = intakeSystem.ObjectType();
+    currentObjectPixy = PixySystem.GetObject();
+
+    int correctObject;
+
+    if (currentObjectCV3 == currentObjectPixy) {
+      correctObject = currentObjectPixy;
+    } else if (currentObjectPixy == -1) {
+      correctObject = currentObjectCV3;
+    } else {
+      correctObject = 2;
+    }
+
+    switch (correctObject) {
       case 0:
         Commands.sequence(
                 new SetCurrentStage(pivotSystem, setStageLocation),

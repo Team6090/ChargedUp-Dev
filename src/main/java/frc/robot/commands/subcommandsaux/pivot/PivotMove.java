@@ -30,7 +30,7 @@ public class PivotMove extends CommandBase {
   public void execute() {
     if (autonMode == true) {
       pos = pivotSystem.GetArmDeg();
-      if (pos > deg - 3 && pos < deg + 3) {
+      if (pos > deg - 4 && pos < deg + 4) {
         done = true;
       }
     } else {

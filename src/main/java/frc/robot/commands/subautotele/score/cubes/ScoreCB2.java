@@ -2,6 +2,7 @@ package frc.robot.commands.subautotele.score.cubes;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.intake.IntakeInOutAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeOpenClose;
@@ -13,12 +14,12 @@ public class ScoreCB2 extends SequentialCommandGroup {
 
   public ScoreCB2(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
     addCommands(
-        new ArmExtension(intakeSystem, 150, true),
+        new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
         new PivotMove(pivotSystem, 90, true),
         new ArmExtension(intakeSystem, 11000, true),
         new IntakeOpenClose(intakeSystem, false),
         new IntakeInOutAuto(intakeSystem),
-        new ArmExtension(intakeSystem, 150, true),
+        new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
         new WaitCommand(.1),
         new IntakeOpenClose(intakeSystem, true),
         new WaitCommand(.1),

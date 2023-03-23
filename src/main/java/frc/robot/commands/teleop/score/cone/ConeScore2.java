@@ -2,6 +2,7 @@ package frc.robot.commands.teleop.score.cone;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.intake.IntakeOpenClose;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
@@ -17,7 +18,7 @@ public class ConeScore2 extends SequentialCommandGroup {
         new WaitCommand(.1),
         new IntakeOpenClose(intakeSystem, false),
         new WaitCommand(.1),
-        new ArmExtension(intakeSystem, 0, true),
+        new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
         new IntakeOpenClose(intakeSystem, true),
         new PivotMove(pivotSystem, 30, true));
   }

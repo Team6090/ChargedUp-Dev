@@ -2,6 +2,7 @@ package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.commands.subcommandsaux.util.PickupStationFeed;
@@ -37,7 +38,7 @@ public class HomePos extends CommandBase {
         case 0:
           Commands.sequence(
                   new PickupStationFeed(pivotSystem, 0),
-                  new ArmExtension(intakeSystem, 50, true),
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 30, true))
               .schedule();
           break;
@@ -45,7 +46,7 @@ public class HomePos extends CommandBase {
         case 1:
           Commands.sequence(
                   new PickupStationFeed(pivotSystem, 0),
-                  new ArmExtension(intakeSystem, 50, true),
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 30, true))
               .schedule();
           break;
@@ -53,7 +54,7 @@ public class HomePos extends CommandBase {
         case 2:
           Commands.sequence(
                   new PickupStationFeed(pivotSystem, 0),
-                  new ArmExtension(intakeSystem, 50, true),
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 37, true))
               .schedule();
           break;
@@ -61,7 +62,7 @@ public class HomePos extends CommandBase {
         default:
           Commands.sequence(
                   new PickupStationFeed(pivotSystem, 0),
-                  new ArmExtension(intakeSystem, 50, true),
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 30, true))
               .schedule();
           break;
@@ -72,7 +73,7 @@ public class HomePos extends CommandBase {
           Commands.sequence(
                   new PickupStationFeed(pivotSystem, 0),
                   new PivotMove(pivotSystem, 317.0, true),
-                  new ArmExtension(intakeSystem, 50, true),
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 30, true))
               .schedule();
           break;
@@ -81,7 +82,7 @@ public class HomePos extends CommandBase {
           Commands.sequence(
                   new PickupStationFeed(pivotSystem, 0),
                   new PivotMove(pivotSystem, 317.0, true),
-                  new ArmExtension(intakeSystem, 50, true),
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 30, true))
               .schedule();
           break;
@@ -90,7 +91,7 @@ public class HomePos extends CommandBase {
           Commands.sequence(
                   new PickupStationFeed(pivotSystem, 0),
                   new PivotMove(pivotSystem, 317.0, true),
-                  new ArmExtension(intakeSystem, 50, true),
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 37, true))
               .schedule();
           break;
@@ -99,7 +100,7 @@ public class HomePos extends CommandBase {
           Commands.sequence(
                   new PickupStationFeed(pivotSystem, 0),
                   new PivotMove(pivotSystem, 317.0, true),
-                  new ArmExtension(intakeSystem, 50, true),
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 30, true))
               .schedule();
           break;
@@ -110,7 +111,7 @@ public class HomePos extends CommandBase {
           Commands.sequence(
                   new PickupStationFeed(pivotSystem, 0),
                   new PivotMove(pivotSystem, 118.0, true),
-                  new ArmExtension(intakeSystem, 50, true),
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 30, true))
               .schedule();
           break;
@@ -119,7 +120,7 @@ public class HomePos extends CommandBase {
           Commands.sequence(
                   new PickupStationFeed(pivotSystem, 0),
                   new PivotMove(pivotSystem, 118.0, true),
-                  new ArmExtension(intakeSystem, 50, true),
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 30, true))
               .schedule();
           break;
@@ -128,7 +129,7 @@ public class HomePos extends CommandBase {
           Commands.sequence(
                   new PickupStationFeed(pivotSystem, 0),
                   new PivotMove(pivotSystem, 118.0, true),
-                  new ArmExtension(intakeSystem, 50, true),
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 37, true))
               .schedule();
           break;
@@ -137,7 +138,7 @@ public class HomePos extends CommandBase {
           Commands.sequence(
                   new PickupStationFeed(pivotSystem, 0),
                   new PivotMove(pivotSystem, 118.0, true),
-                  new ArmExtension(intakeSystem, 50, true),
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 30, true))
               .schedule();
           break;
@@ -147,25 +148,25 @@ public class HomePos extends CommandBase {
       switch (currentObject) {
         case 0:
           Commands.sequence(
-                  new ArmExtension(intakeSystem, 50, true), new PivotMove(pivotSystem, 30, true))
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true), new PivotMove(pivotSystem, 30, true))
               .schedule();
           break;
 
         case 1:
           Commands.sequence(
-                  new ArmExtension(intakeSystem, 50, true), new PivotMove(pivotSystem, 30, true))
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true), new PivotMove(pivotSystem, 30, true))
               .schedule();
           break;
 
         case 2:
           Commands.sequence(
-                  new ArmExtension(intakeSystem, 50, true), new PivotMove(pivotSystem, 37, true))
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true), new PivotMove(pivotSystem, 37, true))
               .schedule();
           break;
 
         default:
           Commands.sequence(
-                  new ArmExtension(intakeSystem, 50, true), new PivotMove(pivotSystem, 30, true))
+                  new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true), new PivotMove(pivotSystem, 30, true))
               .schedule();
           break;
       }
