@@ -260,11 +260,14 @@ public class RobotContainer {
     oi.OverrideBack().onTrue(new LockRobotDrivetrain(drivetrain)); // End Drivetrain
     oi.OverrideStart().onTrue(new LockRobotArm(intakeSystem, pivotSystem)); // End Arm
 
-    oi.OverrideA().onTrue(new LockArmExtend(Robot.lockSystem, true));
+    // oi.OverrideA().onTrue(new LockArmExtend(Robot.lockSystem, true));
     oi.OverrideB().whileTrue(new IntakeInOut(intakeSystem, 0.75, false));
 
     oi.OverrideY().onTrue(Commands.runOnce(drivetrain::disableXstance, drivetrain));
     oi.OverrideX().onTrue(Commands.runOnce(drivetrain::enableXstance, drivetrain));
+
+    oi.OverrideStart().onTrue(new LockArmExtend(Robot.lockSystem, true));
+    oi.OverrideBack().onTrue(new LockArmExtend(Robot.lockSystem, false));
     // End
   }
 
