@@ -38,6 +38,7 @@ import org.littletonrobotics.junction.Logger;
  * robot's rotation.
  */
 public class Drivetrain extends SubsystemBase {
+  
 
   public static AHRS gyroIO;
 
@@ -120,6 +121,9 @@ public class Drivetrain extends SubsystemBase {
     this.centerGravity = new Translation2d(0, 0); // default to (0,0)
 
     this.zeroGyroscope();
+
+    SmartDashboard.putNumber("RateOfChange(Pitch/Time)", 0.0);
+    SmartDashboard.putBoolean("Engaged", false);
 
     this.isFieldRelative = true;
 

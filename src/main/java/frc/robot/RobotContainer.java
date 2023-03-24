@@ -41,6 +41,7 @@ import frc.robot.commands.subautotele.score.cones.ScoreCN3;
 import frc.robot.commands.subautotele.score.cubes.ScoreCB3;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV4;
+import frc.robot.commands.subautotele.swerve.AutoBalanceV5;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.intake.IntakeCube;
 import frc.robot.commands.subcommandsaux.intake.IntakeCubeAuto;
@@ -192,6 +193,10 @@ public class RobotContainer {
     configureAutoCommands();
   }
 
+  public void teleopInit(){
+    drivetrain.disableXstance();
+  }
+
   /**
    * This method scans for any changes to the connected joystick. If anything changed, it creates
    * new OI objects and binds all of the buttons to commands.
@@ -257,8 +262,8 @@ public class RobotContainer {
     // End
 
     // Override Controller
-    oi.OverrideBack().onTrue(new LockRobotDrivetrain(drivetrain)); // End Drivetrain
-    oi.OverrideStart().onTrue(new LockRobotArm(intakeSystem, pivotSystem)); // End Arm
+    //oi.OverrideBack().onTrue(new LockRobotArm(intakeSystem, pivotSystem)); // End Drivetrain
+    //oi.OverrideStart().onTrue(new LockRobotArm(intakeSystem, pivotSystem)); // End Arm
 
     // oi.OverrideA().onTrue(new LockArmExtend(Robot.lockSystem, true));
     oi.OverrideB().whileTrue(new IntakeInOut(intakeSystem, 0.75, false));
@@ -347,6 +352,8 @@ public class RobotContainer {
         PathPlanner.loadPathGroup("RightRed2Piece", 2.0, 2.0);
     PathPlannerTrajectory p_1_5PieceLeftBlue =
         PathPlanner.loadPath("LeftBlue1.5Piece", 1.7, 1.7);
+    PathPlannerTrajectory p_LeftBlueAroundBalance = 
+        PathPlanner.loadPath("ScoreGoAroundBalance", MAX_VELOCITY_METERS_PER_SECOND, AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
 
     PathPlannerTrajectory p_1Meter =
         GenerateTrajectoryFromPath(
@@ -367,6 +374,8 @@ public class RobotContainer {
 
     Command c_FullPathRed =
         Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.5),
             new ScoreCN3(intakeSystem, pivotSystem),
             new FollowPathWithEvents(
                 new FollowPath(p_FullPathRed.get(0), drivetrain, true),
@@ -389,6 +398,8 @@ public class RobotContainer {
 
     Command c_FullPathBlueCube =
         Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.5),
             new ScoreCB3(intakeSystem, pivotSystem),
             new FollowPathWithEvents(
                 new FollowPath(p_FullPathBlueCube.get(0), drivetrain, true),
@@ -411,6 +422,8 @@ public class RobotContainer {
 
     Command c_FullPathBlueCone =
         Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.5),
             new ScoreCN3(intakeSystem, pivotSystem),
             new FollowPathWithEvents(
                 new FollowPath(p_FullPathBlueCone.get(0), drivetrain, true),
@@ -447,6 +460,8 @@ public class RobotContainer {
 
     Command c_2PieceRightBlue =
         Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.5),
             new ScoreCN3(intakeSystem, pivotSystem),
             new PickupBack(intakeSystem, pivotSystem),
             new FollowPath(p_2PieceRightBlue.get(0), drivetrain, true),
@@ -459,6 +474,8 @@ public class RobotContainer {
 
     Command c_2PieceLeftRed =
             Commands.sequence(
+                new LockArmExtend(Robot.lockSystem, false),
+                new WaitCommand(0.5),
                 new ScoreCN3(intakeSystem, pivotSystem),
                 new PickupBack(intakeSystem, pivotSystem),
                 new FollowPath(p_2PieceLeftRed.get(0), drivetrain, true),
@@ -471,6 +488,8 @@ public class RobotContainer {
 
     Command c_2PieceRightRed =
         Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.5),
             new ScoreCN3(intakeSystem, pivotSystem),
             new PickupBack(intakeSystem, pivotSystem),
             new FollowPath(p_2PieceRightRed.get(0), drivetrain, true),
@@ -486,16 +505,29 @@ public class RobotContainer {
             new WaitCommand(0.5),
             new ScoreCN3(intakeSystem, pivotSystem),
             new FollowPath(p_1_5PieceLeftBlue, drivetrain, true));
+
+    Command c_LeftBlueAroundBalance =
+        Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.5),
+            new ScoreCN3(intakeSystem, pivotSystem),
+            new FollowPath(p_LeftBlueAroundBalance, drivetrain, true),
+            new AutoBalanceV5(drivetrain, true, 1.0, -20));
             
     Command scoreBackup =
         Commands.sequence(
-            new ScoreCN3(intakeSystem, pivotSystem), new FollowPath(ScoreBackup, drivetrain, true));
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.5),
+            new ScoreCN3(intakeSystem, pivotSystem), 
+            new FollowPath(ScoreBackup, drivetrain, true));
 
     PathPlannerTrajectory score = GenerateTrajectoryFromPath("Score", 1.0, 1.0);
 
     PathPlannerTrajectory go = GenerateTrajectoryFromPath("RobotControlPath", 1.0, 1.0);
     Command gogo =
         Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.5),
             new ScoreCN3(intakeSystem, pivotSystem),
             new FollowPath(go, drivetrain, true),
             new PickupFront(intakeSystem, pivotSystem),
@@ -504,6 +536,8 @@ public class RobotContainer {
 
     Command scoreHighCone =
         Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.5),
             new ScoreCN3(intakeSystem, pivotSystem),
             new FollowPath(score, drivetrain, true),
             new AutoBalanceV2(drivetrain, false, 3.0, -13.0, 33.0),
@@ -511,7 +545,10 @@ public class RobotContainer {
 
     Command scoreHighBalance =
         Commands.sequence(
-            new ScoreCN3(intakeSystem, pivotSystem), new AutoBalanceV4(drivetrain, true, 1.0, -20));
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.5),
+            new ScoreCN3(intakeSystem, pivotSystem), 
+            new AutoBalanceV4(drivetrain, true, 1.0, -20));
 
     PathPlannerTrajectory testPath =
         GenerateTrajectoryFromPath(
@@ -545,6 +582,15 @@ public class RobotContainer {
     autoChooser.addOption("2PieceRightRed", c_2PieceRightRed);
     autoChooser.addOption("AutoBalance", scoreHighBalance);
     autoChooser.addOption("ScoreAndBackup", scoreBackup);
+    autoChooser.addOption("ScoreConeHighOnly", Commands.sequence(
+        new LockArmExtend(Robot.lockSystem, false),
+        new WaitCommand(0.5),
+        new ScoreCN3(intakeSystem, pivotSystem)));
+    autoChooser.addOption("ScoreCubeHighOnly",Commands.sequence( 
+        new LockArmExtend(Robot.lockSystem, false),
+        new WaitCommand(0.5),
+        new ScoreCB3(intakeSystem, pivotSystem)));
+    autoChooser.addOption("LeftBlue_AroundBalance", c_LeftBlueAroundBalance);
 
     // "auto" command for tuning the drive velocity PID
     autoChooser.addOption(

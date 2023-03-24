@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.team6328.util.Alert;
@@ -48,6 +49,10 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void robotInit() {
+    for(int port = 5800; port <= 5805; port++) {
+      PortForwarder.add(port, "limelight.local", port);
+    }
+    
     final String GIT_DIRTY = "GitDirty";
 
     Limelight.TurnLimelightOff();
@@ -171,6 +176,7 @@ public class Robot extends LoggedRobot {
   public void teleopInit() {
     new LockArmExtend(lockSystem, false).schedule();
     robotContainer.RobotInit();
+    robotContainer.teleopInit();
     Limelight.TurnLimelightOn();
     /*
      * This makes sure that the autonomous stops running when teleop starts running. If you want the

@@ -14,7 +14,7 @@ public class PickupStation extends SequentialCommandGroup {
     addCommands(
         new PickupStationFeed(pivotSystem, 3),
         new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
-        new PivotMove(pivotSystem, 109, true)); // 108
+        new PivotMove(pivotSystem, 108, true)); // 108
     // new ArmExtension(intakeSystem, 5825, true)); //8825
   }
 }

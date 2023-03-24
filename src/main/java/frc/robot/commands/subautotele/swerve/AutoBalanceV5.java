@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
-public class AutoBalanceV4 extends CommandBase {
+public class AutoBalanceV5 extends CommandBase {
 
   Drivetrain drivetrain;
   boolean reversedDirection;
@@ -34,7 +34,7 @@ public class AutoBalanceV4 extends CommandBase {
   Timer timer;
 
   // 12.1 Down, 17.8 Up
-  public AutoBalanceV4(
+  public AutoBalanceV5(
       Drivetrain drivetrain,
       boolean reversedDirection,
       double allowedDeadbandError,
@@ -65,26 +65,19 @@ public class AutoBalanceV4 extends CommandBase {
   public void execute() {
     prevPitch = pitch;
     prevTime = time;
-    pitch = Drivetrain.gyroIO.getRoll();
+    pitch = Drivetrain.gyroIO.getPitch();
     time = timer.get();
 
     // RateOfChange Calculation
     rateOfChange = (pitch - prevPitch) / (time - prevTime);
-    //SmartDashboard.putNumber("RateOfChange(Pitch/Time)", rateOfChange);
-    //SmartDashboard.putBoolean("Engaged", engaged);
+    SmartDashboard.putNumber("RateOfChange(Pitch/Time)", rateOfChange);
 
     // Engage Check
     if (reversedDirection == false) {
-      // SmartDashboard.putNumber("direction", 0);
-      // SmartDashboard.putNumber("CCPitch", pitch);
-      // SmartDashboard.putNumber("CCmin", minActivePitch);
       if (pitch < minActivePitch) {
         engaged = true;
       }
     } else {
-      // SmartDashboard.putNumber("direction", 1);
-      // SmartDashboard.putNumber("CCPitch", pitch);
-      // SmartDashboard.putNumber("CCmin", minActivePitch);
       if (pitch > minActivePitch) {
         engaged = true;
       }
@@ -94,7 +87,7 @@ public class AutoBalanceV4 extends CommandBase {
 
       if (rateOfChange > 1 || rateOfChange < -1) {
         // Safe
-        balanceSpeed = Math.pow(initSpeed / Math.abs(rateOfChange), 0.20); // 0.20
+        balanceSpeed = Math.pow(initSpeed / Math.abs(rateOfChange), 0.15); // 0.20
       } else {
         // Bad
         balanceSpeed = safeSpeed;
@@ -162,12 +155,6 @@ public class AutoBalanceV4 extends CommandBase {
         } else {
           drivetrain.drive(-balanceSpeed, 0.0, 0.0);
         }
-      }
-    }
-   else {
-    if (timer.get() > 10){
-      drivetrain.stop();
-      done = true;
       }
     }
   }
