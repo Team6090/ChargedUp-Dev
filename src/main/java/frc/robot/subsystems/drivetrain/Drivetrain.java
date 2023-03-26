@@ -122,8 +122,8 @@ public class Drivetrain extends SubsystemBase {
 
     this.zeroGyroscope();
 
-    SmartDashboard.putNumber("RateOfChange(Pitch/Time)", 0.0);
-    SmartDashboard.putBoolean("Engaged", false);
+    //SmartDashboard.putNumber("RateOfChange(Pitch/Time)", 0.0);
+    //SmartDashboard.putBoolean("Engaged", false);
 
     this.isFieldRelative = true;
 

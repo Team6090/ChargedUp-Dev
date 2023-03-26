@@ -37,10 +37,8 @@ public class ScoreController extends CommandBase {
 
     if (currentObjectCV3 == currentObjectPixy) {
       correctObject = currentObjectPixy;
-    } else if (currentObjectPixy == -1) {
-      correctObject = currentObjectCV3;
     } else {
-      correctObject = 2;
+      correctObject = 1;
     }
 
     SmartDashboard.putNumber("ReadObject", currentObjectCV3);

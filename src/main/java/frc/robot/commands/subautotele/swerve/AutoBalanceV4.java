@@ -90,11 +90,11 @@ public class AutoBalanceV4 extends CommandBase {
       }
     }
     // Speed Change
-    if (engaged == true) {
+    if (engaged == true) { 
 
       if (rateOfChange > 1 || rateOfChange < -1) {
         // Safe
-        balanceSpeed = Math.pow(initSpeed / Math.abs(rateOfChange), 0.20); // 0.20
+        balanceSpeed = Math.pow(initSpeed / Math.abs(rateOfChange), 0.225); // 0.20
       } else {
         // Bad
         balanceSpeed = safeSpeed;

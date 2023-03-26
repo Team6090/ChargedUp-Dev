@@ -65,19 +65,26 @@ public class AutoBalanceV5 extends CommandBase {
   public void execute() {
     prevPitch = pitch;
     prevTime = time;
-    pitch = Drivetrain.gyroIO.getPitch();
+    pitch = Drivetrain.gyroIO.getRoll();
     time = timer.get();
 
     // RateOfChange Calculation
     rateOfChange = (pitch - prevPitch) / (time - prevTime);
-    SmartDashboard.putNumber("RateOfChange(Pitch/Time)", rateOfChange);
+    //SmartDashboard.putNumber("RateOfChange(Pitch/Time)", rateOfChange);
+    //SmartDashboard.putBoolean("Engaged", engaged);
 
     // Engage Check
     if (reversedDirection == false) {
+      // SmartDashboard.putNumber("direction", 0);
+      // SmartDashboard.putNumber("CCPitch", pitch);
+      // SmartDashboard.putNumber("CCmin", minActivePitch);
       if (pitch < minActivePitch) {
         engaged = true;
       }
     } else {
+      // SmartDashboard.putNumber("direction", 1);
+      // SmartDashboard.putNumber("CCPitch", pitch);
+      // SmartDashboard.putNumber("CCmin", minActivePitch);
       if (pitch > minActivePitch) {
         engaged = true;
       }
@@ -87,7 +94,7 @@ public class AutoBalanceV5 extends CommandBase {
 
       if (rateOfChange > 1 || rateOfChange < -1) {
         // Safe
-        balanceSpeed = Math.pow(initSpeed / Math.abs(rateOfChange), 0.15); // 0.20
+        balanceSpeed = Math.pow(initSpeed / Math.abs(rateOfChange), 0.20); // 0.20
       } else {
         // Bad
         balanceSpeed = safeSpeed;
@@ -155,6 +162,12 @@ public class AutoBalanceV5 extends CommandBase {
         } else {
           drivetrain.drive(-balanceSpeed, 0.0, 0.0);
         }
+      }
+    }
+   else {
+    if (timer.get() > 10){
+      drivetrain.stop();
+      done = true;
       }
     }
   }

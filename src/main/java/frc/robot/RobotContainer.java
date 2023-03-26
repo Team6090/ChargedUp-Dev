@@ -55,6 +55,7 @@ import frc.robot.commands.subcommandsbase.LockRobotDrivetrain;
 import frc.robot.commands.teleop.HomePos;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
+import frc.robot.commands.teleop.score.cube.CubeScore;
 import frc.robot.commands.vision.AlignToAprilTagX;
 import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
@@ -265,7 +266,7 @@ public class RobotContainer {
     //oi.OverrideBack().onTrue(new LockRobotArm(intakeSystem, pivotSystem)); // End Drivetrain
     //oi.OverrideStart().onTrue(new LockRobotArm(intakeSystem, pivotSystem)); // End Arm
 
-    // oi.OverrideA().onTrue(new LockArmExtend(Robot.lockSystem, true));
+    // oi.OverrideA().onTrue(new CubeScore(intakeSystem, pivotSystem));
     oi.OverrideB().whileTrue(new IntakeInOut(intakeSystem, 0.75, false));
 
     oi.OverrideY().onTrue(Commands.runOnce(drivetrain::disableXstance, drivetrain));
@@ -353,7 +354,9 @@ public class RobotContainer {
     PathPlannerTrajectory p_1_5PieceLeftBlue =
         PathPlanner.loadPath("LeftBlue1.5Piece", 1.7, 1.7);
     PathPlannerTrajectory p_LeftBlueAroundBalance = 
-        PathPlanner.loadPath("ScoreGoAroundBalance", MAX_VELOCITY_METERS_PER_SECOND, AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+        PathPlanner.loadPath("LeftBlueAroundBalance", 2.5, 2.5);
+    PathPlannerTrajectory p_RightRedAroundBalance = 
+        PathPlanner.loadPath("RightRedAroundBalance", 2.5, 2.5);
 
     PathPlannerTrajectory p_1Meter =
         GenerateTrajectoryFromPath(
@@ -370,7 +373,7 @@ public class RobotContainer {
             "5Meter",
             MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
             AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-    PathPlannerTrajectory ScoreBackup = GenerateTrajectoryFromPath("ScoreThenBackup", 1, 1);
+    PathPlannerTrajectory ScoreBackup = GenerateTrajectoryFromPath("ScoreThenBackup", 1.5, 1.5);
 
     Command c_FullPathRed =
         Commands.sequence(
@@ -504,22 +507,25 @@ public class RobotContainer {
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
             new ScoreCN3(intakeSystem, pivotSystem),
-            new FollowPath(p_1_5PieceLeftBlue, drivetrain, true));
+            new FollowPath(p_1_5PieceLeftBlue, drivetrain, true),
+            Commands.runOnce(drivetrain::zeroGyroscope, drivetrain));
 
     Command c_LeftBlueAroundBalance =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
-            new WaitCommand(0.5),
+            new WaitCommand(0.25),
             new ScoreCN3(intakeSystem, pivotSystem),
             new FollowPath(p_LeftBlueAroundBalance, drivetrain, true),
-            new AutoBalanceV5(drivetrain, true, 1.0, -20));
+            Commands.runOnce(drivetrain::zeroGyroscope, drivetrain),
+            new AutoBalanceV4(drivetrain, true, 1.0, -20));
             
     Command scoreBackup =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
             new ScoreCN3(intakeSystem, pivotSystem), 
-            new FollowPath(ScoreBackup, drivetrain, true));
+            new FollowPath(ScoreBackup, drivetrain, true),
+            Commands.runOnce(drivetrain::zeroGyroscope, drivetrain));
 
     PathPlannerTrajectory score = GenerateTrajectoryFromPath("Score", 1.0, 1.0);
 
@@ -556,6 +562,15 @@ public class RobotContainer {
             AUTO_MAX_SPEED_METERS_PER_SECOND,
             AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
 
+    Command c_RightRedAroundBalance = 
+        Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.25),
+            new ScoreCN3(intakeSystem, pivotSystem),
+            new FollowPath(p_RightRedAroundBalance, drivetrain, true),
+            Commands.runOnce(drivetrain::zeroGyroscope, drivetrain),
+            new AutoBalanceV4(drivetrain, true, 1.0, -20));
+
     Command autoTestPath =
         Commands.sequence(
             new FollowPath(testPath, drivetrain, true),
@@ -591,6 +606,7 @@ public class RobotContainer {
         new WaitCommand(0.5),
         new ScoreCB3(intakeSystem, pivotSystem)));
     autoChooser.addOption("LeftBlue_AroundBalance", c_LeftBlueAroundBalance);
+    autoChooser.addOption("RightRedAroundBalance", c_RightRedAroundBalance);
 
     // "auto" command for tuning the drive velocity PID
     autoChooser.addOption(

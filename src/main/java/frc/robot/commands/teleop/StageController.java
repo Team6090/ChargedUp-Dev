@@ -40,10 +40,8 @@ public class StageController extends CommandBase {
 
     if (currentObjectCV3 == currentObjectPixy) {
       correctObject = currentObjectPixy;
-    } else if (currentObjectPixy == -1) {
-      correctObject = currentObjectCV3;
     } else {
-      correctObject = 2;
+      correctObject = 1; //Force Object type
     }
 
     switch (correctObject) {
