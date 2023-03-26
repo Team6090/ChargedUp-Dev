@@ -6,40 +6,39 @@ import frc.robot.subsystems.auxiliary.IntakeSystem;
 
 public class IntakeStopAuto extends CommandBase {
 
-    IntakeSystem intakeSystem;
+  IntakeSystem intakeSystem;
 
-    Timer timer;
+  Timer timer;
 
-    boolean done = false;
+  boolean done = false;
 
-    public IntakeStopAuto(IntakeSystem intakeSystem) {
-        this.intakeSystem = intakeSystem;
-        timer = new Timer();
+  public IntakeStopAuto(IntakeSystem intakeSystem) {
+    this.intakeSystem = intakeSystem;
+    timer = new Timer();
 
-        addRequirements(intakeSystem);
+    addRequirements(intakeSystem);
+  }
+
+  @Override
+  public void initialize() {
+    timer.start();
+  }
+
+  @Override
+  public void execute() {
+    if (intakeSystem.ObjectInIntake() == true || timer.get() > 0.5) {
+      done = true;
     }
+  }
 
-    @Override
-    public void initialize() {
-        timer.start();
-    }
+  @Override
+  public void end(boolean interrupted) {
+    intakeSystem.IntakeOff();
+    done = false;
+  }
 
-    @Override
-    public void execute() {
-        if(intakeSystem.ObjectInIntake() == true || timer.get() > 0.5) {
-            done = true;
-        }
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        intakeSystem.IntakeOff();
-        done = false;
-    }
-
-    @Override
-    public boolean isFinished() {
-        return done;
-    }
-
+  @Override
+  public boolean isFinished() {
+    return done;
+  }
 }

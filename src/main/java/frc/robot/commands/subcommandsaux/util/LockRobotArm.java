@@ -6,16 +6,16 @@ import frc.robot.commands.robot.LockArmExtend;
 import frc.robot.commands.subcommandsaux.extension.ExtendArmO;
 import frc.robot.commands.subcommandsaux.pivot.PivotArmO;
 import frc.robot.commands.teleop.HomePos;
-import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
 public class LockRobotArm extends SequentialCommandGroup {
 
-  public LockRobotArm(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+  public LockRobotArm(TelescopeSystem telescopeSystem, PivotSystem pivotSystem) {
     addCommands(
-        new HomePos(intakeSystem, pivotSystem), // Set To Home
+        new HomePos(telescopeSystem, pivotSystem), // Set To Home
         new LockArmExtend(Robot.lockSystem, true), // Lock Extend Movement
-        new ExtendArmO(intakeSystem, 0), // Release Extend Power
+        new ExtendArmO(telescopeSystem, 0), // Release Extend Power
         new PivotArmO(pivotSystem, 0, false) // Release Pivot Power
         );
   }

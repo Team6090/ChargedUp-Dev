@@ -8,19 +8,21 @@ import frc.robot.commands.subcommandsaux.intake.IntakeOpenClose;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
 public class ScoreCN1 extends SequentialCommandGroup {
 
-  public ScoreCN1(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+  public ScoreCN1(
+      IntakeSystem intakeSystem, TelescopeSystem telescopeSystem, PivotSystem pivotSystem) {
     addCommands(
-        new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
+        new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
         new PivotMove(pivotSystem, 60, true),
-        new ArmExtension(intakeSystem, 6000, true),
+        new ArmExtension(telescopeSystem, 6000, true),
         new WaitCommand(.25),
         new IntakeOpenClose(intakeSystem, false),
         new WaitCommand(.25),
         new IntakeOpenClose(intakeSystem, true),
-        new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
+        new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
         new PivotMove(pivotSystem, 30, true));
   }
 }

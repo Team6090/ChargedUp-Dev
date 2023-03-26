@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.commands.robot.LockArmExtend;
-import frc.robot.subsystems.auxiliary.IntakeSystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
 public class ArmExtension extends CommandBase {
-  IntakeSystem intakeSystem;
+  TelescopeSystem telescopeSystem;
   double ec;
   boolean autonMode;
 
@@ -15,12 +15,12 @@ public class ArmExtension extends CommandBase {
 
   boolean done = false;
 
-  public ArmExtension(IntakeSystem intakeSystem, double ec, boolean autonMode) {
-    this.intakeSystem = intakeSystem;
+  public ArmExtension(TelescopeSystem telescopeSystem, double ec, boolean autonMode) {
+    this.telescopeSystem = telescopeSystem;
     this.ec = ec;
     this.autonMode = autonMode;
 
-    addRequirements(intakeSystem);
+    addRequirements(telescopeSystem);
   }
 
   @Override
@@ -28,13 +28,13 @@ public class ArmExtension extends CommandBase {
     if (Robot.lockSystem.locked == true) {
       new LockArmExtend(Robot.lockSystem, false);
     }
-    intakeSystem.ExtendArmToPosition(ec);
+    telescopeSystem.ExtendArmToPosition(ec);
   }
 
   @Override
   public void execute() {
     if (autonMode == true) {
-      currentPos = intakeSystem.GetArmExtendedPosition();
+      currentPos = telescopeSystem.GetArmExtendedPosition();
       if (currentPos > ec - 100 && currentPos < ec + 100) {
         done = true;
         SmartDashboard.putBoolean("ExtendMoveDone", true);
@@ -50,7 +50,7 @@ public class ArmExtension extends CommandBase {
     if (autonMode == true) {
 
     } else {
-      this.intakeSystem.ExtendArmPO(0);
+      this.telescopeSystem.ExtendArmPO(0);
     }
   }
 

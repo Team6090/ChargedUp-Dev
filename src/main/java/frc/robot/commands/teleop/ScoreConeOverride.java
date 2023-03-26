@@ -9,50 +9,52 @@ import frc.robot.commands.subcommandsaux.intake.IntakeOpenClose;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
 public class ScoreConeOverride extends CommandBase {
-    
-    PivotSystem pivotSystem;
-    IntakeSystem intakeSystem;
 
-    double currentPos;
+  PivotSystem pivotSystem;
+  TelescopeSystem telescopeSystem;
+  IntakeSystem intakeSystem;
 
-    boolean done = false;
+  double currentPos;
 
-    public ScoreConeOverride(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
-        this.intakeSystem = intakeSystem;
-        this.pivotSystem = pivotSystem;
+  boolean done = false;
 
-        addRequirements(intakeSystem, pivotSystem);
-    }
+  public ScoreConeOverride(
+      IntakeSystem intakeSystem, TelescopeSystem telescopeSystem, PivotSystem pivotSystem) {
+    this.intakeSystem = intakeSystem;
+    this.telescopeSystem = telescopeSystem;
+    this.pivotSystem = pivotSystem;
 
-    @Override
-    public void initialize() {
-        currentPos = pivotSystem.GetArmDeg();
-        Commands.sequence(
-            new PivotMove(pivotSystem, currentPos-5, true),
+    addRequirements(intakeSystem, pivotSystem);
+  }
+
+  @Override
+  public void initialize() {
+    currentPos = pivotSystem.GetArmDeg();
+    Commands.sequence(
+            new PivotMove(pivotSystem, currentPos - 5, true),
             new WaitCommand(.1),
             new IntakeOpenClose(intakeSystem, false),
             new WaitCommand(.1),
-            new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
+            new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
             new IntakeOpenClose(intakeSystem, true),
-            new PivotMove(pivotSystem, 30, true)    
-        ).schedule();
-        done = true;
-    }
+            new PivotMove(pivotSystem, 30, true))
+        .schedule();
+    done = true;
+  }
 
-    @Override
-    public void execute() {
-    }
+  @Override
+  public void execute() {}
 
-    @Override
-    public void end(boolean interrupted) {
-        done = false;
-    }
+  @Override
+  public void end(boolean interrupted) {
+    done = false;
+  }
 
-    @Override
-    public boolean isFinished() {
-        return done;
-    }
-
+  @Override
+  public boolean isFinished() {
+    return done;
+  }
 }

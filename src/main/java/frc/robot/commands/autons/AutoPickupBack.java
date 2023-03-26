@@ -1,56 +1,58 @@
 package frc.robot.commands.autons;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.Constants;
 import frc.robot.commands.subautotele.pickup.PickupBack;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
 public class AutoPickupBack extends CommandBase {
-    
-    IntakeSystem intakeSystem;
-    PivotSystem pivotSystem;
 
-    double currentPos;
+  IntakeSystem intakeSystem;
+  TelescopeSystem telescopeSystem;
+  PivotSystem pivotSystem;
 
-    boolean cone;
+  double currentPos;
 
-    boolean done = false;
+  boolean cone;
 
-    public AutoPickupBack(IntakeSystem intakeSystem, PivotSystem pivotSystem, boolean cone) {
-        this.intakeSystem = intakeSystem;
-        this.pivotSystem = pivotSystem;
-        this.cone = cone;
+  boolean done = false;
 
-        addRequirements(intakeSystem, pivotSystem);
+  public AutoPickupBack(
+      IntakeSystem intakeSystem,
+      TelescopeSystem telescopeSystem,
+      PivotSystem pivotSystem,
+      boolean cone) {
+    this.intakeSystem = intakeSystem;
+    this.telescopeSystem = telescopeSystem;
+    this.pivotSystem = pivotSystem;
+    this.cone = cone;
+
+    addRequirements(intakeSystem, telescopeSystem, pivotSystem);
+  }
+
+  @Override
+  public void initialize() {
+    if (cone == true) {
+      intakeSystem.IntakeOn(0.75, true);
+    } else {
+      intakeSystem.EnableIntakeSolenoid(false);
+      intakeSystem.IntakeOn(0.75, true);
     }
+    new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true).schedule();
+    done = true;
+  }
 
-    @Override
-    public void initialize() {
-        if (cone == true) {
-            intakeSystem.IntakeOn(0.75, true);
-        }else {
-            intakeSystem.EnableIntakeSolenoid(false);
-            intakeSystem.IntakeOn(0.75, true);
-        }
-        new PickupBack(intakeSystem, pivotSystem).ignoringDisable(true).schedule();
-        done = true;
-    }
+  @Override
+  public void execute() {}
 
-    @Override
-    public void execute() {
-        
-    }
+  @Override
+  public void end(boolean interrupted) {
+    done = false;
+  }
 
-    @Override
-    public void end(boolean interrupted) {
-        done = false;
-    }
-
-    @Override
-    public boolean isFinished() {
-        return done;
-    }
-
+  @Override
+  public boolean isFinished() {
+    return done;
+  }
 }

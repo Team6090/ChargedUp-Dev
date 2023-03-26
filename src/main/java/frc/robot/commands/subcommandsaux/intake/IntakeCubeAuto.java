@@ -25,10 +25,10 @@ public class IntakeCubeAuto extends CommandBase {
   @Override
   public void initialize() {
     timer.start();
-    if (reversed = true){
+    if (reversed = true) {
       intakeSystem.EnableIntakeSolenoid(false);
       intakeSystem.IntakeOn(0.75, true);
-    }else{
+    } else {
       intakeSystem.EnableIntakeSolenoid(false);
       intakeSystem.IntakeOn(0.75, false);
     }
@@ -36,7 +36,7 @@ public class IntakeCubeAuto extends CommandBase {
 
   @Override
   public void execute() {
-    if (intakeSystem.ObjectInIntake() == false || timer.get() < .5) {
+    if (IntakeSystem.ObjectInIntake() == false || timer.get() < .5) {
 
     } else {
       done = true;

@@ -143,5 +143,7 @@ public final class DrivetrainConstants {
 
   public static final HashMap<String, Command> FullPath_Map = new HashMap<>();
 
+  public static final HashMap<String, Command> SyncAutoPath_Map = new HashMap<>();
+
   public static final double DEADBAND = 0.1;
 }

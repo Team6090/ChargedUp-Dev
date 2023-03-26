@@ -25,10 +25,10 @@ public class IntakeCubeInfinite extends CommandBase {
   @Override
   public void initialize() {
     timer.start();
-    if (reversed = true){
+    if (reversed = true) {
       intakeSystem.EnableIntakeSolenoid(false);
       intakeSystem.IntakeOn(0.75, true);
-    }else{
+    } else {
       intakeSystem.EnableIntakeSolenoid(false);
       intakeSystem.IntakeOn(0.75, false);
     }
@@ -36,9 +36,7 @@ public class IntakeCubeInfinite extends CommandBase {
   }
 
   @Override
-  public void execute() {
-
-  }
+  public void execute() {}
 
   @Override
   public void end(boolean interrupted) {

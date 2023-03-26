@@ -1,7 +1,6 @@
 package frc.robot.commands.subautotele.swerve;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
@@ -70,8 +69,8 @@ public class AutoBalanceV4 extends CommandBase {
 
     // RateOfChange Calculation
     rateOfChange = (pitch - prevPitch) / (time - prevTime);
-    //SmartDashboard.putNumber("RateOfChange(Pitch/Time)", rateOfChange);
-    //SmartDashboard.putBoolean("Engaged", engaged);
+    // SmartDashboard.putNumber("RateOfChange(Pitch/Time)", rateOfChange);
+    // SmartDashboard.putBoolean("Engaged", engaged);
 
     // Engage Check
     if (reversedDirection == false) {
@@ -90,7 +89,7 @@ public class AutoBalanceV4 extends CommandBase {
       }
     }
     // Speed Change
-    if (engaged == true) { 
+    if (engaged == true) {
 
       if (rateOfChange > 1 || rateOfChange < -1) {
         // Safe
@@ -163,11 +162,10 @@ public class AutoBalanceV4 extends CommandBase {
           drivetrain.drive(-balanceSpeed, 0.0, 0.0);
         }
       }
-    }
-   else {
-    if (timer.get() > 10){
-      drivetrain.stop();
-      done = true;
+    } else {
+      if (timer.get() > 10) {
+        drivetrain.stop();
+        done = true;
       }
     }
   }

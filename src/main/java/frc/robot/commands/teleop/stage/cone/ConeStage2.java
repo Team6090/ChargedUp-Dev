@@ -5,14 +5,18 @@ import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
 public class ConeStage2 extends SequentialCommandGroup {
 
-  public ConeStage2(IntakeSystem intakeSystem, PivotSystem pivotSystem) { // HomePos to MidPole
+  public ConeStage2(
+      IntakeSystem intakeSystem,
+      TelescopeSystem telescopeSystem,
+      PivotSystem pivotSystem) { // HomePos to MidPole
 
     addCommands(
-        new ArmExtension(intakeSystem, 0, true),
+        new ArmExtension(telescopeSystem, 0, true),
         new PivotMove(pivotSystem, 105.58, true),
-        new ArmExtension(intakeSystem, 10506, true));
+        new ArmExtension(telescopeSystem, 10506, true));
   }
 }

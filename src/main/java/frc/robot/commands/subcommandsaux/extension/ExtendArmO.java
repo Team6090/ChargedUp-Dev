@@ -1,17 +1,17 @@
 package frc.robot.commands.subcommandsaux.extension;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.auxiliary.IntakeSystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
 public class ExtendArmO extends CommandBase {
-  IntakeSystem intakeSystem;
+  TelescopeSystem telescopeSystem;
   double power;
 
-  public ExtendArmO(IntakeSystem intakeSystem, double power) {
-    this.intakeSystem = intakeSystem;
+  public ExtendArmO(TelescopeSystem telescopeSystem, double power) {
+    this.telescopeSystem = telescopeSystem;
     this.power = power;
 
-    addRequirements(intakeSystem);
+    addRequirements(telescopeSystem);
   }
 
   @Override
@@ -19,12 +19,12 @@ public class ExtendArmO extends CommandBase {
 
   @Override
   public void execute() {
-    intakeSystem.ExtendArmPO(power);
+    telescopeSystem.ExtendArmPO(power);
   }
 
   @Override
   public void end(boolean interrupted) {
-    this.intakeSystem.ExtendArmPO(0);
+    this.telescopeSystem.ExtendArmPO(0);
   }
 
   @Override

@@ -7,14 +7,16 @@ import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.commands.subcommandsaux.util.PickupStationFeed;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
 public class PickupFront extends SequentialCommandGroup {
 
-  public PickupFront(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+  public PickupFront(
+      IntakeSystem intakeSystem, TelescopeSystem telescopeSystem, PivotSystem pivotSystem) {
     addCommands(
         new PickupStationFeed(pivotSystem, 1),
-        new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
+        new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
         new PivotMove(pivotSystem, 52.67, true),
-        new ArmExtension(intakeSystem, 8799, true));
+        new ArmExtension(telescopeSystem, 8799, true));
   }
 }

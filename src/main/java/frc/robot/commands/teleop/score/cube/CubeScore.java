@@ -7,15 +7,19 @@ import frc.robot.commands.subcommandsaux.intake.IntakeOpenClose;
 import frc.robot.commands.teleop.HomePos;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
 public class CubeScore extends SequentialCommandGroup {
 
-  public CubeScore(IntakeSystem intakeSystem, PivotSystem pivotSystem) { // At hover height
+  public CubeScore(
+      IntakeSystem intakeSystem,
+      TelescopeSystem telescopeSystem,
+      PivotSystem pivotSystem) { // At hover height
     addCommands(
         new IntakeOpenClose(intakeSystem, false),
         new IntakeInOutAuto(intakeSystem),
         new WaitCommand(0.1),
         new IntakeOpenClose(intakeSystem, true),
-        new HomePos(intakeSystem, pivotSystem));
+        new HomePos(telescopeSystem, pivotSystem));
   }
 }

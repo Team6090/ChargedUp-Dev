@@ -41,7 +41,6 @@ import frc.robot.commands.subautotele.score.cones.ScoreCN3;
 import frc.robot.commands.subautotele.score.cubes.ScoreCB3;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV4;
-import frc.robot.commands.subautotele.swerve.AutoBalanceV5;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.intake.IntakeCube;
 import frc.robot.commands.subcommandsaux.intake.IntakeCubeAuto;
@@ -50,18 +49,16 @@ import frc.robot.commands.subcommandsaux.intake.IntakeInAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeInOut;
 import frc.robot.commands.subcommandsaux.intake.IntakeStopAuto;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
-import frc.robot.commands.subcommandsaux.util.LockRobotArm;
-import frc.robot.commands.subcommandsbase.LockRobotDrivetrain;
 import frc.robot.commands.teleop.HomePos;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
-import frc.robot.commands.teleop.score.cube.CubeScore;
 import frc.robot.commands.vision.AlignToAprilTagX;
 import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
 import frc.robot.subsystems.auxiliary.AirCompressor;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.limelight.Limelight;
 import java.util.List;
@@ -88,6 +85,7 @@ public class RobotContainer {
   private static RobotContainer robotContainer = new RobotContainer();
   private PivotSystem pivotSystem = new PivotSystem();
   private IntakeSystem intakeSystem = new IntakeSystem();
+  private TelescopeSystem telescopeSystem = new TelescopeSystem();
 
   /** Create the container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -194,7 +192,7 @@ public class RobotContainer {
     configureAutoCommands();
   }
 
-  public void teleopInit(){
+  public void teleopInit() {
     drivetrain.disableXstance();
   }
 
@@ -245,26 +243,29 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // Primary Controller
-    oi.PrimaryA().onTrue(new StageController(intakeSystem, pivotSystem, 1));
-    oi.PrimaryX().onTrue(new StageController(intakeSystem, pivotSystem, 2));
-    oi.PrimaryY().onTrue(new StageController(intakeSystem, pivotSystem, 3));
-    oi.PrimaryB().onTrue(new StageController(intakeSystem, pivotSystem, 0));
+    oi.PrimaryA().onTrue(new StageController(intakeSystem, telescopeSystem, pivotSystem, 1));
+    oi.PrimaryX().onTrue(new StageController(intakeSystem, telescopeSystem, pivotSystem, 2));
+    oi.PrimaryY().onTrue(new StageController(intakeSystem, telescopeSystem, pivotSystem, 3));
+    oi.PrimaryB().onTrue(new StageController(intakeSystem, telescopeSystem, pivotSystem, 0));
 
     oi.PrimaryBack().onTrue(Commands.runOnce(drivetrain::zeroGyroscope, drivetrain));
     // oi.PrimaryStart().onTrue(new AlignToAprilTagX(drivetrain));
 
-    oi.PrimaryPOV0().onTrue(new PickupFront(intakeSystem, pivotSystem)); // Front Pickup Command
+    oi.PrimaryPOV0()
+        .onTrue(
+            new PickupFront(intakeSystem, telescopeSystem, pivotSystem)); // Front Pickup Command
     oi.PrimaryPOV90().onTrue(new AlignToAprilTagX(drivetrain));
-    oi.PrimaryPOV180().onTrue(new PickupBack(intakeSystem, pivotSystem)); // Back Pickup Command
-    oi.PrimaryPOV270().onTrue(new PickupStation(intakeSystem, pivotSystem));
+    oi.PrimaryPOV180()
+        .onTrue(new PickupBack(intakeSystem, telescopeSystem, pivotSystem)); // Back Pickup Command
+    oi.PrimaryPOV270().onTrue(new PickupStation(intakeSystem, telescopeSystem, pivotSystem));
 
     oi.PrimaryLeftBumper().whileTrue(new IntakeInOut(intakeSystem, .75, true));
-    oi.PrimaryRightBumper().onTrue(new ScoreController(intakeSystem, pivotSystem));
+    oi.PrimaryRightBumper().onTrue(new ScoreController(intakeSystem, telescopeSystem, pivotSystem));
     // End
 
     // Override Controller
-    //oi.OverrideBack().onTrue(new LockRobotArm(intakeSystem, pivotSystem)); // End Drivetrain
-    //oi.OverrideStart().onTrue(new LockRobotArm(intakeSystem, pivotSystem)); // End Arm
+    // oi.OverrideBack().onTrue(new LockRobotArm(intakeSystem, pivotSystem)); // End Drivetrain
+    // oi.OverrideStart().onTrue(new LockRobotArm(intakeSystem, pivotSystem)); // End Arm
 
     // oi.OverrideA().onTrue(new CubeScore(intakeSystem, pivotSystem));
     oi.OverrideB().whileTrue(new IntakeInOut(intakeSystem, 0.75, false));
@@ -299,7 +300,7 @@ public class RobotContainer {
   }
 
   public void RobotInit() {
-    new ArmExtension(intakeSystem, intakeSystem.GetArmExtendedPosition(), true).schedule();
+    new ArmExtension(telescopeSystem, telescopeSystem.GetArmExtendedPosition(), true).schedule();
   }
 
   private PathPlannerTrajectory GenerateCorrectionPath(
@@ -325,14 +326,25 @@ public class RobotContainer {
 
     AUTO_EVENT3_MAP.put("event1", Commands.print("passed marker 1"));
 
-    M1L1P1_MAP.put("BPU", new PickupBack(intakeSystem, pivotSystem));
+    M1L1P1_MAP.put("BPU", new PickupBack(intakeSystem, telescopeSystem, pivotSystem));
 
-    FullPath_Map.put("BPUP1", new PickupBack(intakeSystem, pivotSystem).ignoringDisable(true));
-    FullPath_Map.put("BPUP2", new PickupBack(intakeSystem, pivotSystem).ignoringDisable(true));
-    FullPath_Map.put("ININ1", Commands.sequence(
-        new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true),
-        new PickupBack(intakeSystem, pivotSystem)));
-        
+    FullPath_Map.put(
+        "BPUP1", new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true));
+    FullPath_Map.put(
+        "BPUP2", new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true));
+    FullPath_Map.put(
+        "ININ1",
+        Commands.sequence(
+            new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true),
+            new PickupBack(intakeSystem, telescopeSystem, pivotSystem)));
+    
+    SyncAutoPath_Map.put(
+        "A",
+        Commands.parallel(
+            new PickupBack(intakeSystem, telescopeSystem, pivotSystem),
+            new IntakeCubeAuto(intakeSystem, true)
+        )
+    );
 
     List<PathPlannerTrajectory> p_FullPathRed =
         PathPlanner.loadPathGroup(
@@ -343,25 +355,34 @@ public class RobotContainer {
         PathPlanner.loadPathGroup("Blue3CubeStart", 2.0, 2.0);
     List<PathPlannerTrajectory> p_FullPathBlueCone =
         PathPlanner.loadPathGroup("Blue3ConeStart", 1.0, 1.0);
-    List<PathPlannerTrajectory> p_2PieceLeftBlue = 
+    List<PathPlannerTrajectory> p_2PieceLeftBlue =
         PathPlanner.loadPathGroup("LeftBlue2Piece", 1.7, 1.7);
-    List<PathPlannerTrajectory> p_2PieceRightBlue = 
+    List<PathPlannerTrajectory> p_2PieceRightBlue =
         PathPlanner.loadPathGroup("RightBlue2Piece", 2.0, 2.0);
-    List<PathPlannerTrajectory> p_2PieceLeftRed = 
+    List<PathPlannerTrajectory> p_2PieceLeftRed =
         PathPlanner.loadPathGroup("LeftRed2Piece", 2.0, 2.0);
-    List<PathPlannerTrajectory> p_2PieceRightRed = 
+    List<PathPlannerTrajectory> p_2PieceRightRed =
         PathPlanner.loadPathGroup("RightRed2Piece", 2.0, 2.0);
-    PathPlannerTrajectory p_1_5PieceLeftBlue =
-        PathPlanner.loadPath("LeftBlue1.5Piece", 1.7, 1.7);
-    PathPlannerTrajectory p_LeftBlueAroundBalance = 
+    PathPlannerTrajectory p_1_5PieceLeftBlue = PathPlanner.loadPath("LeftBlue1.5Piece", 1.7, 1.7);
+    PathPlannerTrajectory p_LeftBlueAroundBalance =
         PathPlanner.loadPath("LeftBlueAroundBalance", 2.5, 2.5);
-    PathPlannerTrajectory p_RightRedAroundBalance = 
+    PathPlannerTrajectory p_RightRedAroundBalance =
         PathPlanner.loadPath("RightRedAroundBalance", 2.5, 2.5);
+    PathPlannerTrajectory p_SyncAutoPath = 
+        PathPlanner.loadPath("SyncAutoPath", 2.0, 2.0);
 
+    Command c_SyncAutoPath =
+        Commands.sequence(
+          new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
+          new FollowPathWithEvents(
+            new FollowPath(p_SyncAutoPath, drivetrain, true),
+            p_SyncAutoPath.getMarkers(), SyncAutoPath_Map)
+        );
+        autoChooser.addOption("SyncAutoPath", c_SyncAutoPath);
     PathPlannerTrajectory p_1Meter =
         GenerateTrajectoryFromPath(
             "1Meter",
-            MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,                                                                                                                                 
+            MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
             AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
     PathPlannerTrajectory p_3Meter =
         GenerateTrajectoryFromPath(
@@ -379,134 +400,132 @@ public class RobotContainer {
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
-            new ScoreCN3(intakeSystem, pivotSystem),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPathWithEvents(
                 new FollowPath(p_FullPathRed.get(0), drivetrain, true),
                 p_FullPathRed.get(0).getMarkers(),
                 FullPath_Map),
             new IntakeInAuto(intakeSystem),
-            new ArmExtension(intakeSystem, 50, true),
+            new ArmExtension(telescopeSystem, 50, true),
             new PivotMove(pivotSystem, 30, true),
             new FollowPath(p_FullPathRed.get(1), drivetrain, false),
-            new ScoreCB3(intakeSystem, pivotSystem),
+            new ScoreCB3(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPathWithEvents(
                 new FollowPath(p_FullPathRed.get(2), drivetrain, false),
                 p_FullPathRed.get(2).getMarkers(),
                 FullPath_Map),
             new IntakeInAuto(intakeSystem),
-            new ArmExtension(intakeSystem, 50, true),
+            new ArmExtension(telescopeSystem, 50, true),
             new PivotMove(pivotSystem, 33, true),
             new FollowPath(p_FullPathRed.get(3), drivetrain, false),
-            new ScoreCN3(intakeSystem, pivotSystem));
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem));
 
     Command c_FullPathBlueCube =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
-            new ScoreCB3(intakeSystem, pivotSystem),
+            new ScoreCB3(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPathWithEvents(
                 new FollowPath(p_FullPathBlueCube.get(0), drivetrain, true),
                 p_FullPathBlueCube.get(0).getMarkers(),
                 FullPath_Map),
             new IntakeInAuto(intakeSystem),
-            new ArmExtension(intakeSystem, 50, true),
+            new ArmExtension(telescopeSystem, 50, true),
             new PivotMove(pivotSystem, 30, true),
             new FollowPath(p_FullPathBlueCube.get(1), drivetrain, false),
-            new ScoreCN3(intakeSystem, pivotSystem),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPathWithEvents(
                 new FollowPath(p_FullPathBlueCube.get(2), drivetrain, false),
                 p_FullPathBlueCube.get(2).getMarkers(),
                 FullPath_Map),
             new IntakeInAuto(intakeSystem),
-            new ArmExtension(intakeSystem, 50, true),
+            new ArmExtension(telescopeSystem, 50, true),
             new PivotMove(pivotSystem, 33, true),
             new FollowPath(p_FullPathBlueCube.get(3), drivetrain, false),
-            new ScoreCN3(intakeSystem, pivotSystem));
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem));
 
     Command c_FullPathBlueCone =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
-            new ScoreCN3(intakeSystem, pivotSystem),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPathWithEvents(
                 new FollowPath(p_FullPathBlueCone.get(0), drivetrain, true),
                 p_FullPathBlueCone.get(0).getMarkers(),
                 FullPath_Map),
             new IntakeCubeAuto(intakeSystem, true),
-            new ArmExtension(intakeSystem, 50, true),
+            new ArmExtension(telescopeSystem, 50, true),
             new PivotMove(pivotSystem, 30, true),
             new FollowPath(p_FullPathBlueCone.get(1), drivetrain, false),
-            new ScoreCB3(intakeSystem, pivotSystem),
+            new ScoreCB3(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPathWithEvents(
                 new FollowPath(p_FullPathBlueCone.get(2), drivetrain, false),
                 p_FullPathBlueCone.get(2).getMarkers(),
                 FullPath_Map),
             new IntakeInAuto(intakeSystem),
-            new ArmExtension(intakeSystem, 50, true),
+            new ArmExtension(telescopeSystem, 50, true),
             new PivotMove(pivotSystem, 33, true),
             new FollowPath(p_FullPathBlueCone.get(3), drivetrain, false),
-            new ScoreCN3(intakeSystem, pivotSystem));
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem));
 
     Command c_2PieceLeftBlue =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
-            new ScoreCN3(intakeSystem, pivotSystem),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPathWithEvents(
                 new FollowPath(p_2PieceLeftBlue.get(0), drivetrain, true),
                 p_2PieceLeftBlue.get(0).getMarkers(),
                 FullPath_Map),
             new IntakeStopAuto(intakeSystem),
-            new HomePos(intakeSystem, pivotSystem),
+            new HomePos(telescopeSystem, pivotSystem),
             new FollowPath(p_2PieceLeftBlue.get(1), drivetrain, false),
-            new ScoreCB3(intakeSystem, pivotSystem));
+            new ScoreCB3(intakeSystem, telescopeSystem, pivotSystem));
 
     Command c_2PieceRightBlue =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
-            new ScoreCN3(intakeSystem, pivotSystem),
-            new PickupBack(intakeSystem, pivotSystem),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
+            new PickupBack(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPath(p_2PieceRightBlue.get(0), drivetrain, true),
             new IntakeCubeAuto(intakeSystem, true),
-            new ArmExtension(intakeSystem, 50, true),
+            new ArmExtension(telescopeSystem, 50, true),
             new PivotMove(pivotSystem, 33, true),
             new FollowPath(p_2PieceRightBlue.get(1), drivetrain, false),
-            new ScoreCB3(intakeSystem, pivotSystem));
-
+            new ScoreCB3(intakeSystem, telescopeSystem, pivotSystem));
 
     Command c_2PieceLeftRed =
-            Commands.sequence(
-                new LockArmExtend(Robot.lockSystem, false),
-                new WaitCommand(0.5),
-                new ScoreCN3(intakeSystem, pivotSystem),
-                new PickupBack(intakeSystem, pivotSystem),
-                new FollowPath(p_2PieceLeftRed.get(0), drivetrain, true),
-                new IntakeCubeAuto(intakeSystem, true),
-                new ArmExtension(intakeSystem, 50, true),
-                new PivotMove(pivotSystem, 33, true),
-                new FollowPath(p_2PieceLeftRed.get(1), drivetrain, false),
-                new ScoreCB3(intakeSystem, pivotSystem));
-
+        Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.5),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
+            new PickupBack(intakeSystem, telescopeSystem, pivotSystem),
+            new FollowPath(p_2PieceLeftRed.get(0), drivetrain, true),
+            new IntakeCubeAuto(intakeSystem, true),
+            new ArmExtension(telescopeSystem, 50, true),
+            new PivotMove(pivotSystem, 33, true),
+            new FollowPath(p_2PieceLeftRed.get(1), drivetrain, false),
+            new ScoreCB3(intakeSystem, telescopeSystem, pivotSystem));
 
     Command c_2PieceRightRed =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
-            new ScoreCN3(intakeSystem, pivotSystem),
-            new PickupBack(intakeSystem, pivotSystem),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
+            new PickupBack(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPath(p_2PieceRightRed.get(0), drivetrain, true),
             new IntakeCubeAuto(intakeSystem, true),
-            new ArmExtension(intakeSystem, 50, true),
+            new ArmExtension(telescopeSystem, 50, true),
             new PivotMove(pivotSystem, 33, true),
             new FollowPath(p_2PieceRightRed.get(1), drivetrain, false),
-            new ScoreCB3(intakeSystem, pivotSystem));
+            new ScoreCB3(intakeSystem, telescopeSystem, pivotSystem));
 
     Command c_1_5PieceLeftBlue =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
-            new ScoreCN3(intakeSystem, pivotSystem),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPath(p_1_5PieceLeftBlue, drivetrain, true),
             Commands.runOnce(drivetrain::zeroGyroscope, drivetrain));
 
@@ -514,16 +533,16 @@ public class RobotContainer {
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.25),
-            new ScoreCN3(intakeSystem, pivotSystem),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPath(p_LeftBlueAroundBalance, drivetrain, true),
             Commands.runOnce(drivetrain::zeroGyroscope, drivetrain),
             new AutoBalanceV4(drivetrain, true, 1.0, -20));
-            
+
     Command scoreBackup =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
-            new ScoreCN3(intakeSystem, pivotSystem), 
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPath(ScoreBackup, drivetrain, true),
             Commands.runOnce(drivetrain::zeroGyroscope, drivetrain));
 
@@ -534,17 +553,17 @@ public class RobotContainer {
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
-            new ScoreCN3(intakeSystem, pivotSystem),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPath(go, drivetrain, true),
-            new PickupFront(intakeSystem, pivotSystem),
+            new PickupFront(intakeSystem, telescopeSystem, pivotSystem),
             new IntakeInAuto(intakeSystem), // Auto Intake Refine to auton mode
-            new HomePos(intakeSystem, pivotSystem));
+            new HomePos(telescopeSystem, pivotSystem));
 
     Command scoreHighCone =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
-            new ScoreCN3(intakeSystem, pivotSystem),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPath(score, drivetrain, true),
             new AutoBalanceV2(drivetrain, false, 3.0, -13.0, 33.0),
             new LockArmExtend(Robot.lockSystem, true));
@@ -553,7 +572,7 @@ public class RobotContainer {
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
-            new ScoreCN3(intakeSystem, pivotSystem), 
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
             new AutoBalanceV4(drivetrain, true, 1.0, -20));
 
     PathPlannerTrajectory testPath =
@@ -562,11 +581,11 @@ public class RobotContainer {
             AUTO_MAX_SPEED_METERS_PER_SECOND,
             AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
 
-    Command c_RightRedAroundBalance = 
+    Command c_RightRedAroundBalance =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.25),
-            new ScoreCN3(intakeSystem, pivotSystem),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
             new FollowPath(p_RightRedAroundBalance, drivetrain, true),
             Commands.runOnce(drivetrain::zeroGyroscope, drivetrain),
             new AutoBalanceV4(drivetrain, true, 1.0, -20));
@@ -597,14 +616,18 @@ public class RobotContainer {
     autoChooser.addOption("2PieceRightRed", c_2PieceRightRed);
     autoChooser.addOption("AutoBalance", scoreHighBalance);
     autoChooser.addOption("ScoreAndBackup", scoreBackup);
-    autoChooser.addOption("ScoreConeHighOnly", Commands.sequence(
-        new LockArmExtend(Robot.lockSystem, false),
-        new WaitCommand(0.5),
-        new ScoreCN3(intakeSystem, pivotSystem)));
-    autoChooser.addOption("ScoreCubeHighOnly",Commands.sequence( 
-        new LockArmExtend(Robot.lockSystem, false),
-        new WaitCommand(0.5),
-        new ScoreCB3(intakeSystem, pivotSystem)));
+    autoChooser.addOption(
+        "ScoreConeHighOnly",
+        Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.5),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem)));
+    autoChooser.addOption(
+        "ScoreCubeHighOnly",
+        Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.5),
+            new ScoreCB3(intakeSystem, telescopeSystem, pivotSystem)));
     autoChooser.addOption("LeftBlue_AroundBalance", c_LeftBlueAroundBalance);
     autoChooser.addOption("RightRedAroundBalance", c_RightRedAroundBalance);
 

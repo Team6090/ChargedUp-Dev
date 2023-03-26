@@ -3,31 +3,31 @@ package frc.robot.commands.subcommandsaux.development;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
 public class MoveArmToLocationByPath extends CommandBase {
 
-  private IntakeSystem intakeSystem;
+  private TelescopeSystem telescopeSystem;
   private PivotSystem pivotSystem;
   private double[][] path;
 
   public MoveArmToLocationByPath(
-      IntakeSystem intakeSystem, PivotSystem pivotSystem, double[][] path) {
-    this.intakeSystem = intakeSystem;
+      TelescopeSystem telescopeSystem, PivotSystem pivotSystem, double[][] path) {
+    this.telescopeSystem = telescopeSystem;
     this.pivotSystem = pivotSystem;
     this.path = path;
 
-    addRequirements(intakeSystem, pivotSystem);
+    addRequirements(telescopeSystem, pivotSystem);
   }
 
   @Override
   public void initialize() {
-    intakeSystem.ExtendArmPO(0);
+    telescopeSystem.ExtendArmPO(0);
     pivotSystem.PivotArm(0, false);
     for (int i = 0; i < path.length; i++) {
       SmartDashboard.putNumber("Iteration", i);
-      intakeSystem.ExtendArmToPosition(path[i][0]);
+      telescopeSystem.ExtendArmToPosition(path[i][0]);
       pivotSystem.PivotArmToPosition(path[i][1]);
       new WaitCommand(.1);
     }

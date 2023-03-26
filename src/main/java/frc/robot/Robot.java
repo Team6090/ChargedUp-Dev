@@ -49,10 +49,10 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void robotInit() {
-    for(int port = 5800; port <= 5805; port++) {
+    for (int port = 5800; port <= 5805; port++) {
       PortForwarder.add(port, "limelight.local", port);
     }
-    
+
     final String GIT_DIRTY = "GitDirty";
 
     Limelight.TurnLimelightOff();

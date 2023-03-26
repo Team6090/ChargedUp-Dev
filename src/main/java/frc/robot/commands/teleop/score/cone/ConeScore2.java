@@ -8,17 +8,21 @@ import frc.robot.commands.subcommandsaux.intake.IntakeOpenClose;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
 public class ConeScore2 extends SequentialCommandGroup {
 
-  public ConeScore2(IntakeSystem intakeSystem, PivotSystem pivotSystem) { // At hover height
+  public ConeScore2(
+      IntakeSystem intakeSystem,
+      TelescopeSystem telescopeSystem,
+      PivotSystem pivotSystem) { // At hover height
     addCommands(
         // new ArmExtension(intakeSystem, 11506, true), // FIXME: Remove if arm can hold
         new PivotMove(pivotSystem, 99.14, true),
         new WaitCommand(.1),
         new IntakeOpenClose(intakeSystem, false),
         new WaitCommand(.1),
-        new ArmExtension(intakeSystem, Constants.EXTEND_HOME_POS, true),
+        new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
         new IntakeOpenClose(intakeSystem, true),
         new PivotMove(pivotSystem, 30, true));
   }

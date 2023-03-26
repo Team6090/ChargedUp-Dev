@@ -9,20 +9,24 @@ import frc.robot.commands.teleop.score.cube.CubeScore;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 import frc.robot.subsystems.auxiliary.PixySystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
 public class ScoreController extends CommandBase {
 
   IntakeSystem intakeSystem;
+  TelescopeSystem telescopeSystem;
   PivotSystem pivotSystem;
   int currentStage;
   int currentObjectCV3;
   int currentObjectPixy;
 
-  public ScoreController(IntakeSystem intakeSystem, PivotSystem pivotSystem) {
+  public ScoreController(
+      IntakeSystem intakeSystem, TelescopeSystem telescopeSystem, PivotSystem pivotSystem) {
     this.intakeSystem = intakeSystem;
+    this.telescopeSystem = telescopeSystem;
     this.pivotSystem = pivotSystem;
 
-    addRequirements(intakeSystem, pivotSystem);
+    addRequirements(intakeSystem, telescopeSystem, pivotSystem);
   }
 
   @Override
@@ -30,7 +34,7 @@ public class ScoreController extends CommandBase {
     currentStage = pivotSystem.currentStage;
     SmartDashboard.putNumber("ReadStage", currentStage);
 
-    currentObjectCV3 = intakeSystem.ObjectType();
+    currentObjectCV3 = IntakeSystem.ObjectType();
     currentObjectPixy = PixySystem.GetObject();
 
     int correctObject;
@@ -45,25 +49,25 @@ public class ScoreController extends CommandBase {
 
     switch (correctObject) {
       case 0: // No Object
-        new HomePos(intakeSystem, pivotSystem).schedule();
+        new HomePos(telescopeSystem, pivotSystem).schedule();
         break;
 
       case 1: // Cone
         switch (currentStage) {
           case 0:
-            new HomePos(intakeSystem, pivotSystem).schedule();
+            new HomePos(telescopeSystem, pivotSystem).schedule();
             break;
 
           case 1:
-            new ConeScore1(intakeSystem, pivotSystem).schedule();
+            new ConeScore1(intakeSystem, telescopeSystem, pivotSystem).schedule();
             break;
 
           case 2:
-            new ConeScore2(intakeSystem, pivotSystem).schedule();
+            new ConeScore2(intakeSystem, telescopeSystem, pivotSystem).schedule();
             break;
 
           case 3:
-            new ConeScore3(intakeSystem, pivotSystem).schedule();
+            new ConeScore3(intakeSystem, telescopeSystem, pivotSystem).schedule();
             break;
 
             // default:
@@ -75,19 +79,19 @@ public class ScoreController extends CommandBase {
       case 2: // Cube
         switch (currentStage) {
           case 0:
-            new HomePos(intakeSystem, pivotSystem).schedule();
+            new HomePos(telescopeSystem, pivotSystem).schedule();
             break;
 
           case 1:
-            new CubeScore(intakeSystem, pivotSystem).schedule();
+            new CubeScore(intakeSystem, telescopeSystem, pivotSystem).schedule();
             break;
 
           case 2:
-            new CubeScore(intakeSystem, pivotSystem).schedule();
+            new CubeScore(intakeSystem, telescopeSystem, pivotSystem).schedule();
             break;
 
           case 3:
-            new CubeScore(intakeSystem, pivotSystem).schedule();
+            new CubeScore(intakeSystem, telescopeSystem, pivotSystem).schedule();
             break;
 
             // default:

@@ -12,28 +12,35 @@ import frc.robot.commands.teleop.stage.cube.CubeStage3;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 import frc.robot.subsystems.auxiliary.PixySystem;
+import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
 public class StageController extends CommandBase {
 
   IntakeSystem intakeSystem;
+  TelescopeSystem telescopeSystem;
   PivotSystem pivotSystem;
   int setStageLocation;
   int currentObjectCV3;
   int currentObjectPixy;
 
-  public StageController(IntakeSystem intakeSystem, PivotSystem pivotSystem, int setStageLocation) {
+  public StageController(
+      IntakeSystem intakeSystem,
+      TelescopeSystem telescopeSystem,
+      PivotSystem pivotSystem,
+      int setStageLocation) {
     this.intakeSystem = intakeSystem;
+    this.telescopeSystem = telescopeSystem;
     this.pivotSystem = pivotSystem;
     this.setStageLocation = setStageLocation;
 
-    addRequirements(intakeSystem, pivotSystem);
+    addRequirements(telescopeSystem, pivotSystem);
   }
 
   @Override
   public void initialize() {
     // int currentObject = intakeSystem.ObjectType();
 
-    currentObjectCV3 = intakeSystem.ObjectType();
+    currentObjectCV3 = IntakeSystem.ObjectType();
     currentObjectPixy = PixySystem.GetObject();
 
     int correctObject;
@@ -41,14 +48,14 @@ public class StageController extends CommandBase {
     if (currentObjectCV3 == currentObjectPixy) {
       correctObject = currentObjectPixy;
     } else {
-      correctObject = 1; //Force Object type
+      correctObject = 1; // Force Object type
     }
 
     switch (correctObject) {
       case 0:
         Commands.sequence(
                 new SetCurrentStage(pivotSystem, setStageLocation),
-                new HomePos(intakeSystem, pivotSystem))
+                new HomePos(telescopeSystem, pivotSystem))
             .schedule();
         ;
         break;
@@ -58,35 +65,35 @@ public class StageController extends CommandBase {
           case 0:
             Commands.sequence(
                     new SetCurrentStage(pivotSystem, setStageLocation),
-                    new HomePos(intakeSystem, pivotSystem))
+                    new HomePos(telescopeSystem, pivotSystem))
                 .schedule();
             break;
 
           case 1:
             Commands.sequence(
                     new SetCurrentStage(pivotSystem, setStageLocation),
-                    new ConeStage1(intakeSystem, pivotSystem))
+                    new ConeStage1(intakeSystem, telescopeSystem, pivotSystem))
                 .schedule();
             break;
 
           case 2:
             Commands.sequence(
                     new SetCurrentStage(pivotSystem, setStageLocation),
-                    new ConeStage2(intakeSystem, pivotSystem))
+                    new ConeStage2(intakeSystem, telescopeSystem, pivotSystem))
                 .schedule();
             break;
 
           case 3:
             Commands.sequence(
                     new SetCurrentStage(pivotSystem, setStageLocation),
-                    new ConeStage3(intakeSystem, pivotSystem))
+                    new ConeStage3(intakeSystem, telescopeSystem, pivotSystem))
                 .schedule();
             break;
 
           default:
             Commands.sequence(
                     new SetCurrentStage(pivotSystem, setStageLocation),
-                    new HomePos(intakeSystem, pivotSystem))
+                    new HomePos(telescopeSystem, pivotSystem))
                 .schedule();
             break;
         }
@@ -97,35 +104,35 @@ public class StageController extends CommandBase {
           case 0:
             Commands.sequence(
                     new SetCurrentStage(pivotSystem, setStageLocation),
-                    new HomePos(intakeSystem, pivotSystem))
+                    new HomePos(telescopeSystem, pivotSystem))
                 .schedule();
             break;
 
           case 1:
             Commands.sequence(
                     new SetCurrentStage(pivotSystem, setStageLocation),
-                    new CubeStage1(intakeSystem, pivotSystem))
+                    new CubeStage1(intakeSystem, telescopeSystem, pivotSystem))
                 .schedule();
             break;
 
           case 2:
             Commands.sequence(
                     new SetCurrentStage(pivotSystem, setStageLocation),
-                    new CubeStage2(intakeSystem, pivotSystem))
+                    new CubeStage2(intakeSystem, telescopeSystem, pivotSystem))
                 .schedule();
             break;
 
           case 3:
             Commands.sequence(
                     new SetCurrentStage(pivotSystem, setStageLocation),
-                    new CubeStage3(intakeSystem, pivotSystem))
+                    new CubeStage3(intakeSystem, telescopeSystem, pivotSystem))
                 .schedule();
             break;
 
           default:
             Commands.sequence(
                     new SetCurrentStage(pivotSystem, setStageLocation),
-                    new HomePos(intakeSystem, pivotSystem))
+                    new HomePos(telescopeSystem, pivotSystem))
                 .schedule();
             break;
         }
@@ -134,7 +141,7 @@ public class StageController extends CommandBase {
       default:
         Commands.sequence(
                 new SetCurrentStage(pivotSystem, setStageLocation),
-                new HomePos(intakeSystem, pivotSystem))
+                new HomePos(telescopeSystem, pivotSystem))
             .schedule();
         break;
     }
