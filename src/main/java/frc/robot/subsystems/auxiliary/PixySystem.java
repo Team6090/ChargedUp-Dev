@@ -52,6 +52,8 @@ public class PixySystem {
     if (largestBlock != null) {
       SmartDashboard.putNumber("Cone X", largestBlock.getX());
       SmartDashboard.putNumber("Cone Y", largestBlock.getY());
+      SmartDashboard.putNumber("Cone Height",largestBlock.getHeight());
+      SmartDashboard.putNumber("Cone Width", largestBlock.getWidth());
     }
   }
 
@@ -102,6 +104,8 @@ public class PixySystem {
     if (largestBlock != null) {
       SmartDashboard.putNumber("Cube X", largestBlock.getX());
       SmartDashboard.putNumber("Cube Y", largestBlock.getY());
+      SmartDashboard.putNumber("Cube Height",largestBlock.getHeight());
+      SmartDashboard.putNumber("Cube Width", largestBlock.getWidth());
     }
   }
 }
