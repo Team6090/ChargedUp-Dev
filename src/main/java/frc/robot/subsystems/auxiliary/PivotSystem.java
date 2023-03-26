@@ -50,7 +50,7 @@ public class PivotSystem extends SubsystemBase {
     pivotMotorRight.config_kI(0, 0.00005, 2000);
     pivotMotorRight.config_kD(0, 0.001, 2000);
     pivotMotorRight.configMotionCruiseVelocity(600, 10); // 600
-    pivotMotorRight.configMotionAcceleration(450, 10); // 450
+    pivotMotorRight.configMotionAcceleration(1600, 10); // 450
     pivotMotorRight.configMotionSCurveStrength(1);
 
     pivotMotorLeft.setNeutralMode(NeutralMode.Brake);

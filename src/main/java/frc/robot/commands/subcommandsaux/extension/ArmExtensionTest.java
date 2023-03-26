@@ -6,7 +6,7 @@ import frc.robot.Robot;
 import frc.robot.commands.robot.LockArmExtend;
 import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
-public class ArmExtension extends CommandBase {
+public class ArmExtensionTest extends CommandBase {
   TelescopeSystem telescopeSystem;
   double ec;
   boolean autonMode;
@@ -15,11 +15,11 @@ public class ArmExtension extends CommandBase {
 
   boolean done = false;
 
-  public ArmExtension(TelescopeSystem telescopeSystem, double ec, boolean autonMode) {
+  public ArmExtensionTest(TelescopeSystem telescopeSystem, double ec, boolean autonMode) {
     this.telescopeSystem = telescopeSystem;
     this.ec = ec;
     this.autonMode = autonMode;
-    // telescopeSystem.armRetractMotor.configMotionAcceleration(10000, 10);
+    telescopeSystem.armRetractMotor.configMotionAcceleration(100, 10);
 
     addRequirements(telescopeSystem);
   }

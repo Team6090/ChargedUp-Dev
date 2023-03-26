@@ -42,6 +42,7 @@ import frc.robot.commands.subautotele.score.cubes.ScoreCB3;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV4;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
+import frc.robot.commands.subcommandsaux.extension.ArmExtensionTest;
 import frc.robot.commands.subcommandsaux.intake.IntakeCube;
 import frc.robot.commands.subcommandsaux.intake.IntakeCubeAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeCubeInfinite;
@@ -275,6 +276,11 @@ public class RobotContainer {
 
     oi.OverrideStart().onTrue(new LockArmExtend(Robot.lockSystem, true));
     oi.OverrideBack().onTrue(new LockArmExtend(Robot.lockSystem, false));
+
+    // oi.OverrideRightBumper().onTrue(new ArmExtension(telescopeSystem, 15000, true));
+    // oi.OverrideLeftBumper().onTrue(new ArmExtensionTest(telescopeSystem, 15000, true));
+    // oi.OverrideA().onTrue(new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true));
+
     // End
   }
 
@@ -342,7 +348,10 @@ public class RobotContainer {
         "A",
         Commands.parallel(
             new PickupBack(intakeSystem, telescopeSystem, pivotSystem),
-            new IntakeCubeAuto(intakeSystem, true)
+            Commands.sequence(
+                new WaitCommand(.25),
+                new IntakeCubeAuto(intakeSystem, true)
+            )
         )
     );
 
