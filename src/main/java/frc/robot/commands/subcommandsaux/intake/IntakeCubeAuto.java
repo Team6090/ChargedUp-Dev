@@ -36,7 +36,7 @@ public class IntakeCubeAuto extends CommandBase {
 
   @Override
   public void execute() {
-    if (IntakeSystem.ObjectInIntake() == false || timer.get() < .5) {
+    if (IntakeSystem.ObjectInIntake() == false || timer.get() < 1.0) {
 
     } else {
       done = true;

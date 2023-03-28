@@ -14,7 +14,8 @@ public class PivotArmToNextDown extends CommandBase {
 
   boolean done = false;
 
-  public PivotArmToNextDown(PivotSystem pivotSystem, double deg, double allowedNextCommandDeg, boolean autonMode) {
+  public PivotArmToNextDown(
+      PivotSystem pivotSystem, double deg, double allowedNextCommandDeg, boolean autonMode) {
     this.pivotSystem = pivotSystem;
     this.allowedNextCommandDeg = allowedNextCommandDeg;
     this.deg = deg;

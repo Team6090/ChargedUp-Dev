@@ -15,6 +15,7 @@ import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.commands.FollowPathWithEvents;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -42,17 +43,23 @@ import frc.robot.commands.subautotele.score.cubes.ScoreCB3;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV4;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
-import frc.robot.commands.subcommandsaux.extension.ArmExtensionTest;
+import frc.robot.commands.subcommandsaux.extension.ArmExtensionToNextIn;
 import frc.robot.commands.subcommandsaux.intake.IntakeCube;
 import frc.robot.commands.subcommandsaux.intake.IntakeCubeAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeCubeInfinite;
 import frc.robot.commands.subcommandsaux.intake.IntakeInAuto;
 import frc.robot.commands.subcommandsaux.intake.IntakeInOut;
+import frc.robot.commands.subcommandsaux.intake.IntakeInOutAuto;
+import frc.robot.commands.subcommandsaux.intake.IntakeOpenClose;
 import frc.robot.commands.subcommandsaux.intake.IntakeStopAuto;
+import frc.robot.commands.subcommandsaux.pivot.PivotArmToNextDown;
+import frc.robot.commands.subcommandsaux.pivot.PivotArmToNextUp;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
+import frc.robot.commands.subcommandsaux.util.PickupStationFeed;
 import frc.robot.commands.teleop.HomePos;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
+import frc.robot.commands.teleop.stage.cone.ConeStage3Auto;
 import frc.robot.commands.vision.AlignToAprilTagX;
 import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
@@ -343,18 +350,117 @@ public class RobotContainer {
         Commands.sequence(
             new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true),
             new PickupBack(intakeSystem, telescopeSystem, pivotSystem)));
-    
-    SyncAutoPath_Map.put(
-        "A",
+
+    CB_2_LeftBlue_Map.put(
+        "B_PICKUP",
         Commands.parallel(
-            new PickupBack(intakeSystem, telescopeSystem, pivotSystem),
+            new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
             Commands.sequence(
                 new WaitCommand(.25),
-                new IntakeCubeAuto(intakeSystem, true)
-            )
-        )
-    );
+                new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
 
+    CB_2_LeftBlue_Map.put(
+        "CB3_STAGE",
+        Commands.sequence(
+            new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
+            new PivotArmToNextDown(pivotSystem, 106.5, 170, true).ignoringDisable(true),
+            new ArmExtension(telescopeSystem, 24515, true).ignoringDisable(true)));
+
+            CB_2_RightRed_Map.put(
+                "B_PICKUP",
+                Commands.parallel(
+                    new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+                    Commands.sequence(
+                        new WaitCommand(.25),
+                        new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
+        
+                        CB_2_RightRed_Map.put(
+                "CB3_STAGE",
+                Commands.sequence(
+                    new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
+                    new PivotArmToNextDown(pivotSystem, 106.5, 170, true).ignoringDisable(true),
+                    new ArmExtension(telescopeSystem, 24515, true).ignoringDisable(true)));
+            CB_2_5_LeftBlue_Map.put(
+                "B_PICKUP",
+                Commands.parallel(
+                    new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+                    Commands.sequence(
+                        new WaitCommand(.25),
+                        new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
+                        CB_2_5_LeftBlue_Map.put(
+                "B_PICKUP2",
+                Commands.parallel(
+                    new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+                    Commands.sequence(
+                        new WaitCommand(.25),
+                        new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
+        
+            CB_2_5_LeftBlue_Map.put(
+                "CB3_STAGE",
+                Commands.sequence(
+                    new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
+                    new PivotArmToNextDown(pivotSystem, 108.5, 170, true).ignoringDisable(true),
+                    new ArmExtension(telescopeSystem, 24515, true).ignoringDisable(true)));
+        
+                    CB_2_5_RightRed_Map.put(
+                        "B_PICKUP",
+                        Commands.parallel(
+                            new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+                            Commands.sequence(
+                                new WaitCommand(.25),
+                                new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
+                                CB_2_5_RightRed_Map.put(
+                        "B_PICKUP2",
+                        Commands.parallel(
+                            new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+                            Commands.sequence(
+                                new WaitCommand(.25),
+                                new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
+                
+                    CB_2_5_RightRed_Map.put(
+                        "CB3_STAGE",
+                        Commands.sequence(
+                            new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
+                            new PivotArmToNextDown(pivotSystem, 108.5, 170, true).ignoringDisable(true),
+                            new ArmExtension(telescopeSystem, 24515, true).ignoringDisable(true)));
+    LeftBlue_AB_2.put("B_PICKUP",
+    Commands.parallel(
+        new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+        Commands.sequence(
+            new WaitCommand(.25),
+            new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
+                
+    LeftBlue_AB_2.put(
+        "HOME", 
+        Commands.sequence(new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
+        new PivotMove(pivotSystem, 37, true))
+        );
+
+    CubeOverrun_Map.put(
+        "HOME",
+        Commands.sequence(
+            new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
+            new PivotMove(pivotSystem, 30, true)));
+
+    CubeOverrun_Map.put(
+        "F_PICKUP",
+        Commands.parallel(
+            new PickupFront(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+            Commands.sequence(
+                new WaitCommand(0.25),
+                new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
+
+    RightBlue_2.put("B_PICKUP",
+    Commands.parallel(
+        new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+        Commands.sequence(
+            new WaitCommand(.25),
+            new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
+    RightBlue_2.put("CB3_STAGE",
+    Commands.sequence(
+        new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
+        new PivotArmToNextDown(pivotSystem, 108.5, 170, true).ignoringDisable(true),
+        new ArmExtension(telescopeSystem, 24515, true).ignoringDisable(true)));
     List<PathPlannerTrajectory> p_FullPathRed =
         PathPlanner.loadPathGroup(
             "Red3",
@@ -372,27 +478,86 @@ public class RobotContainer {
         PathPlanner.loadPathGroup("LeftRed2Piece", 2.0, 2.0);
     List<PathPlannerTrajectory> p_2PieceRightRed =
         PathPlanner.loadPathGroup("RightRed2Piece", 2.0, 2.0);
+    List<PathPlannerTrajectory> p_CubeOverrun =
+        PathPlanner.loadPathGroup("p_CubeOverrun", 1.0, 1.0);
     PathPlannerTrajectory p_1_5PieceLeftBlue = PathPlanner.loadPath("LeftBlue1.5Piece", 1.7, 1.7);
     PathPlannerTrajectory p_LeftBlueAroundBalance =
         PathPlanner.loadPath("LeftBlueAroundBalance", 2.5, 2.5);
     PathPlannerTrajectory p_RightRedAroundBalance =
         PathPlanner.loadPath("RightRedAroundBalance", 2.5, 2.5);
-    PathPlannerTrajectory p_SyncAutoPath = 
-        PathPlanner.loadPath("SyncAutoPath", 2.0, 2.0);
+        List<PathPlannerTrajectory> p_CB_2_LeftBlue =
+        PathPlanner.loadPathGroup("p_CB_2_LeftBlue", 2.4, 2.4);
+    List<PathPlannerTrajectory> p_CB_2_5_LeftBlue =
+        PathPlanner.loadPathGroup("p_CB_2_5_LeftBlue", 2.4, 2.4);
+        List<PathPlannerTrajectory> p_CB_2_RightRed =
+        PathPlanner.loadPathGroup("p_CB_2_RightRed", 2.4, 2.4);
+    List<PathPlannerTrajectory> p_CB_2_5_RightRed =
+        PathPlanner.loadPathGroup("p_CB_2_5_RightRed", 2.4, 2.4);
+    PathPlannerTrajectory p_OverChargeStation = 
+        PathPlanner.loadPath("OverChargeStation", 1.0, 1.0);
+    List<PathPlannerTrajectory> p_LeftBlue_AB_2 = 
+        PathPlanner.loadPathGroup("LeftBlue_AB_2", 1.5, 1.5);
+    List<PathPlannerTrajectory> p_2_RightBlue = 
+        PathPlanner.loadPathGroup("p_2_RightBlue", 1.0, 1.0);
 
-    Command c_SyncAutoPath =
+    Command c_2_RightBlue =
         Commands.sequence(
-          new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
-          new FollowPathWithEvents(
-            new FollowPath(p_SyncAutoPath, drivetrain, true),
-            p_SyncAutoPath.getMarkers(), SyncAutoPath_Map)
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.1),
+            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
+            new FollowPathWithEvents(new FollowPath(p_2_RightBlue.get(0), drivetrain, true), p_2_RightBlue.get(0).getMarkers(), RightBlue_2),
+            new IntakeStopAuto(intakeSystem),
+            new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
+            new FollowPathWithEvents(new FollowPath(p_2_RightBlue.get(1), drivetrain, false), p_2_RightBlue.get(1).getMarkers(), RightBlue_2),
+            new IntakeOpenClose(intakeSystem, false),
+            new IntakeInOutAuto(intakeSystem),
+            new WaitCommand(0.2),
+            new IntakeOpenClose(intakeSystem, true),
+            new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
+            new PivotMove(pivotSystem, 37, true),
+            new PickupStationFeed(pivotSystem, 0)
         );
-        autoChooser.addOption("SyncAutoPath", c_SyncAutoPath);
+        autoChooser.addOption("c_2_RightBlue", c_2_RightBlue);
+
+    Command c_21_ConeCharge = 
+        Commands.sequence(
+          new LockArmExtend(Robot.lockSystem, false),
+          new WaitCommand(0.1),
+          new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
+          new FollowPath(p_OverChargeStation, drivetrain, true),
+          new AutoBalanceV4(drivetrain, false, 1.0, 20)
+        );
+        autoChooser.addDefaultOption("c_21_ConeCharge", c_21_ConeCharge);
+
+    Command c_LeftBlue_AB_2 = 
+    Commands.sequence(
+        new LockArmExtend(Robot.lockSystem, false),
+        new WaitCommand(0.1),
+        new ConeStage3Auto(intakeSystem, telescopeSystem, pivotSystem),
+        new FollowPathWithEvents(new FollowPath(p_LeftBlue_AB_2.get(0), drivetrain, true), p_LeftBlue_AB_2.get(0).getMarkers(), LeftBlue_AB_2),
+        new IntakeStopAuto(intakeSystem),
+        new IntakeOpenClose(intakeSystem, true),
+        new FollowPathWithEvents(new FollowPath(p_LeftBlue_AB_2.get(1), drivetrain, false), p_LeftBlue_AB_2.get(1).getMarkers(), LeftBlue_AB_2),
+        new PickupStationFeed(pivotSystem, 0),
+        Commands.runOnce(drivetrain::zeroGyroscope, drivetrain),
+        new AutoBalanceV4(drivetrain, true, 1.0, -20)
+        );
+
+
+
+    // Command c_SyncAutoPath =
+    //     Commands.sequence(
+    //       new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
+    //       new FollowPathWithEvents(
+    //         new FollowPath(p_SyncAutoPath, drivetrain, true),
+    //         p_SyncAutoPath.getMarkers(), SyncAutoPath_Map)
+    //     );
+    // autoChooser.addOption("SyncAutoPath", c_SyncAutoPath);
     PathPlannerTrajectory p_1Meter =
         GenerateTrajectoryFromPath(
             "1Meter",
-            MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-            AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+            1.0,
+            1.0);
     PathPlannerTrajectory p_3Meter =
         GenerateTrajectoryFromPath(
             "3Meter",
@@ -401,8 +566,8 @@ public class RobotContainer {
     PathPlannerTrajectory p_5Meter =
         GenerateTrajectoryFromPath(
             "5Meter",
-            MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
-            AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+            3.0,
+            3.0);
     PathPlannerTrajectory ScoreBackup = GenerateTrajectoryFromPath("ScoreThenBackup", 1.5, 1.5);
 
     Command c_FullPathRed =
@@ -530,13 +695,148 @@ public class RobotContainer {
             new FollowPath(p_2PieceRightRed.get(1), drivetrain, false),
             new ScoreCB3(intakeSystem, telescopeSystem, pivotSystem));
 
-    Command c_1_5PieceLeftBlue =
+    // Command c_1_5PieceLeftBlue =
+    //     Commands.sequence(
+    //         new LockArmExtend(Robot.lockSystem, false),
+    //         new WaitCommand(0.5),
+    //         new ConeStage3Auto(intakeSystem, telescopeSystem, pivotSystem),
+    //         // new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
+    //         new FollowPathWithEvents(new FollowPath(p_SyncAutoPath, drivetrain, true),
+    // p_SyncAutoPath.getMarkers(), SyncAutoPath_Map),
+    //         // new FollowPath(p_1_5PieceLeftBlue, drivetrain, true),
+    //         Commands.runOnce(drivetrain::zeroGyroscope, drivetrain),
+    //         new IntakeStopAuto(intakeSystem),
+    //         new FollowPathWithEvents(new FollowPath(p_SyncAutoPath2, drivetrain, false),
+    // p_SyncAutoPath2.getMarkers(), SyncAutoPath_Map2),
+    //         new CubeScore(intakeSystem, telescopeSystem, pivotSystem) // ERROR: Causing arm to
+    // throw back and slam into ground
+    //     );
+
+    Command c_CB_2_LeftBlue =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
-            new WaitCommand(0.5),
-            new ScoreCN3(intakeSystem, telescopeSystem, pivotSystem),
-            new FollowPath(p_1_5PieceLeftBlue, drivetrain, true),
-            Commands.runOnce(drivetrain::zeroGyroscope, drivetrain));
+            new WaitCommand(0.15),
+            new ConeStage3Auto(intakeSystem, telescopeSystem, pivotSystem),
+            new FollowPathWithEvents(
+                new FollowPath(p_CB_2_LeftBlue.get(0), drivetrain, true),
+                p_CB_2_LeftBlue.get(0).getMarkers(),
+                CB_2_LeftBlue_Map),
+            Commands.runOnce(drivetrain::zeroGyroscope, drivetrain),
+            new IntakeStopAuto(intakeSystem),
+            new FollowPathWithEvents(
+                new FollowPath(p_CB_2_LeftBlue.get(1), drivetrain, false),
+                p_CB_2_LeftBlue.get(1).getMarkers(),
+                CB_2_LeftBlue_Map),
+            new IntakeOpenClose(intakeSystem, false),
+            new IntakeInOutAuto(intakeSystem),
+            new WaitCommand(0.2),
+            new IntakeOpenClose(intakeSystem, true),
+            new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
+            new PivotMove(pivotSystem, 30, true),
+            new PickupStationFeed(pivotSystem, 0)
+            );
+
+            Command c_CB_2_RightRed =
+            Commands.sequence(
+                new LockArmExtend(Robot.lockSystem, false),
+                new WaitCommand(0.15),
+                new ConeStage3Auto(intakeSystem, telescopeSystem, pivotSystem),
+                new FollowPathWithEvents(
+                    new FollowPath(p_CB_2_RightRed.get(0), drivetrain, true),
+                    p_CB_2_RightRed.get(0).getMarkers(),
+                    CB_2_RightRed_Map),
+                Commands.runOnce(drivetrain::zeroGyroscope, drivetrain),
+                new IntakeStopAuto(intakeSystem),
+                new FollowPathWithEvents(
+                    new FollowPath(p_CB_2_RightRed.get(1), drivetrain, false),
+                    p_CB_2_RightRed.get(1).getMarkers(),
+                    CB_2_RightRed_Map),
+                new IntakeOpenClose(intakeSystem, false),
+                new IntakeInOutAuto(intakeSystem),
+                new WaitCommand(0.2),
+                new IntakeOpenClose(intakeSystem, true),
+                new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
+                new PivotMove(pivotSystem, 30, true),
+                new PickupStationFeed(pivotSystem, 0)
+                );
+    Command c_CB_2_5_LeftBlue =
+        Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.15),
+            new ConeStage3Auto(intakeSystem, telescopeSystem, pivotSystem),
+            new FollowPathWithEvents(
+                new FollowPath(p_CB_2_5_LeftBlue.get(0), drivetrain, true),
+                p_CB_2_5_LeftBlue.get(0).getMarkers(),
+                CB_2_5_LeftBlue_Map),
+            new IntakeStopAuto(intakeSystem),
+            new FollowPathWithEvents(
+                new FollowPath(p_CB_2_5_LeftBlue.get(1), drivetrain, false),
+                p_CB_2_5_LeftBlue.get(1).getMarkers(),
+                CB_2_5_LeftBlue_Map),
+            new IntakeOpenClose(intakeSystem, false),
+            new IntakeInOutAuto(intakeSystem),
+            new WaitCommand(0.2),
+            new IntakeOpenClose(intakeSystem, true),
+            // new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
+            // new PivotMove(pivotSystem, 30, true),
+            // new PickupStationFeed(pivotSystem, 0),
+            new FollowPathWithEvents(new FollowPath(p_CB_2_5_LeftBlue.get(2), drivetrain, false), p_CB_2_5_LeftBlue.get(2).getMarkers(), CB_2_5_LeftBlue_Map),
+            new IntakeStopAuto(intakeSystem),
+            new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
+            new PivotMove(pivotSystem, 37, true),
+            new PickupStationFeed(pivotSystem, 0),
+            new FollowPath(p_CB_2_5_LeftBlue.get(3), drivetrain, false),
+            Commands.runOnce(drivetrain::zeroGyroscope, drivetrain)
+            );
+
+            Command c_CB_2_5_RightRed =
+        Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.15),
+            new ConeStage3Auto(intakeSystem, telescopeSystem, pivotSystem),
+            new FollowPathWithEvents(
+                new FollowPath(p_CB_2_5_RightRed.get(0), drivetrain, true),
+                p_CB_2_5_RightRed.get(0).getMarkers(),
+                CB_2_5_RightRed_Map),
+            new IntakeStopAuto(intakeSystem),
+            new FollowPathWithEvents(
+                new FollowPath(p_CB_2_5_RightRed.get(1), drivetrain, false),
+                p_CB_2_5_RightRed.get(1).getMarkers(),
+                CB_2_5_RightRed_Map),
+            new IntakeOpenClose(intakeSystem, false),
+            new IntakeInOutAuto(intakeSystem),
+            new WaitCommand(0.2),
+            new IntakeOpenClose(intakeSystem, true),
+            // new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
+            // new PivotMove(pivotSystem, 30, true),
+            // new PickupStationFeed(pivotSystem, 0),
+            new FollowPathWithEvents(new FollowPath(p_CB_2_5_RightRed.get(2), drivetrain, false), p_CB_2_5_LeftBlue.get(2).getMarkers(), CB_2_5_LeftBlue_Map),
+            new IntakeStopAuto(intakeSystem),
+            new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
+            new PivotMove(pivotSystem, 37, true),
+            new PickupStationFeed(pivotSystem, 0),
+            new FollowPath(p_CB_2_5_RightRed.get(3), drivetrain, false),
+            Commands.runOnce(drivetrain::zeroGyroscope, drivetrain)
+            );
+    Command c_CubeOverrun =
+        Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.15),
+            new PivotArmToNextUp(pivotSystem, 250, 200, true),
+            new IntakeOpenClose(intakeSystem, false),
+            new IntakeInOutAuto(intakeSystem),
+            new WaitCommand(0.1),
+            new IntakeOpenClose(intakeSystem, true),
+            new FollowPathWithEvents(
+                new FollowPath(p_CubeOverrun.get(0), drivetrain, true),
+                p_CubeOverrun.get(0).getMarkers(),
+                CubeOverrun_Map),
+            new FollowPathWithEvents(
+                new FollowPath(p_CubeOverrun.get(1), drivetrain, false),
+                p_CubeOverrun.get(1).getMarkers(),
+                CubeOverrun_Map),
+            new AutoBalanceV4(drivetrain, true, 1.0, 20.0) // TODO: Check if proper
+            );
 
     Command c_LeftBlueAroundBalance =
         Commands.sequence(
@@ -577,7 +877,7 @@ public class RobotContainer {
             new AutoBalanceV2(drivetrain, false, 3.0, -13.0, 33.0),
             new LockArmExtend(Robot.lockSystem, true));
 
-    Command scoreHighBalance =
+    Command CN3_AutoBalance =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
             new WaitCommand(0.5),
@@ -611,20 +911,25 @@ public class RobotContainer {
     // add commands to the auto chooser
     autoChooser.addDefaultOption("Do Nothing", new InstantCommand());
 
-    autoChooser.addOption("Balance", new AutoBalanceV4(drivetrain, true, 1.0, -20));
-    autoChooser.addOption("TestPath", autoTestPath);
-    autoChooser.addOption("ScoreHighAutoBalance", scoreHighCone);
+    // autoChooser.addOption("Balance", new AutoBalanceV4(drivetrain, true, 1.0, -20));
+    // autoChooser.addOption("TestPath", autoTestPath);
+    // autoChooser.addOption("ScoreHighAutoBalance", scoreHighCone);
     autoChooser.addOption("Blue_ScoreHighAndGrab", gogo);
     autoChooser.addOption("Red_MakeLink", c_FullPathRed);
     autoChooser.addOption("Blue_MakeLinkCubeStart", c_FullPathBlueCube);
     autoChooser.addOption("Blue_MakeLinkConeStart", c_FullPathBlueCone);
     autoChooser.addOption("2PieceLeftBlue", c_2PieceLeftBlue);
-    autoChooser.addOption("1.5PieceLeftBlue", c_1_5PieceLeftBlue);
+    autoChooser.addOption("c_CB_2_LeftBlue", c_CB_2_LeftBlue);
+    autoChooser.addOption("c_CB_2_5_LeftBlue", c_CB_2_5_LeftBlue);
+    autoChooser.addOption("c_CB_2_RightRed", c_CB_2_RightRed);
+    autoChooser.addOption("c_CB_2_5_RightRed", c_CB_2_5_RightRed);
     autoChooser.addOption("2PieceRightBlue", c_2PieceRightBlue);
     autoChooser.addOption("2PieceLeftRed", c_2PieceLeftRed);
     autoChooser.addOption("2PieceRightRed", c_2PieceRightRed);
-    autoChooser.addOption("AutoBalance", scoreHighBalance);
+    autoChooser.addOption("CN3_AutoBalance", CN3_AutoBalance);
     autoChooser.addOption("ScoreAndBackup", scoreBackup);
+    autoChooser.addOption("CubeOverrun", c_CubeOverrun);
+    autoChooser.addOption("c_LeftBlue_AB_2", c_LeftBlue_AB_2);
     autoChooser.addOption(
         "ScoreConeHighOnly",
         Commands.sequence(

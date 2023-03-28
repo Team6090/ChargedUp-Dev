@@ -38,30 +38,17 @@ import org.littletonrobotics.junction.Logger;
  * robot's rotation.
  */
 public class Drivetrain extends SubsystemBase {
+  private SwerveDriveSignal driveSignal = new SwerveDriveSignal();
 
   public static AHRS gyroIO;
 
   // private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
-
-  private final TunableNumber autoDriveKp =
-      new TunableNumber("AutoDrive/DriveKp", AUTO_DRIVE_P_CONTROLLER);
-  private final TunableNumber autoDriveKi =
-      new TunableNumber("AutoDrive/DriveKi", AUTO_DRIVE_I_CONTROLLER);
-  private final TunableNumber autoDriveKd =
-      new TunableNumber("AutoDrive/DriveKd", AUTO_DRIVE_D_CONTROLLER);
-  private final TunableNumber autoTurnKp =
-      new TunableNumber("AutoDrive/TurnKp", AUTO_TURN_P_CONTROLLER);
-  private final TunableNumber autoTurnKi =
-      new TunableNumber("AutoDrive/TurnKi", AUTO_TURN_I_CONTROLLER);
-  private final TunableNumber autoTurnKd =
-      new TunableNumber("AutoDrive/TurnKd", AUTO_TURN_D_CONTROLLER);
-
   private final PIDController autoXController =
-      new PIDController(autoDriveKp.get(), autoDriveKi.get(), autoDriveKd.get());
+      new PIDController(DrivetrainConstants.AUTO_DRIVE_X_kP, DrivetrainConstants.AUTO_DRIVE_X_kI, DrivetrainConstants.AUTO_DRIVE_X_kD);
   private final PIDController autoYController =
-      new PIDController(autoDriveKp.get(), autoDriveKi.get(), autoDriveKd.get());
+      new PIDController(DrivetrainConstants.AUTO_DRIVE_Y_kP, DrivetrainConstants.AUTO_DRIVE_Y_kI, DrivetrainConstants.AUTO_DRIVE_Y_kD);
   private final PIDController autoThetaController =
-      new PIDController(autoTurnKp.get(), autoTurnKi.get(), autoTurnKd.get());
+      new PIDController(DrivetrainConstants.AUTO_DRIVE_Z_kP, DrivetrainConstants.AUTO_DRIVE_Z_kI, DrivetrainConstants.AUTO_DRIVE_Z_kD);
 
   private final SwerveModule[] swerveModules = new SwerveModule[4]; // FL, FR, BL, BR
 
@@ -174,6 +161,10 @@ public class Drivetrain extends SubsystemBase {
   public double getPitch() {
     return gyroIO.getPitch();
   }
+
+  public ChassisSpeeds getDesiredVelocity() {
+    return (ChassisSpeeds) driveSignal;
+}
 
   /**
    * Returns the rotation of the robot. Zero degrees is facing away from the driver station; CCW is
@@ -424,13 +415,6 @@ public class Drivetrain extends SubsystemBase {
     updateBrakeMode();
 
     // update tunables
-    if (autoDriveKp.hasChanged() || autoDriveKi.hasChanged() || autoDriveKd.hasChanged()) {
-      autoXController.setPID(autoDriveKp.get(), autoDriveKi.get(), autoDriveKd.get());
-      autoYController.setPID(autoDriveKp.get(), autoDriveKi.get(), autoDriveKd.get());
-    }
-    if (autoTurnKp.hasChanged() || autoTurnKi.hasChanged() || autoTurnKd.hasChanged()) {
-      autoThetaController.setPID(autoTurnKp.get(), autoTurnKi.get(), autoTurnKd.get());
-    }
 
     // log poses, 3D geometry, and swerve module states, gyro offset
     Pose2d poseEstimatorPose = poseEstimator.getEstimatedPosition();

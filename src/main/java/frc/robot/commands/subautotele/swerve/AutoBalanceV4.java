@@ -77,7 +77,7 @@ public class AutoBalanceV4 extends CommandBase {
       // SmartDashboard.putNumber("direction", 0);
       // SmartDashboard.putNumber("CCPitch", pitch);
       // SmartDashboard.putNumber("CCmin", minActivePitch);
-      if (pitch < minActivePitch) {
+      if (pitch < -minActivePitch) {
         engaged = true;
       }
     } else {

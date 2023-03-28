@@ -16,7 +16,7 @@ public class PickupFront extends SequentialCommandGroup {
     addCommands(
         new PickupStationFeed(pivotSystem, 1),
         new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
-        new PivotMove(pivotSystem, 52.67, true),
+        new PivotMove(pivotSystem, 54.67, true),
         new ArmExtension(telescopeSystem, 8799, true));
   }
 }

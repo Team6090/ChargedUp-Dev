@@ -122,9 +122,15 @@ public final class DrivetrainConstants {
 
   // FIXME: tune PID values for auto paths
 
-  public static final double AUTO_DRIVE_P_CONTROLLER = 5.8; // 5.75
-  public static final double AUTO_DRIVE_I_CONTROLLER = 0.9; // 0.75
-  public static final double AUTO_DRIVE_D_CONTROLLER = 0.0; // 0.0
+  public static final double AUTO_DRIVE_X_kP = 6.0; // 5.8
+  public static final double AUTO_DRIVE_X_kI = 3.0; // 0.9
+  public static final double AUTO_DRIVE_X_kD = 0.01; // 0.0
+  public static final double AUTO_DRIVE_Y_kP = 6.0;
+  public static final double AUTO_DRIVE_Y_kI = 3.0;
+  public static final double AUTO_DRIVE_Y_kD = 0.01;
+  public static final double AUTO_DRIVE_Z_kP = 5.0;
+  public static final double AUTO_DRIVE_Z_kI = 10.0;
+  public static final double AUTO_DRIVE_Z_kD = 0.01;
   public static final double AUTO_TURN_P_CONTROLLER = 0.62; // 10
   public static final double AUTO_TURN_I_CONTROLLER = 0.0;
   public static final double AUTO_TURN_D_CONTROLLER = 0.0;
@@ -143,7 +149,21 @@ public final class DrivetrainConstants {
 
   public static final HashMap<String, Command> FullPath_Map = new HashMap<>();
 
-  public static final HashMap<String, Command> SyncAutoPath_Map = new HashMap<>();
+  public static final HashMap<String, Command> CB_2_LeftBlue_Map = new HashMap<>();
+  
+  public static final HashMap<String, Command> CB_2_5_LeftBlue_Map = new HashMap<>();
+
+  public static final HashMap<String, Command> CB_2_RightRed_Map = new HashMap<>();
+
+  public static final HashMap<String, Command> CB_2_5_RightRed_Map = new HashMap<>();
+
+  public static final HashMap<String, Command> SyncAutoPath_Map2 = new HashMap<>();
+
+  public static final HashMap<String, Command> CubeOverrun_Map = new HashMap<>();
+
+  public static final HashMap<String, Command> LeftBlue_AB_2 = new HashMap<>();
+
+  public static final HashMap<String, Command> RightBlue_2 = new HashMap<>();
 
   public static final double DEADBAND = 0.1;
 }

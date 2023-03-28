@@ -7,9 +7,9 @@ import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
 import frc.robot.subsystems.auxiliary.TelescopeSystem;
 
-public class CubeStage3 extends SequentialCommandGroup {
+public class CubeStage3Auto extends SequentialCommandGroup {
 
-  public CubeStage3(
+  public CubeStage3Auto(
       IntakeSystem intakeSystem, TelescopeSystem telescopeSystem, PivotSystem pivotSystem) {
     addCommands(
         new ArmExtension(telescopeSystem, 0, true),

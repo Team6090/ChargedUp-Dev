@@ -3,7 +3,6 @@ package frc.robot.commands.teleop;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
-import frc.robot.commands.subcommandsaux.extension.ArmExtensionToNextIn;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
 import frc.robot.commands.subcommandsaux.util.PickupStationFeed;
@@ -150,7 +149,7 @@ public class HomePos extends CommandBase {
       switch (currentObject) {
         case 0:
           Commands.sequence(
-                  new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000.0, true),
+                  new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 30, true))
               .schedule();
           break;
@@ -164,7 +163,9 @@ public class HomePos extends CommandBase {
 
         case 2:
           Commands.sequence(
-                  new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000.0, true),
+                  // new ArmExensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 7747,
+                  // true),
+                  new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
                   new PivotMove(pivotSystem, 37, true))
               .schedule();
           break;
