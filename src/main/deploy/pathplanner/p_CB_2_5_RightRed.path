@@ -25,17 +25,17 @@
     {
       "anchorPoint": {
         "x": 10.0,
-        "y": 4.482699521747118
+        "y": 4.7
       },
       "prevControl": {
         "x": 9.782726298690829,
-        "y": 4.482699521747118
+        "y": 4.7
       },
       "nextControl": {
         "x": 10.217273701309171,
-        "y": 4.482699521747118
+        "y": 4.7
       },
-      "holonomicAngle": 1.0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -75,17 +75,17 @@
     {
       "anchorPoint": {
         "x": 9.76830153375,
-        "y": 3.762265670037759
+        "y": 3.7
       },
       "prevControl": {
         "x": 10.923282788077701,
-        "y": 5.260310663274678
+        "y": 5.19804499323692
       },
       "nextControl": {
         "x": 9.739512606849358,
-        "y": 3.724925576730986
+        "y": 3.6626599066932273
       },
-      "holonomicAngle": 49.537772507906546,
+      "holonomicAngle": 55.54,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -128,7 +128,7 @@
       ]
     },
     {
-      "position": 1.54,
+      "position": 1.2799999999999858,
       "names": [
         "CB3_STAGE"
       ]

@@ -28,7 +28,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.team3061.swerve.SwerveModule;
 import frc.lib.team3061.util.RobotOdometry;
-import frc.lib.team6328.util.TunableNumber;
 import frc.robot.subsystems.limelight.Limelight;
 import org.littletonrobotics.junction.Logger;
 
@@ -44,11 +43,20 @@ public class Drivetrain extends SubsystemBase {
 
   // private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
   private final PIDController autoXController =
-      new PIDController(DrivetrainConstants.AUTO_DRIVE_X_kP, DrivetrainConstants.AUTO_DRIVE_X_kI, DrivetrainConstants.AUTO_DRIVE_X_kD);
+      new PIDController(
+          DrivetrainConstants.AUTO_DRIVE_X_kP,
+          DrivetrainConstants.AUTO_DRIVE_X_kI,
+          DrivetrainConstants.AUTO_DRIVE_X_kD);
   private final PIDController autoYController =
-      new PIDController(DrivetrainConstants.AUTO_DRIVE_Y_kP, DrivetrainConstants.AUTO_DRIVE_Y_kI, DrivetrainConstants.AUTO_DRIVE_Y_kD);
+      new PIDController(
+          DrivetrainConstants.AUTO_DRIVE_Y_kP,
+          DrivetrainConstants.AUTO_DRIVE_Y_kI,
+          DrivetrainConstants.AUTO_DRIVE_Y_kD);
   private final PIDController autoThetaController =
-      new PIDController(DrivetrainConstants.AUTO_DRIVE_Z_kP, DrivetrainConstants.AUTO_DRIVE_Z_kI, DrivetrainConstants.AUTO_DRIVE_Z_kD);
+      new PIDController(
+          DrivetrainConstants.AUTO_DRIVE_Z_kP,
+          DrivetrainConstants.AUTO_DRIVE_Z_kI,
+          DrivetrainConstants.AUTO_DRIVE_Z_kD);
 
   private final SwerveModule[] swerveModules = new SwerveModule[4]; // FL, FR, BL, BR
 
@@ -164,7 +172,7 @@ public class Drivetrain extends SubsystemBase {
 
   public ChassisSpeeds getDesiredVelocity() {
     return (ChassisSpeeds) driveSignal;
-}
+  }
 
   /**
    * Returns the rotation of the robot. Zero degrees is facing away from the driver station; CCW is

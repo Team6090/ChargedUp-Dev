@@ -150,7 +150,7 @@ public final class DrivetrainConstants {
   public static final HashMap<String, Command> FullPath_Map = new HashMap<>();
 
   public static final HashMap<String, Command> CB_2_LeftBlue_Map = new HashMap<>();
-  
+
   public static final HashMap<String, Command> CB_2_5_LeftBlue_Map = new HashMap<>();
 
   public static final HashMap<String, Command> CB_2_RightRed_Map = new HashMap<>();

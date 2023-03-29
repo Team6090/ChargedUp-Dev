@@ -1,5 +1,3 @@
 package frc.robot.commands.subautotele.swerve;
 
-public class AutoBalanceV6 {
-    
-}
+public class AutoBalanceV6 {}

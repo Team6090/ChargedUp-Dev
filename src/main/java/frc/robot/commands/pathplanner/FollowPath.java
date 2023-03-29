@@ -42,7 +42,7 @@ public class FollowPath extends PPSwerveControllerCommand {
         subsystem.getAutoXController(),
         subsystem.getAutoYController(),
         subsystem.getAutoThetaController(),
-        subsystem::setSwerveModuleStates, // Limelight Helper, poseEstimator, limelight 
+        subsystem::setSwerveModuleStates, // Limelight Helper, poseEstimator, limelight
         subsystem);
 
     this.drivetrain = subsystem;
