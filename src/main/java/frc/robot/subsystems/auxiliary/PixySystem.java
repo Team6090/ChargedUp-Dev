@@ -1,6 +1,7 @@
 package frc.robot.subsystems.auxiliary;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.pseudoresonance.pixy2api.*;
 import io.github.pseudoresonance.pixy2api.Pixy2CCC.Block;
 import io.github.pseudoresonance.pixy2api.links.*;
@@ -10,6 +11,15 @@ public class PixySystem {
 
   private static final int blockSignatureOne = 1;
   private static final int blockSignatureTwo = 2;
+
+  public static int coneX;
+  public static int coneY;
+  public static int coneHeight;
+  public static int coneWidth;
+  public static int cubeX;
+  public static int cubeY;
+  public static int cubeHeight;
+  public static int cubeWidth;
 
   private Pixy2 pixy;
   public static Pixy2CCC pixy2ccc;
@@ -25,8 +35,8 @@ public class PixySystem {
     pixy2ccc = pixy.getCCC();
   }
 
-  public void GetCones() {
-    int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG1, 25);
+  public static void GetCones() {
+    int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG1, 5);
     if (blockCount <= 0) {
       System.err.print("No Block Count");
       SmartDashboard.putNumber("Cone Count", blockCount);
@@ -50,20 +60,22 @@ public class PixySystem {
       }
     }
     if (largestBlock != null) {
-      SmartDashboard.putNumber("Cone X", largestBlock.getX());
-      SmartDashboard.putNumber("Cone Y", largestBlock.getY());
-      SmartDashboard.putNumber("Cone Height",largestBlock.getHeight());
-      SmartDashboard.putNumber("Cone Width", largestBlock.getWidth());
+      coneX = largestBlock.getX();
+      coneY = largestBlock.getY();
+      coneHeight = largestBlock.getHeight();
+      coneWidth = largestBlock.getWidth();
     }
   }
 
   public static int GetCubeCount() {
     int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG2, 1);
+    SmartDashboard.putNumber("Cube Count", blockCount);
     return blockCount;
   }
 
   public static int GetConeCount() {
     int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG1, 1);
+    SmartDashboard.putNumber("Cone Count", blockCount);
     return blockCount;
   }
 
@@ -77,8 +89,8 @@ public class PixySystem {
     }
   }
 
-  public void GetCubes() {
-    int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG2, 25);
+  public static void GetCubes() {
+    int blockCount = pixy2ccc.getBlocks(true, Pixy2CCC.CCC_SIG2, 5);
     if (blockCount <= 0) {
       System.err.print("No Block Count");
       SmartDashboard.putNumber("Cube Count", blockCount);
@@ -102,10 +114,10 @@ public class PixySystem {
       }
     }
     if (largestBlock != null) {
-      SmartDashboard.putNumber("Cube X", largestBlock.getX());
-      SmartDashboard.putNumber("Cube Y", largestBlock.getY());
-      SmartDashboard.putNumber("Cube Height",largestBlock.getHeight());
-      SmartDashboard.putNumber("Cube Width", largestBlock.getWidth());
+      cubeX = largestBlock.getX();
+      cubeY = largestBlock.getY();
+      cubeHeight = largestBlock.getHeight();
+      cubeWidth = largestBlock.getWidth();
     }
   }
 }

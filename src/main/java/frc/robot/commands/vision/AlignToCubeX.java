@@ -1,5 +1,6 @@
 package frc.robot.commands.vision;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain.Drivetrain;
@@ -7,58 +8,77 @@ import frc.robot.subsystems.auxiliary.PixySystem;
 
 public class AlignToCubeX extends CommandBase {
 
+  Timer timer;
   Drivetrain drivetrain;
-  PixySystem pixySystem;
   double CubeX, CubeCount;
+  boolean reversed;
   boolean done = false;
 
-  public AlignToCubeX(Drivetrain driveTrain, PixySystem pixySystem) {
-    addRequirements(driveTrain);
+  public AlignToCubeX(Drivetrain driveTrain, boolean reversed) {
     this.drivetrain = driveTrain;
-    this.pixySystem = pixySystem;
+    this.reversed = reversed;
+    timer = new Timer();
+    addRequirements(driveTrain);
   }
 
   @Override
   public void initialize() {
     drivetrain.drive(0, 0, 0);
+
+    timer.reset();
+    timer.start();
     
-    pixySystem.GetCubes();
-    CubeX = SmartDashboard.getNumber("Cube X", -1);
+    PixySystem.GetCubes();
+    CubeX = PixySystem.cubeX;
     CubeCount = PixySystem.GetCubeCount();
 
-    if (CubeCount <= 0) {
-      done = true;
-    }
+    // if (CubeCount <= 0) {
+    //   done = true;
+    // }
 
-    if (CubeX < 155) {
+    if (reversed == true){
+      if (CubeX < 178) {
+        drivetrain.drive(0, 0.5, 0);
+      } else if (CubeX > 182) {
+        drivetrain.drive(0, -0.5, 0);
+      }
+    }else{
+    if (CubeX < 178) {
       drivetrain.drive(0, -0.5, 0);
-    } else if (CubeX > 165) {
+    } else if (CubeX > 182) {
       drivetrain.drive(0, 0.5, 0);
     }
   }
+}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    pixySystem.GetCones();
-    CubeX = SmartDashboard.getNumber("Cone X", -1);
+    PixySystem.GetCubes();
+    CubeX = PixySystem.cubeX;
     CubeCount = PixySystem.GetConeCount();
 
-    if (CubeCount == 0) {
+    // if (CubeCount == 0) {
+    //   done = true;
+    //   this.end(done);
+    // }
+
+    if (CubeX < 190 && CubeX > 170) {
       done = true;
-      this.end(done);
     }
 
-    if (CubeX < 165 && CubeX > 155) {
-      done = true;
-    }
+    // if (timer.get() > 2){
+    //   done = true;
+    // }
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     done = false;
+    timer.stop();
     this.drivetrain.stop();
     // super.end(interrupted);
   }

@@ -55,11 +55,14 @@ import frc.robot.commands.teleop.HomePos;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
 import frc.robot.commands.vision.AlignToAprilTagX;
+import frc.robot.commands.vision.AlignToCubeHeight;
+import frc.robot.commands.vision.AlignToCubeX;
 import frc.robot.operator_interface.OISelector;
 import frc.robot.operator_interface.OperatorInterface;
 import frc.robot.subsystems.auxiliary.AirCompressor;
 import frc.robot.subsystems.auxiliary.IntakeSystem;
 import frc.robot.subsystems.auxiliary.PivotSystem;
+import frc.robot.subsystems.auxiliary.PixySystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.limelight.Limelight;
 import java.util.List;
@@ -77,6 +80,8 @@ public class RobotContainer {
   public AirCompressor airCompressor;
 
   public Drivetrain drivetrain;
+
+  public PixySystem pixySystem;
 
   // use AdvantageKit's LoggedDashboardChooser instead of SendableChooser to ensure accurate logging
   private final LoggedDashboardChooser<Command> autoChooser =
@@ -265,6 +270,9 @@ public class RobotContainer {
 
     oi.OverrideY().onTrue(Commands.runOnce(drivetrain::disableXstance, drivetrain));
     oi.OverrideX().onTrue(Commands.runOnce(drivetrain::enableXstance, drivetrain));
+
+    oi.OverrideLeftBumper().onTrue(new AlignToCubeX(drivetrain, false));
+    oi.OverrideRightBumper().onTrue(new AlignToCubeHeight(drivetrain, false));
     // End
   }
 
