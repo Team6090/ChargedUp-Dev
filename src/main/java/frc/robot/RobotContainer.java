@@ -35,6 +35,7 @@ import frc.robot.commands.autons.FeedForwardCharacterization.FeedForwardCharacte
 import frc.robot.commands.pathplanner.FollowPath;
 import frc.robot.commands.robot.LockArmExtend;
 import frc.robot.commands.subautotele.pickup.PickupBack;
+import frc.robot.commands.subautotele.pickup.PickupBackAuton;
 import frc.robot.commands.subautotele.pickup.PickupFront;
 import frc.robot.commands.subautotele.pickup.PickupStation;
 import frc.robot.commands.subautotele.score.cones.ScoreCN3;
@@ -338,22 +339,22 @@ public class RobotContainer {
 
     AUTO_EVENT3_MAP.put("event1", Commands.print("passed marker 1"));
 
-    M1L1P1_MAP.put("BPU", new PickupBack(intakeSystem, telescopeSystem, pivotSystem));
+    M1L1P1_MAP.put("BPU", new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem));
 
     FullPath_Map.put(
-        "BPUP1", new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true));
+        "BPUP1", new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true));
     FullPath_Map.put(
-        "BPUP2", new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true));
+        "BPUP2", new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true));
     FullPath_Map.put(
         "ININ1",
         Commands.sequence(
             new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true),
-            new PickupBack(intakeSystem, telescopeSystem, pivotSystem)));
+            new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem)));
 
     CB_2_LeftBlue_Map.put(
         "B_PICKUP",
         Commands.parallel(
-            new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+            new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
             Commands.sequence(
                 new WaitCommand(.25),
                 new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
@@ -368,7 +369,7 @@ public class RobotContainer {
     CB_2_RightRed_Map.put(
         "B_PICKUP",
         Commands.parallel(
-            new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+            new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
             Commands.sequence(
                 new WaitCommand(.25),
                 new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
@@ -382,14 +383,14 @@ public class RobotContainer {
     CB_2_5_LeftBlue_Map.put(
         "B_PICKUP",
         Commands.parallel(
-            new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+            new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
             Commands.sequence(
                 new WaitCommand(.25),
                 new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
     CB_2_5_LeftBlue_Map.put(
         "B_PICKUP2",
         Commands.parallel(
-            new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+            new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
             Commands.sequence(
                 new WaitCommand(.25),
                 new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
@@ -398,20 +399,20 @@ public class RobotContainer {
         "CB3_STAGE",
         Commands.sequence(
             new ArmExtension(telescopeSystem, Constants.EXTEND_HOME_POS, true),
-            new PivotArmToNextDown(pivotSystem, 108.5, 170, true).ignoringDisable(true),
+            new PivotArmToNextDown(pivotSystem, 106.5, 170, true).ignoringDisable(true),
             new ArmExtension(telescopeSystem, 24515, true).ignoringDisable(true)));
 
     CB_2_5_RightRed_Map.put(
         "B_PICKUP",
         Commands.parallel(
-            new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+            new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
             Commands.sequence(
                 new WaitCommand(.25),
                 new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
     CB_2_5_RightRed_Map.put(
         "B_PICKUP2",
         Commands.parallel(
-            new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+            new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
             Commands.sequence(
                 new WaitCommand(.25),
                 new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
@@ -425,7 +426,7 @@ public class RobotContainer {
     LeftBlue_AB_2.put(
         "B_PICKUP",
         Commands.parallel(
-            new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+            new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
             Commands.sequence(
                 new WaitCommand(.25),
                 new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
@@ -435,6 +436,20 @@ public class RobotContainer {
         Commands.sequence(
             new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
             new PivotMove(pivotSystem, 37, true)));
+
+    RightRed_AB_2.put(
+        "B_PICKUP",
+        Commands.parallel(
+            new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+            Commands.sequence(
+                new WaitCommand(.25),
+                new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
+        
+    RightRed_AB_2.put(
+                "HOME",
+                Commands.sequence(
+                    new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
+                    new PivotMove(pivotSystem, 37, true)));
 
     CubeOverrun_Map.put(
         "HOME",
@@ -453,7 +468,7 @@ public class RobotContainer {
     RightBlue_2.put(
         "B_PICKUP",
         Commands.parallel(
-            new PickupBack(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
+            new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true),
             Commands.sequence(
                 new WaitCommand(.25),
                 new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
@@ -488,16 +503,18 @@ public class RobotContainer {
     PathPlannerTrajectory p_RightRedAroundBalance =
         PathPlanner.loadPath("RightRedAroundBalance", 2.5, 2.5);
     List<PathPlannerTrajectory> p_CB_2_LeftBlue =
-        PathPlanner.loadPathGroup("p_CB_2_LeftBlue", 2.4, 2.4);
+        PathPlanner.loadPathGroup("p_CB_2_LeftBlue", 2.0, 2.0);
     List<PathPlannerTrajectory> p_CB_2_5_LeftBlue =
-        PathPlanner.loadPathGroup("p_CB_2_5_LeftBlue", 2.4, 2.4);
+        PathPlanner.loadPathGroup("p_CB_2_5_LeftBlue", 2.3, 2.3);
     List<PathPlannerTrajectory> p_CB_2_RightRed =
-        PathPlanner.loadPathGroup("p_CB_2_RightRed", 2.4, 2.4);
+        PathPlanner.loadPathGroup("p_CB_2_RightRed", 2.0, 2.0);
     List<PathPlannerTrajectory> p_CB_2_5_RightRed =
         PathPlanner.loadPathGroup("p_CB_2_5_RightRed", 2.4, 2.4);
     PathPlannerTrajectory p_OverChargeStation = PathPlanner.loadPath("OverChargeStation", 1.0, 1.0);
     List<PathPlannerTrajectory> p_LeftBlue_AB_2 =
         PathPlanner.loadPathGroup("LeftBlue_AB_2", 1.5, 1.5);
+    List<PathPlannerTrajectory> p_RightRed_AB_2 =
+        PathPlanner.loadPathGroup("RightRed_AB_2", 1.5, 1.5);
     List<PathPlannerTrajectory> p_2_RightBlue =
         PathPlanner.loadPathGroup("p_2_RightBlue", 1.0, 1.0);
 
@@ -521,8 +538,8 @@ public class RobotContainer {
             new WaitCommand(0.2),
             new IntakeOpenClose(intakeSystem, true),
             new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
-            new PivotMove(pivotSystem, 37, true),
-            new PickupStationFeed(pivotSystem, 0));
+            new PivotMove(pivotSystem, 37, true)
+            );
     autoChooser.addOption("c_2_RightBlue", c_2_RightBlue);
 
     Command c_21_ConeCharge =
@@ -549,9 +566,28 @@ public class RobotContainer {
                 new FollowPath(p_LeftBlue_AB_2.get(1), drivetrain, false),
                 p_LeftBlue_AB_2.get(1).getMarkers(),
                 LeftBlue_AB_2),
-            new PickupStationFeed(pivotSystem, 0),
+            // new PickupStationFeed(pivotSystem, 0),
             Commands.runOnce(drivetrain::zeroGyroscope, drivetrain),
             new AutoBalanceV4(drivetrain, true, 1.0, -20));
+
+            Command c_RightRed_AB_2 =
+            Commands.sequence(
+                new LockArmExtend(Robot.lockSystem, false),
+                new WaitCommand(0.1),
+                new ConeStage3Auto(intakeSystem, telescopeSystem, pivotSystem),
+                new FollowPathWithEvents(
+                    new FollowPath(p_RightRed_AB_2.get(0), drivetrain, true),
+                    p_RightRed_AB_2.get(0).getMarkers(),
+                    RightRed_AB_2),
+                new IntakeStopAuto(intakeSystem),
+                new IntakeOpenClose(intakeSystem, true),
+                new FollowPathWithEvents(
+                    new FollowPath(p_RightRed_AB_2.get(1), drivetrain, false),
+                    p_RightRed_AB_2.get(1).getMarkers(),
+                    RightRed_AB_2),
+                // new PickupStationFeed(pivotSystem, 0),
+                Commands.runOnce(drivetrain::zeroGyroscope, drivetrain),
+                new AutoBalanceV4(drivetrain, true, 1.0, -20));
 
     // Command c_SyncAutoPath =
     //     Commands.sequence(
@@ -732,8 +768,8 @@ public class RobotContainer {
             new WaitCommand(0.2),
             new IntakeOpenClose(intakeSystem, true),
             new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
-            new PivotMove(pivotSystem, 30, true),
-            new PickupStationFeed(pivotSystem, 0));
+            new PivotMove(pivotSystem, 30, true)
+            );
 
     Command c_CB_2_RightRed =
         Commands.sequence(
@@ -755,8 +791,8 @@ public class RobotContainer {
             new WaitCommand(0.2),
             new IntakeOpenClose(intakeSystem, true),
             new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
-            new PivotMove(pivotSystem, 30, true),
-            new PickupStationFeed(pivotSystem, 0));
+            new PivotMove(pivotSystem, 30, true)
+            );
     Command c_CB_2_5_LeftBlue =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),
@@ -766,6 +802,7 @@ public class RobotContainer {
                 new FollowPath(p_CB_2_5_LeftBlue.get(0), drivetrain, true),
                 p_CB_2_5_LeftBlue.get(0).getMarkers(),
                 CB_2_5_LeftBlue_Map),
+            new WaitCommand(0.1),
             new IntakeStopAuto(intakeSystem),
             new FollowPathWithEvents(
                 new FollowPath(p_CB_2_5_LeftBlue.get(1), drivetrain, false),
@@ -785,7 +822,7 @@ public class RobotContainer {
             new IntakeStopAuto(intakeSystem),
             new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
             new PivotMove(pivotSystem, 37, true),
-            new PickupStationFeed(pivotSystem, 0),
+            // new PickupStationFeed(pivotSystem, 0),
             new FollowPath(p_CB_2_5_LeftBlue.get(3), drivetrain, false),
             Commands.runOnce(drivetrain::zeroGyroscope, drivetrain));
 
@@ -817,7 +854,7 @@ public class RobotContainer {
             new IntakeStopAuto(intakeSystem),
             new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
             new PivotMove(pivotSystem, 37, true),
-            new PickupStationFeed(pivotSystem, 0),
+            // new PickupStationFeed(pivotSystem, 0),
             new FollowPath(p_CB_2_5_RightRed.get(3), drivetrain, false),
             Commands.runOnce(drivetrain::zeroGyroscope, drivetrain));
     Command c_CubeOverrun =
@@ -932,6 +969,7 @@ public class RobotContainer {
     autoChooser.addOption("ScoreAndBackup", scoreBackup);
     autoChooser.addOption("CubeOverrun", c_CubeOverrun);
     autoChooser.addOption("c_LeftBlue_AB_2", c_LeftBlue_AB_2);
+    autoChooser.addOption("c_RightRed_AB_2", c_RightRed_AB_2);
     autoChooser.addOption(
         "ScoreConeHighOnly",
         Commands.sequence(

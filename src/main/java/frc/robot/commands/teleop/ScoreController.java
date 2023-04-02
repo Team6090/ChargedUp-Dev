@@ -38,9 +38,14 @@ public class ScoreController extends CommandBase {
     currentObjectPixy = PixySystem.GetObject();
 
     int correctObject;
+    SmartDashboard.putNumber("Pixy", currentObjectPixy);
+    SmartDashboard.putNumber("ColorV3", currentObjectCV3);
 
     if (currentObjectCV3 == currentObjectPixy) {
-      correctObject = currentObjectPixy;
+      correctObject = currentObjectCV3;
+
+    } else if(currentObjectPixy == -1 && currentObjectCV3 != 0){
+      correctObject = currentObjectCV3;
     } else {
       correctObject = 1;
     }

@@ -1,5 +1,6 @@
 package frc.robot.commands.teleop;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.commands.subcommandsaux.util.SetCurrentStage;
@@ -44,11 +45,15 @@ public class StageController extends CommandBase {
     currentObjectPixy = PixySystem.GetObject();
 
     int correctObject;
+    
 
     if (currentObjectCV3 == currentObjectPixy) {
-      correctObject = currentObjectPixy;
+      correctObject = currentObjectCV3;
+
+    } else if(currentObjectPixy == -1 && currentObjectCV3 != 0){
+      correctObject = currentObjectCV3;
     } else {
-      correctObject = 1; // Force Object type
+      correctObject = 1;
     }
 
     switch (correctObject) {

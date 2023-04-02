@@ -163,6 +163,8 @@ public final class DrivetrainConstants {
 
   public static final HashMap<String, Command> LeftBlue_AB_2 = new HashMap<>();
 
+  public static final HashMap<String, Command> RightRed_AB_2 = new HashMap<>();
+
   public static final HashMap<String, Command> RightBlue_2 = new HashMap<>();
 
   public static final double DEADBAND = 0.1;

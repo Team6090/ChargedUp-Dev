@@ -18,7 +18,7 @@ public class ConeScore2 extends SequentialCommandGroup {
       PivotSystem pivotSystem) { // At hover height
     addCommands(
         // new ArmExtension(intakeSystem, 11506, true), // FIXME: Remove if arm can hold
-        new PivotMove(pivotSystem, 99.14, true),
+        new PivotMove(pivotSystem, 97.14, true),
         new WaitCommand(.1),
         new IntakeOpenClose(intakeSystem, false),
         new WaitCommand(.1),

@@ -26,7 +26,7 @@ public class IntakeStopAuto extends CommandBase {
 
   @Override
   public void execute() {
-    if (intakeSystem.ObjectInIntake() == true || timer.get() > 0.5) {
+    if (IntakeSystem.ObjectInIntake() == true || timer.get() > 0.5) {
       done = true;
     }
   }

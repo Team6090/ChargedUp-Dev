@@ -16,7 +16,7 @@ public class ConeStage2 extends SequentialCommandGroup {
 
     addCommands(
         new ArmExtension(telescopeSystem, 0, true),
-        new PivotMove(pivotSystem, 105.58, true),
+        new PivotMove(pivotSystem, 103.58, true),//105.58
         new ArmExtension(telescopeSystem, 10506, true));
   }
 }
