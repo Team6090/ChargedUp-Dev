@@ -42,6 +42,7 @@ import frc.robot.commands.subautotele.score.cones.ScoreCN3;
 import frc.robot.commands.subautotele.score.cubes.ScoreCB3;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV2;
 import frc.robot.commands.subautotele.swerve.AutoBalanceV4;
+import frc.robot.commands.subcommandsaux.extension.ArmCheck;
 import frc.robot.commands.subcommandsaux.extension.ArmExtension;
 import frc.robot.commands.subcommandsaux.extension.ArmExtensionToNextIn;
 import frc.robot.commands.subcommandsaux.intake.IntakeCube;
@@ -55,7 +56,6 @@ import frc.robot.commands.subcommandsaux.intake.IntakeStopAuto;
 import frc.robot.commands.subcommandsaux.pivot.PivotArmToNextDown;
 import frc.robot.commands.subcommandsaux.pivot.PivotArmToNextUp;
 import frc.robot.commands.subcommandsaux.pivot.PivotMove;
-import frc.robot.commands.subcommandsaux.util.PickupStationFeed;
 import frc.robot.commands.teleop.HomePos;
 import frc.robot.commands.teleop.ScoreController;
 import frc.robot.commands.teleop.StageController;
@@ -235,6 +235,8 @@ public class RobotContainer {
 
     intakeSystem.setDefaultCommand(new IntakeCube(intakeSystem, oi::PrimaryLeftTrigger));
 
+    telescopeSystem.setDefaultCommand(new ArmCheck(telescopeSystem));
+
     configureButtonBindings();
   }
 
@@ -342,9 +344,11 @@ public class RobotContainer {
     M1L1P1_MAP.put("BPU", new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem));
 
     FullPath_Map.put(
-        "BPUP1", new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true));
+        "BPUP1",
+        new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true));
     FullPath_Map.put(
-        "BPUP2", new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true));
+        "BPUP2",
+        new PickupBackAuton(intakeSystem, telescopeSystem, pivotSystem).ignoringDisable(true));
     FullPath_Map.put(
         "ININ1",
         Commands.sequence(
@@ -444,12 +448,12 @@ public class RobotContainer {
             Commands.sequence(
                 new WaitCommand(.25),
                 new IntakeCubeInfinite(intakeSystem, true).ignoringDisable(true))));
-        
+
     RightRed_AB_2.put(
-                "HOME",
-                Commands.sequence(
-                    new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
-                    new PivotMove(pivotSystem, 37, true)));
+        "HOME",
+        Commands.sequence(
+            new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
+            new PivotMove(pivotSystem, 37, true)));
 
     CubeOverrun_Map.put(
         "HOME",
@@ -538,8 +542,7 @@ public class RobotContainer {
             new WaitCommand(0.2),
             new IntakeOpenClose(intakeSystem, true),
             new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
-            new PivotMove(pivotSystem, 37, true)
-            );
+            new PivotMove(pivotSystem, 37, true));
     autoChooser.addOption("c_2_RightBlue", c_2_RightBlue);
 
     Command c_21_ConeCharge =
@@ -570,24 +573,24 @@ public class RobotContainer {
             Commands.runOnce(drivetrain::zeroGyroscope, drivetrain),
             new AutoBalanceV4(drivetrain, true, 1.0, -20));
 
-            Command c_RightRed_AB_2 =
-            Commands.sequence(
-                new LockArmExtend(Robot.lockSystem, false),
-                new WaitCommand(0.1),
-                new ConeStage3Auto(intakeSystem, telescopeSystem, pivotSystem),
-                new FollowPathWithEvents(
-                    new FollowPath(p_RightRed_AB_2.get(0), drivetrain, true),
-                    p_RightRed_AB_2.get(0).getMarkers(),
-                    RightRed_AB_2),
-                new IntakeStopAuto(intakeSystem),
-                new IntakeOpenClose(intakeSystem, true),
-                new FollowPathWithEvents(
-                    new FollowPath(p_RightRed_AB_2.get(1), drivetrain, false),
-                    p_RightRed_AB_2.get(1).getMarkers(),
-                    RightRed_AB_2),
-                // new PickupStationFeed(pivotSystem, 0),
-                Commands.runOnce(drivetrain::zeroGyroscope, drivetrain),
-                new AutoBalanceV4(drivetrain, true, 1.0, -20));
+    Command c_RightRed_AB_2 =
+        Commands.sequence(
+            new LockArmExtend(Robot.lockSystem, false),
+            new WaitCommand(0.1),
+            new ConeStage3Auto(intakeSystem, telescopeSystem, pivotSystem),
+            new FollowPathWithEvents(
+                new FollowPath(p_RightRed_AB_2.get(0), drivetrain, true),
+                p_RightRed_AB_2.get(0).getMarkers(),
+                RightRed_AB_2),
+            new IntakeStopAuto(intakeSystem),
+            new IntakeOpenClose(intakeSystem, true),
+            new FollowPathWithEvents(
+                new FollowPath(p_RightRed_AB_2.get(1), drivetrain, false),
+                p_RightRed_AB_2.get(1).getMarkers(),
+                RightRed_AB_2),
+            // new PickupStationFeed(pivotSystem, 0),
+            Commands.runOnce(drivetrain::zeroGyroscope, drivetrain),
+            new AutoBalanceV4(drivetrain, true, 1.0, -20));
 
     // Command c_SyncAutoPath =
     //     Commands.sequence(
@@ -768,8 +771,7 @@ public class RobotContainer {
             new WaitCommand(0.2),
             new IntakeOpenClose(intakeSystem, true),
             new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
-            new PivotMove(pivotSystem, 30, true)
-            );
+            new PivotMove(pivotSystem, 30, true));
 
     Command c_CB_2_RightRed =
         Commands.sequence(
@@ -791,8 +793,7 @@ public class RobotContainer {
             new WaitCommand(0.2),
             new IntakeOpenClose(intakeSystem, true),
             new ArmExtensionToNextIn(telescopeSystem, Constants.EXTEND_HOME_POS, 5000, true),
-            new PivotMove(pivotSystem, 30, true)
-            );
+            new PivotMove(pivotSystem, 30, true));
     Command c_CB_2_5_LeftBlue =
         Commands.sequence(
             new LockArmExtend(Robot.lockSystem, false),

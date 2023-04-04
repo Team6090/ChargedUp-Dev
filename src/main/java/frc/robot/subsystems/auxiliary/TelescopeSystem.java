@@ -3,6 +3,7 @@ package frc.robot.subsystems.auxiliary;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXSensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,13 +13,17 @@ public class TelescopeSystem extends SubsystemBase {
 
   public TalonFX armRetractMotor;
   public CANCoder armRetractCANCoder;
+  public TalonFXSensorCollection collection;
 
   double set;
 
   public TelescopeSystem() {
+
     armRetractMotor = new TalonFX(50, "Aux");
     armRetractMotor.setNeutralMode(NeutralMode.Brake);
     armRetractCANCoder = new CANCoder(52, "Aux");
+
+    collection = new TalonFXSensorCollection(armRetractMotor);
 
     armRetractMotor.configRemoteFeedbackFilter(armRetractCANCoder, 0);
     armRetractMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.RemoteSensor0, 0, 2000);
@@ -51,5 +56,7 @@ public class TelescopeSystem extends SubsystemBase {
     SmartDashboard.putNumber("ArmExtendIntDC", armRetractMotor.getSelectedSensorPosition());
     SmartDashboard.putNumber("Velocity", armRetractMotor.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Position", armRetractMotor.getSelectedSensorPosition());
+    SmartDashboard.putNumber("IntPosition", collection.getIntegratedSensorPosition());
+    SmartDashboard.putNumber("IntVelo", collection.getIntegratedSensorVelocity());
   }
 }

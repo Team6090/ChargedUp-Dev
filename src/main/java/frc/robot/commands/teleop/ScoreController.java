@@ -44,7 +44,7 @@ public class ScoreController extends CommandBase {
     if (currentObjectCV3 == currentObjectPixy) {
       correctObject = currentObjectCV3;
 
-    } else if(currentObjectPixy == -1 && currentObjectCV3 != 0){
+    } else if (currentObjectPixy == -1 && currentObjectCV3 != 0) {
       correctObject = currentObjectCV3;
     } else {
       correctObject = 1;
