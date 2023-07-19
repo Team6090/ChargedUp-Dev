@@ -36,7 +36,8 @@ public class ArmExtension extends CommandBase {
   public void execute() {
     if (autonMode == true) {
       currentPos = telescopeSystem.GetArmExtendedPosition();
-      if (Math.abs(telescopeSystem.collection.getIntegratedSensorVelocity()) > 100 && Math.abs(telescopeSystem.armRetractMotor.getSelectedSensorVelocity()) < 100 ) {
+      if (Math.abs(telescopeSystem.collection.getIntegratedSensorVelocity()) > 100
+          && Math.abs(telescopeSystem.armRetractMotor.getSelectedSensorVelocity()) < 100) {
         done = true;
       }
       if (currentPos > ec - 100 && currentPos < ec + 100) {

@@ -32,22 +32,22 @@ public final class DrivetrainConstants {
   public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
   public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 4;
   public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 3;
-  public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 209.268;
+  public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 21.885;
 
   public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 5;
   public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 7;
   public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 6;
-  public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 359.736;
+  public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 189.141;
 
   public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 11;
   public static final int BACK_LEFT_MODULE_STEER_MOTOR = 13;
   public static final int BACK_LEFT_MODULE_STEER_ENCODER = 12;
-  public static final double BACK_LEFT_MODULE_STEER_OFFSET = 168.838;
+  public static final double BACK_LEFT_MODULE_STEER_OFFSET = 98.438;
 
   public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
   public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 10;
   public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 9;
-  public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 245.742;
+  public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 99.580;
 
   // public static final int PIGEON_ID = 18;
 
