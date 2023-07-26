@@ -285,6 +285,13 @@ public class RobotContainer {
             "testPaths2",
             AUTO_MAX_SPEED_METERS_PER_SECOND,
             AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+    PathPlannerTrajectory meter1path = 
+      PathPlanner.loadPath("1Meter", AUTO_MAX_SPEED_METERS_PER_SECOND, AUTO_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+    Command meter1Command = 
+      Commands.sequence(
+        new FollowPath(meter1path, drivetrain, true)
+      );
+      autoChooser.addOption("1Meter", meter1Command);
     Command autoTest2 =
         Commands.sequence(
             new FollowPathWithEvents(

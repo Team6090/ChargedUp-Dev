@@ -8,6 +8,8 @@ import static frc.robot.subsystems.drivetrain.DrivetrainConstants.*;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -19,6 +21,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -400,6 +404,31 @@ public class Drivetrain extends SubsystemBase {
     Logger.getInstance().recordOutput("SwerveModuleStates", states);
     Logger.getInstance().recordOutput(SUBSYSTEM_NAME + "/gyroOffset", this.gyroOffset);
     Limelight.GyroAngle = gyroIO.getYaw();
+  }
+
+  public Matrix<N3, N1> stateStdDevs = VecBuilder.fill(0.1, 0.1, 0.1);
+  /**
+   * Trustworthiness of the vision system Measured in expected standard deviation (meters of
+   * position and degrees of rotation)
+   */
+  public Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.9, 0.9, 0.9);
+
+  public void addVisionMeasurement(
+      Pose2d robotPose, double timestamp, boolean soft, double trustWorthiness) {
+    if (soft) {
+      poseEstimator.addVisionMeasurement(
+          robotPose, timestamp, visionMeasurementStdDevs.times(1.0 / trustWorthiness));
+    } else {
+      poseEstimator.resetPosition(robotPose.getRotation(), getModulePositions(), robotPose);
+    }
+  }
+
+  public SwerveModulePosition[] getModulePositions() {
+    SwerveModulePosition[] positions = new SwerveModulePosition[4];
+    for (SwerveModule module : swerveModules) {
+      positions[module.getModuleNumber()] = module.getPosition();
+    }
+    return positions;
   }
 
   /**

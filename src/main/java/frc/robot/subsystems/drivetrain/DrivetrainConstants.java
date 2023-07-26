@@ -16,25 +16,25 @@ public final class DrivetrainConstants {
 
   // FIXME: update all CAN IDs
   // FIXME: update all steer offsets
-  public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 1;
-  public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 3;
-  public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 2;
-  public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 203.91;
+  public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
+  public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 4;
+  public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 3;
+  public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 21.885;
 
-  public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 4;
-  public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 6;
-  public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 5;
-  public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 358.59;
+  public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 5;
+  public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 7;
+  public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 6;
+  public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 189.141;
 
-  public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 10;
-  public static final int BACK_LEFT_MODULE_STEER_MOTOR = 12;
-  public static final int BACK_LEFT_MODULE_STEER_ENCODER = 11;
-  public static final double BACK_LEFT_MODULE_STEER_OFFSET = 168.66;
+  public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 11;
+  public static final int BACK_LEFT_MODULE_STEER_MOTOR = 13;
+  public static final int BACK_LEFT_MODULE_STEER_ENCODER = 12;
+  public static final double BACK_LEFT_MODULE_STEER_OFFSET = 98.438;
 
-  public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 7;
-  public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 9;
-  public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 8;
-  public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 245.04;
+  public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 8;
+  public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 10;
+  public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 9;
+  public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 99.580;
 
   // public static final int PIGEON_ID = 18;
 
@@ -45,14 +45,14 @@ public final class DrivetrainConstants {
    *
    * <p>Should be measured from center to center.
    */
-  public static final double TRACKWIDTH_METERS = 0.56515; // 22.5 inches
+  public static final double TRACKWIDTH_METERS = 0.3937; // 22.5 inches
 
   /**
    * The front-to-back distance between the drivetrain wheels.
    *
    * <p>Should be measured from center to center.
    */
-  public static final double WHEELBASE_METERS = 0.56515; // 23.5 inches
+  public static final double WHEELBASE_METERS = 0.5207; // 23.5 inches
 
   public static final double ROBOT_WIDTH_WITH_BUMPERS = 0.89; // meters
   public static final double ROBOT_LENGTH_WITH_BUMPERS = 0.91; // meters
